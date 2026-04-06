@@ -1,0 +1,766 @@
+---
+title: "HPM 882: Capstone Draft"
+subtitle: "Pre-Analysis Plan: Pediatric Emergency Care Utilization Patterns by Maternal Mental Health Status."
+author: "Korie Rice and Camille Murray"
+date: "April 13, 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+  markdown: 
+    wrap: 72
+execute:
+  eval: false
+  echo: true
+---
+
+## Collaboration Note:
+
+We were allowed to collaborate on these capstone projects if they aligned with both of our interests and could conceivably be a for a project that would benefit both of us. Looking at maternal mental health and child emergency department visits is a perfect alignment of our interests. Camille is a caregiving researcher whose primary interests revolve around the total-family impacts of illness. Korie is a maternal-child health researcher whose prior work has focused on veterans and how healthcare access for parents shifts childrens' health outcomes. After taking comprehensive exams in May, we plan to revisit this analysis and write it into a manuscript.
+
+## Introduction and Significance
+
+*Pediatric ED Use*
+
+Emergency department (ED) utilization among children remains a persistent policy concern in the United States (US) healthcare system, particularly when visits might be avoided through timely preventive care, seeking appropriate level of care acuity (e.g., urgent care vs. ED), or better at-home management of conditions. Nearly 13% of pediatric ED visits are for ambulatory care-sensitive conditions that could likely be prevented or managed with timely primary care services (Jaeger et al., 2015). Numerous factors have already been identified to be associated with recurrent ED visits among children including being in a low-income household (\<200% Federal Poverty Level \[FPL\]), being publicly insured, and residing in neighborhoods with poor physical or social conditions (Chang et al., 2021; Jaeger et al., 2015). Thus, ED use among children signals gaps in primary care access or broader social inequities and contributes to healthcare costs and ED overcrowding, straining an already overburdened system (Chang et al., 2021; Neuman et al., 2014).
+
+*Maternal Mental Health (MH) as a Driver of ED Use*
+
+Growing evidence also suggests that maternal mental health (MH) is related to ED visits. Maternal depression and anxiety, along with other psychosocial risk factors, have been linked to increased ED use among infants and young children. Rokicki (2024) demonstrated that even mild perinatal depressive symptoms were associated with higher rates of both emergent and nonemergent ED visits during infants’ first year of life, especially among Medicaid-enrolled families (Rokicki, 2024). Similarly, Guyon-Harris et al. (2021) found that prenatal maternal MH symptoms, low relational health, and maternal histories of childhood maltreatment were significant predictors of increased infant ED utilization (Guyon-Harris et al., 2021). Although Giusto et al. (2021) did not find a direct association between maternal confidence and ED use, their study reinforced the importance of maternal psychosocial resources and socioeconomic factors in shaping healthcare-seeking behaviors (Giusto et al., 2021). Additionally, Brooks et al. (2015) identified maternal depressive symptoms as predictors of higher healthcare expenditures, including increased ED costs, among publicly insured children with chronic health conditions (Brooks et al., 2015). All of these studies, however, used small or high-risk samples and generally focused on younger pediatric populations.
+
+While the existing literature has explored broader trends in pediatric ED use and maternal MH in high-risk populations, there remain gaps around how, if at all, this might present in a nationally representative dataset with children from a greater range of ages. This study aims to address this gap using 2022-23 National Survey of Children’s Health (NSCH) data to test whether maternal MH status is associated with the annual frequency of ED visits among children in the US.
+
+*Theoretical Background*
+
+This study is grounded in Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare. Family Systems Theory describes families as complex, interconnected, and ever-changing systems where changes to an individual member reverberate throughout the group (Hammond, Robert et al., 2015; Lang, 2022). Applied to this context, when a parent experiences mental or physical health (PH) challenges, it may disrupt family roles, shift attention away from children, and leave them undersupported. Levesque et al.’s (2013) Conceptual Framework of Access to Healthcare provides structure in understanding how parents’ perceptions and circumstances shape children’s access to timely and appropriate health care (Levesque et al., 2013).
+
+Together, these frameworks describe how maternal well-being may shape a child’s use of emergency care (see **Figure 1**). Based on Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare, we hypothesize that children of mothers with poorer MH (i.e., Fair/Poor) will have children visited the ED more in the past year.
+
+***Figure 1.** Conceptual framework of how maternal health affects child emergency department utilization.*
+
+![](images/clipboard-2394134793.png){width="294"}
+
+## Research Question and Hypotheses
+
+*Primary Research Question*
+
+The primary research question is: Among children aged 0-17 years in the US, what is the causal effect of maternal MH status on pediatric ED utilization in the past 12 months? Specifically, we define the treatment as maternal MH status (Fair/Poor vs. Excellent/Very Good/Good), and the outcome as the frequency of caregiver-reported child ED visits in the past year. Notably, this is the number of ED visits for a randomly selected child in the household (please see **Setting and Population** for more details).
+
+*Estimands*
+
+The primary estimand of interest is the average treatment effect (ATE) of poorer maternal MH on pediatric ED utilization.
+
+As a secondary objective, we will estimate the conditional average treatment effects (CATEs) to examine whether the effect of maternal MH varies across key subgroups including child health status, household socioeconomic status, and family structure.
+
+*Hypotheses*
+
+Our primary hypothesis is that children of mothers with Fair/Poor MH will have higher levels of ED utilization compared to children of mothers with Excellent/Very Good/Good MH, under a causal interpretation.
+
+Our secondary hypotheses revolve around the presence of heterogenous treatment effects (HTE) and are as follows:
+
+1.  The effect of maternal MH on ED utilization will be stronger among children in poorer overall health.
+2.  The effect will be more pronounced among children in lower-income households.
+3.  Family structure (e.g., single-parent households) will modify the relationship between maternal MH and ED utilization.
+
+These hypotheses are informed by prior findings suggesting that maternal MH may both directly influence healthcare-seeking behaviors and interact with broader structural and family-level factors to shape access to care.
+
+## Setting and Population
+
+*National Survey of Children’s Health (NSCH)*
+
+This study will use data from the 2022-2023 NSCH, a nationally representative, cross-sectional survey that explores the physical, emotional, and behavioral health of children aged 0-17 in the US, particularly children with special healthcare needs. The survey also captures key indicators related to access and quality of health care, family and neighborhood characteristics, and other social determinants of health.
+
+Data for the 2022-23 NSCH were collected between July 2022 and January 2023 by the Health Resources and Services Administration’s Maternal and Child Health Bureau. Households were randomly sampled from the Census Master Address File and invited to complete an initial screening questionnaire (available online, on paper, or by phone) to identify the presence of children in the home.(U.S. Census Bureau, 2023) One child per eligible household was randomly selected to be the subject of a detailed age-specific topical questionnaire. Oversampling methods were used to ensure adequate representation of children aged 0-5 and those with special health care needs.(U.S. Census Bureau, 2023)
+
+*Analytic Sample*
+
+The analytic sample will include children with complete data on maternal MH, ED utilization, and all covariates required for the identification strategy. Consistent with prior analyses, survey weights, strata, and clustering will be incorporated to account for the complex survey design and to produce nationally representative estimates.
+
+Although the underlying NSCH data are observational and cross-sectional, this pre-analysis plan conceptualizes a hypothetical causal study in which maternal MH is treated as the exposure of interest. Under standard identification assumptions, we aim to estimate the causal effect of maternal MH on pediatric ED utilization by adjusting for observed covariates.
+
+## Experimental Design
+
+*Assumptions*
+
+To interpret the estimates effects as causal, this study relies on several key identification assumptions:
+
+::: callout-tip
+1.  **Exchangeability (i.e., no unmeasured confounding)**
+:::
+
+Conditional on the observed covariates included in the adjustment set (e.g., socioeconomic status, family structure), maternal MH is assumed to be independent of potential outcomes in pediatric ED utilization. This assumption may be violated if there are unobserved factors (i.e., those that were not captured in the NSCH dataset) that influence both maternal MH and healthcare utilization.
+
+::: callout-tip
+2.  **Positivity**
+:::
+
+All individuals have a non-zero probability of being in either maternal MH group (Fair/Poor vs. Excellent/Very Good/Good) across levels of observed covariates. While the NSCH provides a large, nationally representative sample, the relatively small proportion of mothers reporting Fair/Poor mental health (see **Table 1**) may pose challenges for overlap in certain subgroups.
+
+::: callout-tip
+3.  **Consistency**
+:::
+
+The observed outcome for each child corresponds to the potential outcome under their observed maternal MH status. This assumes that maternal MH is well-defined and consistently measured across respondents.
+
+*Randomization Strategy*
+
+Because this study relies on observational survey data, treatment assignment is not randomized. Instead, this pre-analysis plan conceptualizes a hypothetical target trial in which maternal MH is the exposure of interest. We approximate randomization using Double Machine Learning (DML), a flexible and data-driven approach. This approach aims to reduce bias due to observed confounding by flexibly modeling both the treatment assignment mechanism and the outcome.
+
+*Treatment Arms*
+
+The treatment is defined as maternal MH status, operationalized as a binary exposure:
+
+-   **Treatment group:** Mothers reporting Fair or Poor MH
+
+-   **Control group:** Mothers reporting Excellent, Very Good, or Good MH
+
+This classification is consistent with prior analyses and reflects a meaningful contrast between mothers experiencing poorer MH and those with relatively better MH.
+
+*Timeline*
+
+The NSCH data are cross-sectional, with all variables measured in the same survey period. Additionally, the maternal MH question refers to current mental health status while the ED utilization question refers to ED usage in the past 12 months. As such, the temporal ordering of maternal MH and pediatric ED utilization cannot be definitively established.
+
+In our hypothetical causal framework, we assume that maternal MH precedes pediatric ED utilization within the past 12 months. However, reverse causality, where increased child healthcare needs lead to deteriorated maternal MH, remains a key threat to identification and will be addressed in sensitivity analyses.
+
+## Identification Strategy and Power Analysis
+
+*Identification Strategy*
+
+As previously described, this study is grounded in a causal framework informed by Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare. We conceptualize maternal MH as the exposure and pediatric ED utilization as the outcome. A directed acyclic graph (DAG) was developed to identify the minimally sufficient adjustment set required to estimate the causal effect of maternal MH on ED utilization (see **Figure 2)**.
+
+***Figure 2.** Directed Acyclic Graph (DAG) demonstrating assumed relationships between variables.*
+
+![](images/clipboard-2427251525.png){width="307"}
+
+![](images/clipboard-3410240189.png){width="93"}
+
+Based on this DAG, we have identified the following variables as potential confounders:
+
+-   Household socioeconomic status (based on the federal poverty level)
+
+-   Family structure
+
+-   Insurance instability
+
+-   Maternal physical health
+
+-   Paternal mental and physical health
+
+In contrast, variables related to healthcare utilization and access, such as foregone needed care and preventive medical visits, are conceptualized as mediators, as maternal MH may influence these behaviors, which could in turn affect ED utilization. Adjusting for these variables might block part of the causal pathway and bias effect estimates toward the null.
+
+Child health status (labeled as an “other variable” in **Figure 2**) is more complicated. Poor child health may increase maternal psychological distress while also directly increasing ED utilization, meaning it would act as a confounder. However, maternal MH may also influence child health through caregiving behaviors and healthcare engagement, meaning it would act as a mediator. Given this dual role, child health status will not be included in the primary adjustment set but will be incorporated in sensitivity and heterogeneity analyses.
+
+*Power Analysis*
+
+Because this study uses an existing, nationally representative secondary dataset rather than prospectively collecting new data, the purpose of the power analysis is not to determine a required sample size in advance. Rather, we aim to assess whether the available analytic sample is likely to provide sufficient statistical power to detect a meaningful effect on maternal MH on pediatric ED utilization.
+
+Power will be evaluated using a simulation-based minimum detectable effect (MDE) approach. For each candidate effect size, repeated simulations will be used to estimate the probability of rejecting the null hypothesis at a two-sided alpha level of 0.05. The MDE will be defined as the smallest true effect size that yields at least 80% power under the assumed data-generating process. Power for the HTE analyses is expected to be lower than that for the primary ATE analysis, particularly in smaller subgroups. Accordingly, subgroup and CATE findings will be interpreted as secondary and potentially exploratory unless adequate subgroup sample sizes are observed. The primary inferential focus of the study will remain on the overall ATE.
+
+**Figure 3** contains a sample R script for setting up analysis and **Figure 4** contains a sample R script for MDE calculation. All sample scripts in this document were created by looking at HPM 883 course materials and revising them with the support of ChatGPT Instant 5.3.
+
+***Figure 3.** Sample R code for setting up analysis.*
+
+```{r, eval=TRUE}
+#Load packages
+
+library(tidyverse)
+library(data.table)
+library(DoubleML)
+library(mlr3)
+library(mlr3learners)
+library(ranger)
+library(glmnet)
+library(xgboost)
+
+set.seed(883)
+
+#Define your analytic variables
+
+#Replace these with your real NSCH variable names
+outcome_var        <- "ed_visits_ord"     #ordinal outcome: 0, 1, 2, 3 for 0 / 1 / 2-3 / 4+
+outcome_binary_var <- "any_ed_visit"    #binary robustness outcome
+treat_var          <- "maternal_mh_fp"     # 1 = Fair/Poor, 0 = Excellent/Very Good/Good
+
+#Main adjustment set from your DAG / proposal
+x_vars_main <- c(
+  "fpl_cat",
+  "family_structure",
+  "insurance_instability",
+  "maternal_physical_health",
+  "paternal_mental_health",
+  "paternal_physical_health"
+)
+
+#Variables for HTE / sensitivity
+hte_vars <- c(
+  "child_health_status",
+  "fpl_cat",
+  "family_structure"
+)
+
+#Optional sensitivity covariates
+x_vars_sens <- c(
+  x_vars_main,
+  "child_health_status"
+)
+
+#Keep complete cases for variables used in main analysis
+#Replace nsch_df with actual imported dataset)
+
+#analysis_df <- nsch_df %>%
+#  select(all_of(c(outcome_var, outcome_binary_var, treat_var, x_vars_main, hte_vars))) %>%
+#  drop_na()
+
+#analysis_dt <- as.data.table(analysis_df)
+
+```
+
+***Figure 4.** Sample R code for power and MDE analysis with simulated data.*
+
+::: callout-warning
+**Note:**
+
+These code chunks are technically split in two because they do not run nicely as one big chunk.
+:::
+
+```{r, eval=TRUE}
+#Function to simulate one dataset and test for an ATE
+
+simulate_power_once <- function(n = 78380,
+                                treat_prob = 0.065,
+                                true_ate = 0.10,
+                                alpha = 0.05) {
+
+#Simulate baseline covariates
+  x1 <- rnorm(n)      #SES-like
+  x2 <- rbinom(n, 1, 0.30)  #single-parent-like
+  x3 <- rbinom(n, 1, 0.15)  #insurance instability-like
+  x4 <- rnorm(n)    #maternal physical health-like
+  x5 <- rnorm(n)    #paternal MH-like
+  x6 <- rnorm(n)    #paternal PH-like
+
+#Treatment assignment mechanism
+  linp_d <- -2.7 + 0.5*x1 + 0.7*x2 + 0.6*x3 + 0.5*x4 + 0.3*x5 + 0.3*x6
+  p_d <- plogis(linp_d)
+
+#Rescale to roughly match target treatment prevalence if needed
+  p_d <- p_d * (treat_prob / mean(p_d))
+  p_d <- pmin(pmax(p_d, 0.001), 0.999)
+
+  d <- rbinom(n, 1, p_d)
+
+#Outcome model
+  y <- true_ate*d + 0.3*x1 + 0.4*x2 + 0.3*x3 + 0.3*x4 + 0.2*x5 + 0.2*x6 + rnorm(n)
+
+  sim_df <- data.table(
+    y = y,
+    d = d,
+    x1 = x1, x2 = x2, x3 = x3, x4 = x4, x5 = x5, x6 = x6
+  )
+
+  dml_data <- DoubleMLData$new(
+    data = sim_df,
+    y_col = "y",
+    d_cols = "d",
+    x_cols = paste0("x", 1:6)
+  )
+
+  ml_g <- lrn("regr.ranger", num.trees = 300)
+  ml_m <- lrn("classif.ranger", num.trees = 300, predict_type = "prob")
+
+  dml_irm <- DoubleMLIRM$new(
+    data = dml_data,
+    ml_g = ml_g,
+    ml_m = ml_m,
+    n_folds = 5
+  )
+
+  dml_irm$fit()
+
+  pval <- dml_irm$summary()$pval[1]
+  
+
+  return(as.numeric(pval < alpha))
+}
+```
+
+```{r, eval=TRUE}
+#Estimate power across candidate effect sizes
+
+effect_grid <- seq(0.02, 0.20, by = 0.02)
+n_sims <- 5 #bump up to 200 sims if no errors with 5 sims
+
+power_results <- map_dfr(effect_grid, function(eff) {
+  rejects <- replicate(
+    n_sims,
+    simulate_power_once(
+      n = 78380,
+      treat_prob = 0.065,
+      true_ate = eff
+    )
+  )
+
+  tibble(
+    effect_size = eff,
+    power = mean(rejects)
+  )
+})
+
+power_results
+
+#Minimum detectable effect (MDE)
+
+mde_result <- power_results %>%
+  filter(power >= 0.80) %>%
+  slice(1)
+
+mde_result
+```
+
+## Estimation Strategy
+
+This study will estimate the causal effect of maternal MH on pediatric ED usage using DML. DML is a semi-parametric approach that combines ML methods with causal inference techniques to obtain unbiased estimates of treatment effects in the presence of high-dimensional covariates.
+
+*Double Machine Learning Framework*
+
+The DML approach is composed of two primary components:
+
+1.  **Treatment model (propensity score):** The probability of a mother having Fair/Poor MH conditional on observed covariates.
+2.  **Outcome model:** The expected level of pediatric ED utilization conditional on maternal MH status and observed covariates.
+
+As previously stated, the primary estimand is the ATE of poorer maternal MH (Fair/Poor) compared to better maternal MH (Excellent/Very Good/Good) on pediatric ED utilization in the past 12 months. Formally, this is defined as the difference in expected outcomes under the two potential treatment states:
+
+*ATE = E\[Y(1) - Y(0)\]*
+
+Where *Y(1)* represents ED utilization if maternal MH is Fair/Poor, and *Y(0)* represents ED utilization if maternal MH is Excellent/Very Good/Good.
+
+*Covariate Adjustment*
+
+The covariates included in the DML procedure are informed by the identification strategy and DAG. The primary adjustment set includes:
+
+-   Household socioeconomic status (based on the federal poverty level)
+
+-   Family structure
+
+-   Insurance instability
+
+-   Maternal physical health
+
+-   Paternal mental and physical health
+
+Variables identified as mediators (i.e., foregone needed care and preventive medical visits) will be excluded from the primary adjustment set to avoid blocking causal pathways. Child health status will be excluded from the main specification due to its ambiguous role as both a potential confounder and mediator but will be included in the secondary and sensitivity analyses.
+
+*Outcome Specification*
+
+The primary outcome, pediatric ED utilization, will be modeled as an ordinal variable capturing the number of ED visits in the past 12 months (0, 1, 2-3, or 4+ visits). For the purposes of DML implementation, we will also estimate models using a binary outcome (any ED visit vs. none) to support interpretation and ensure robustness across outcome specifications.
+
+*Estimation Strategy Overview and Code*
+
+**Figure 5** estimates the propensity score, defined as the probability a mother reports Fair/Poor MH conditional on observed covariates. The model includes all variables in the primary adjustment set identified through the DAG ( e.g., socioeconomic status, family structure). We will assess the positivity assumption by examining overlap between the treatment group using a histogram.
+
+***Figure 5.** Sample R code for propensity score estimation and histogram to check overlap.*
+
+```{r, eval=TRUE}
+#Estimate propensity scores with a flexible ML model
+
+ps_df <- analysis_df %>%
+  select(all_of(c(treat_var, x_vars_main))) %>%
+  mutate(across(where(is.character), as.factor))
+
+ps_formula <- as.formula(
+  paste(treat_var, "~", paste(x_vars_main, collapse = " + "))
+)
+
+ps_model <- ranger(
+  formula = ps_formula,
+  data = ps_df,
+  probability = TRUE,
+  num.trees = 500,
+  min.node.size = 10,
+  seed = 883
+)
+
+ps_pred <- predict(ps_model, data = ps_df)$predictions[, "1"]
+
+ps_df <- ps_df %>%
+  mutate(
+    propensity_score = ps_pred,
+    treatment = .data[[treat_var]]
+  )
+
+#Quick overlap checks
+
+summary(ps_df$propensity_score)
+
+ps_df %>%
+  ggplot(aes(x = propensity_score, fill = factor(treatment))) +
+  geom_density(alpha = 0.4) +
+  labs(
+    x = "Estimated propensity score",
+    fill = "Maternal MH",
+    title = "Overlap in estimated propensity scores"
+  )
+
+#Flag poor overlap regions
+
+ps_df <- ps_df %>%
+  mutate(
+    poor_overlap = if_else(propensity_score < 0.01 | propensity_score > 0.99, 1, 0)
+  )
+
+table(ps_df$poor_overlap)
+```
+
+**Figures 6 and 7** contain the R scripts for the primary estimation strategy.First, we will use an interactive regression model (IRM), which is better suited for binary treatment variables, to look at the relationship between maternal MH and child ED visits (yes/no). next (, we will use a partially linear regression model (PLR), which is more often used for continuous outcomes, to assess the relationship between maternal MH and the ordinal child ED utilization variable.
+
+The two nuisance models estimated are 1. The outcome model estimating expected ED utilization conditional on covariates and treatment, and 2. A treatment model estimating the propensity score. Both models use random forests (via the ‘ranger’ package in R). To reduce overfitting, the DML estimator uses cross-fitting, in which data are divided into folds and nuisance models will be trained on one subset of data and evaluated on another.
+
+***Figure 6.** Sample R code for estimation strategy – Part 1: Main ATE with binary maternal MH outcome.*
+
+```{r, eval=TRUE}
+#Prepare data for DoubleML with binary outcome
+
+dml_df_bin <- analysis_df %>%
+  select(all_of(c(outcome_binary_var, treat_var, x_vars_main))) %>%
+  mutate(across(where(is.character), as.factor)) %>%
+  rename(
+    Y = all_of(outcome_binary_var),
+    D = all_of(treat_var)
+  )
+
+dml_data_bin <- DoubleMLData$new(
+  data = dml_df_bin,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = x_vars_main
+)
+
+#Specify nuisance learners
+
+ml_g_bin <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+ml_m_bin <- lrn("classif.ranger", num.trees = 500, min.node.size = 5, predict_type = "prob")
+
+#Fit IRM model for ATE
+
+dml_irm_bin <- DoubleMLIRM$new(
+  data = dml_data_bin,
+  ml_g = ml_g_bin,
+  ml_m = ml_m_bin,
+  n_folds = 5,
+  n_rep = 1,
+  score = "ATE"
+)
+
+dml_irm_bin$fit()
+dml_irm_bin$summary()
+dml_irm_bin$confint()
+```
+
+***Figure 7.** Sample R code for estimation strategy – Part 2: Main ATE for ordinal/approximately continuous outcome.*
+
+```{r, eval=TRUE}
+#Prepare data for ordinal-coded outcome
+
+dml_df_ord <- analysis_df %>%
+  select(all_of(c(outcome_var, treat_var, x_vars_main))) %>%
+  mutate(across(where(is.character), as.factor)) %>%
+  rename(
+    Y = all_of(outcome_var),
+    D = all_of(treat_var)
+  )
+
+dml_data_ord <- DoubleMLData$new(
+  data = dml_df_ord,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = x_vars_main
+)
+
+#Fit PLR model for ordinal-coded outcome
+
+ml_l_ord <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+ml_m_ord <- lrn("classif.ranger", num.trees = 500, min.node.size = 5, predict_type = "prob")
+
+dml_plr_ord <- DoubleMLPLR$new(
+  data = dml_data_ord,
+  ml_l = ml_l_ord,
+  ml_m = ml_m_ord,
+  n_folds = 5,
+  n_rep = 1,
+  score = "partialling out"
+)
+
+dml_plr_ord$fit()
+dml_plr_ord$summary()
+dml_plr_ord$confint()
+```
+
+*Inference*
+
+The code in **Figure 8** extracts key inferential quantities from the fitted DML model, including the ATE, its standard error, and the corresponding confidence interval. These summarize the magnitude and statistical uncertainty of the estimated effect of maternal MH on pediatric ED utilization.
+
+***Figure 8.** Inference estimation.*
+
+```{r, eval=TRUE}
+#Extract main quantities from fitted DML object
+
+ate_est <- dml_irm_bin$coef
+ate_se  <- dml_irm_bin$se
+ate_ci  <- dml_irm_bin$confint()
+
+results_tbl <- tibble(
+  estimate = ate_est,
+  std_error = ate_se,
+  ci_lower = ate_ci[1, 1],
+  ci_upper = ate_ci[1, 2]
+)
+
+results_tbl
+```
+
+## HTE Analysis Plan
+
+***Figure 9.** Sample R code for HTE analysis.*
+
+```{r, eval=TRUE}
+#Function to estimate subgroup-specific ATE with IRM
+
+estimate_subgroup_ate <- function(data, subgroup_var, subgroup_level,
+                                  outcome_name, treat_name, x_names) {
+
+  sub_df <- data %>%
+    filter(.data[[subgroup_var]] == subgroup_level) %>%
+    select(all_of(c(outcome_name, treat_name, x_names))) %>%
+    drop_na() %>%
+    mutate(across(where(is.character), as.factor)) %>%
+    rename(
+      Y = all_of(outcome_name),
+      D = all_of(treat_name)
+    )
+
+  dml_data <- DoubleMLData$new(
+    data = sub_df,
+    y_col = "Y",
+    d_cols = "D",
+    x_cols = x_names
+  )
+
+  ml_g <- lrn("regr.ranger", num.trees = 300)
+  ml_m <- lrn("classif.ranger", num.trees = 300, predict_type = "prob")
+
+  fit <- DoubleMLIRM$new(
+    data = dml_data,
+    ml_g = ml_g,
+    ml_m = ml_m,
+    n_folds = 5,
+    score = "ATE"
+  )
+
+  fit$fit()
+
+  tibble(
+    subgroup = subgroup_var,
+    level = as.character(subgroup_level),
+    estimate = fit$coef,
+    std_error = fit$se,
+    ci_lower = fit$confint()[1, 1],
+    ci_upper = fit$confint()[1, 2],
+    n = nrow(sub_df)
+  )
+}
+
+#HTE by child health status
+	
+child_health_levels <- unique(analysis_df$child_health_status)
+
+hte_child_health <- map_dfr(
+  child_health_levels,
+  ~estimate_subgroup_ate(
+    data = analysis_df,
+    subgroup_var = "child_health_status",
+    subgroup_level = .x,
+    outcome_name = outcome_binary_var,
+    treat_name = treat_var,
+    x_names = x_vars_main
+  )
+)
+
+hte_child_health
+
+#HTE by FPL category
+
+fpl_levels <- unique(analysis_df$fpl_cat)
+
+hte_fpl <- map_dfr(
+  fpl_levels,
+  ~estimate_subgroup_ate(
+    data = analysis_df,
+    subgroup_var = "fpl_cat",
+    subgroup_level = .x,
+    outcome_name = outcome_binary_var,
+    treat_name = treat_var,
+    x_names = x_vars_main
+  )
+)
+
+hte_fpl
+
+#HTE by family structure
+
+family_levels <- unique(analysis_df$family_structure)
+
+hte_family <- map_dfr(
+  family_levels,
+  ~estimate_subgroup_ate(
+    data = analysis_df,
+    subgroup_var = "family_structure",
+    subgroup_level = .x,
+    outcome_name = outcome_binary_var,
+    treat_name = treat_var,
+    x_names = x_vars_main
+  )
+)
+
+hte_family
+```
+
+## Sensitivity Analysis Plan
+
+***Figure 10.** Sample R code for sensitivity analysis.*
+
+```{r, eval=TRUE}
+#Compare outcome specifications
+
+main_bin_summary <- dml_irm_bin$summary()
+
+main_ord_summary <- dml_plr_ord$summary()
+
+main_bin_summary
+main_ord_summary
+
+#Refit model with expanded covariate set including child health
+
+dml_df_sens <- analysis_df %>%
+  select(all_of(c(outcome_binary_var, treat_var, x_vars_sens))) %>%
+  mutate(across(where(is.character), as.factor)) %>%
+  rename(
+    Y = all_of(outcome_binary_var),
+    D = all_of(treat_var)
+  )
+
+dml_data_sens <- DoubleMLData$new(
+  data = dml_df_sens,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = x_vars_sens
+)
+
+ml_g_sens <- lrn("regr.ranger", num.trees = 500)
+ml_m_sens <- lrn("classif.ranger", num.trees = 500, predict_type = "prob")
+
+dml_irm_sens <- DoubleMLIRM$new(
+  data = dml_data_sens,
+  ml_g = ml_g_sens,
+  ml_m = ml_m_sens,
+  n_folds = 5,
+  score = "ATE"
+)
+
+dml_irm_sens$fit()
+dml_irm_sens$summary()
+
+#Restrict to common-support region and refit
+
+trim_df <- analysis_df %>%
+  mutate(propensity_score = ps_pred) %>%
+  filter(propensity_score >= 0.01, propensity_score <= 0.99) %>%
+  select(all_of(c(outcome_binary_var, treat_var, x_vars_main))) %>%
+  mutate(across(where(is.character), as.factor)) %>%
+  rename(
+    Y = all_of(outcome_binary_var),
+    D = all_of(treat_var)
+  )
+
+trim_data <- DoubleMLData$new(
+  data = trim_df,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = x_vars_main
+)
+
+dml_irm_trim <- DoubleMLIRM$new(
+  data = trim_data,
+  ml_g = ml_g_bin,
+  ml_m = ml_m_bin,
+  n_folds = 5,
+  score = "ATE"
+)
+
+dml_irm_trim$fit()
+dml_irm_trim$summary()
+
+#Collect estimates across specifications
+
+model_compare <- tibble(
+  model = c(
+    "Main binary outcome",
+    "Ordinal-coded outcome",
+    "Expanded covariates incl. child health",
+    "Trimmed overlap sample"
+  ),
+  estimate = c(
+    dml_irm_bin$coef,
+    dml_plr_ord$coef,
+    dml_irm_sens$coef,
+    dml_irm_trim$coef
+  ),
+  std_error = c(
+    dml_irm_bin$se,
+    dml_plr_ord$se,
+    dml_irm_sens$se,
+    dml_irm_trim$se
+  )
+)
+
+model_compare
+```
+
+## Limitations
+
+The findings of this analysis should be interpreted within the context of several limitations, particularly regarding the assumptions required for causal inference.
+
+First, the use of cross-sectional observational data limits the ability to establish temporal ordering between maternal MH and pediatric ED utilization. Although this study conceptualizes maternal MH as the exposure, it is possible that increased child healthcare needs on frequent ED visits may contribute to deteriorated maternal MH, introducing possible reverse causality.
+
+Next, the identification strategy relies on the assumption of no unmeasured confounding. While this study adjusts for a robust set of covariates, unobserved (i.e., uncollected) variables, such as maternal history of trauma, family social support, or neighborhood-level characteristics, may influence both maternal MH and pediatric ED utilization. This could lead to estimated effects that remain biased.
+
+Third, measurement error is a minor, but not insurmountable concern, as all variables in the NSCH are based on caregiver self-report. Maternal MH and child utilization may be subject to recall bias or social desirability bias, which could affect the accuracy of exposure or outcome measurement. Furthermore, child ED utilization is that of a randomly selected child in the household, rather than all children. Therefore, these measures may not fully capture family-level patterns of healthcare use, which could lead to misclassification or attenuation of estimated effects.
+
+Fourth, the relatively small proportion of mothers reporting Fair/Poor MH in the sample may limit statistical power and reduce overlap between treatment groups. This could potentially affect the precision and stability of estimated treatment effects, specifically in the subgroup analyses. A related, but distinct limitation is that the analytic sample is restricted to complete cases, which may introduce selection bias if missingness is systematically related to either maternal MH or child healthcare utilization. This could result in limitations to the generalizability of findings.
+
+Finally, while DML provides a flexible and robust approach to adjusting for observed confounding, its ability to support causal interpretations is conditional on the aforementioned assumptions—all of which have threats.
+
+## References
+
+Brooks, J. L., Beil, H., & Beeber, L. S. (2015). Maternal Depressive Symptoms and Healthcare Expenditures for Publicly Insured Children with Chronic Health Conditions. *Maternal and Child Health Journal*, *19*(4), 790–797. https://doi.org/10.1007/s10995-014-1570-4
+
+Chang, L., Stewart, A. M., Monuteaux, M. C., & Fleegler, E. W. (2021). Neighborhood Conditions and Recurrent Emergency Department Utilization by Children in the United States. *The Journal of Pediatrics*, *234*, 115-122.e1. https://doi.org/10.1016/j.jpeds.2020.12.071
+
+Giusto, J., Anton, M., Gaiazov, S., Huddleston, K., Levy, S., Fuller, A., Hourigan, S., Niederhuber, J., & Hwang, V. (2021). Maternal Confidence and Emergency Department Utilization Among Infants. *Pediatric Emergency Care*, *37*(5), 260–264. https://doi.org/10.1097/PEC.0000000000002419
+
+Guyon-Harris, K. L., Bogen, D. L., & Huth-Bocks, A. C. (2021). Maternal Psychological Well-Being and Infant Emergency Department Utilization. *Academic Pediatrics*, *21*(5), 885–891. https://doi.org/10.1016/j.acap.2021.01.021
+
+Hammond, Robert, Cheney, Paul, & Pearsey, Raewyn. (2015). *Sociology of the Family*. Rocky Ridge Press. https://asccc-oeri.org/wp-content/uploads/2021/03/sociology-of-the-family-HAMMOND-2010.pdf
+
+Jaeger, M. W., Ambadwar, P. B., King, A. J., Onukwube, J. I., & Robbins, J. M. (2015). Emergency Care of Children with Ambulatory Care Sensitive Conditions in the United States. *The Journal of Emergency Medicine*, *49*(5), 729–739. https://doi.org/10.1016/j.jemermed.2015.03.001
+
+Lang, D. (2022). Family Systems Theory. In *Individual and Family Development, Health, and Well-being*. Iowa State University Digital Press. https://doi.org/10.31274/isudp
+
+Levesque, J.-F., Harris, M. F., & Russell, G. (2013). Patient-centred access to health care: Conceptualising access at the interface of health systems and populations. *International Journal for Equity in Health*, *12*, 18. https://doi.org/10.1186/1475-9276-12-18
+
+Neuman, M. I., Alpern, E. R., Hall, M., Kharbanda, A. B., Shah, S. S., Freedman, S. B., Aronson, P. L., Florin, T. A., Mistry, R. D., & Berry, J. G. (2014). Characteristics of Recurrent Utilization in Pediatric Emergency Departments. *Pediatrics*, *134*(4), e1025–e1031. https://doi.org/10.1542/peds.2014-1362
+
+Rokicki, S. (2024). Perinatal Depression Associated With Increased Pediatric Emergency Department Use And Charges In The First Year Of Life. *Health Affairs (Project Hope)*, *43*(4), 477–485. https://doi.org/10.1377/hlthaff.2023.01443
+
+U.S. Census Bureau. (2023). *2022 National Survey of Children’s Health: Methodology Report*. U.S. Department of Commerce, U.S. Census Bureau. https://www2.census.gov/programs-surveys/nsch/technical-documentation/methodology/2022-NSCH-Methodology-Report.pdf
