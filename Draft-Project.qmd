@@ -293,7 +293,7 @@ simulate_power_once <- function(n = 78380,
 #Estimate power across candidate effect sizes
 
 effect_grid <- seq(0.02, 0.20, by = 0.02)
-n_sims <- 5 #bump up to 200 sims if no errors with 5 sims
+n_sims <- 1 #bump up to 200 sims if no errors with 1 sims
 
 power_results <- map_dfr(effect_grid, function(eff) {
   rejects <- replicate(
