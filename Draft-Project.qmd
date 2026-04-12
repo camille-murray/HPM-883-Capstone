@@ -163,6 +163,9 @@ Power will be evaluated using a simulation-based minimum detectable effect (MDE)
 ***Figure 3.** Sample R code for setting up analysis.*
 
 ```{r, eval=TRUE}
+#Use renv package for replicability
+renv::restore()
+
 #Load packages
 
 library(tidyverse)
