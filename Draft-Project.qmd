@@ -30,7 +30,7 @@ Emergency department (ED) utilization among children remains a persistent policy
 
 Growing evidence also suggests that maternal mental health (MH) is related to ED visits. Maternal depression and anxiety, along with other psychosocial risk factors, have been linked to increased ED use among infants and young children. Rokicki (2024) demonstrated that even mild perinatal depressive symptoms were associated with higher rates of both emergent and nonemergent ED visits during infants’ first year of life, especially among Medicaid-enrolled families (Rokicki, 2024). Similarly, Guyon-Harris et al. (2021) found that prenatal maternal MH symptoms, low relational health, and maternal histories of childhood maltreatment were significant predictors of increased infant ED utilization (Guyon-Harris et al., 2021). Although Giusto et al. (2021) did not find a direct association between maternal confidence and ED use, their study reinforced the importance of maternal psychosocial resources and socioeconomic factors in shaping healthcare-seeking behaviors (Giusto et al., 2021). Additionally, Brooks et al. (2015) identified maternal depressive symptoms as predictors of higher healthcare expenditures, including increased ED costs, among publicly insured children with chronic health conditions (Brooks et al., 2015). All of these studies, however, used small or high-risk samples and generally focused on younger pediatric populations.
 
-While the existing literature has explored broader trends in pediatric ED use and maternal MH in high-risk populations, there remain gaps around how, if at all, this might present in a nationally representative dataset with children from a greater range of ages. This study aims to address this gap using 2022-23 National Survey of Children’s Health (NSCH) data to test whether maternal MH status is associated with the annual frequency of ED visits among children in the US.
+While the existing literature has explored broader trends in pediatric ED use and maternal MH in high-risk populations, there remain gaps around how, if at all, this might present in a nationally representative dataset with children from a greater range of ages. This study aims to address this gap using 2022-23 National Survey of Children’s Health (NSCH) data to answer the following research question: Among children aged 0-17 years in the US, what is the estimated causal effect of maternal MH status on pediatric ED utilization in the past 12 months?
 
 *Theoretical Background*
 
@@ -39,8 +39,6 @@ This study is grounded in Family Systems Theory and Levesque’s Conceptual Fram
 Together, these frameworks describe how maternal well-being may shape a child’s use of emergency care (see **Figure 1**). Based on Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare, we hypothesize that children of mothers with poorer MH (i.e., Fair/Poor) will have children visited the ED more in the past year.
 
 ***Figure 1.** Conceptual framework of how maternal health affects child emergency department utilization.*
-
-![](images/clipboard-2394134793.png){width="294"}
 
 ## Research Question and Hypotheses
 
@@ -116,7 +114,7 @@ The treatment is defined as maternal MH status, operationalized as a binary expo
 
 -   **Control group:** Mothers reporting Excellent, Very Good, or Good MH
 
-This classification is consistent with prior analyses and reflects a meaningful contrast between mothers experiencing poorer MH and those with relatively better MH.
+This classification is consistent with prior analyses (including one that used NSCH data: Hinojosa et al., 2012, and one that did not: Pfefferle & Spitznagel, 2009) and reflects a meaningful contrast between mothers experiencing poorer MH and those with relatively better MH.
 
 *Timeline*
 
@@ -131,10 +129,6 @@ In our hypothetical causal framework, we assume that maternal MH precedes pediat
 As previously described, this study is grounded in a causal framework informed by Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare. We conceptualize maternal MH as the exposure and pediatric ED utilization as the outcome. A directed acyclic graph (DAG) was developed to identify the minimally sufficient adjustment set required to estimate the causal effect of maternal MH on ED utilization (see **Figure 2)**.
 
 ***Figure 2.** Directed Acyclic Graph (DAG) demonstrating assumed relationships between variables.*
-
-![](images/clipboard-2427251525.png){width="307"}
-
-![](images/clipboard-3410240189.png){width="93"}
 
 Based on this DAG, we have identified the following variables as potential confounders:
 
@@ -159,6 +153,8 @@ Because this study uses an existing, nationally representative secondary dataset
 Power will be evaluated using a simulation-based minimum detectable effect (MDE) approach. For each candidate effect size, repeated simulations will be used to estimate the probability of rejecting the null hypothesis at a two-sided alpha level of 0.05. The MDE will be defined as the smallest true effect size that yields at least 80% power under the assumed data-generating process. Power for the HTE analyses is expected to be lower than that for the primary ATE analysis, particularly in smaller subgroups. Accordingly, subgroup and CATE findings will be interpreted as secondary and potentially exploratory unless adequate subgroup sample sizes are observed. The primary inferential focus of the study will remain on the overall ATE.
 
 **Figure 3** contains a sample R script for setting up analysis and **Figure 4** contains a sample R script for MDE calculation. All sample scripts in this document were created by looking at HPM 883 course materials and revising them with the support of ChatGPT Instant 5.3.
+
+From a prior analysis, the 2022-23 NSCH yields an analytic sample of 78,380 children/mothers with complete data on the exposure, outcome, and covariates of interest (see **Table 1**). Maternal MH is relatively imbalanced across groups, with approximately 6.5% of mothers reporting Fair/Poor MH. However, a formal power analysis will be conducted in the full empirical analysis following this pre-analysis plan.   
 
 ***Figure 3.** Sample R code for setting up analysis.*
 
@@ -192,8 +188,8 @@ x_vars_main <- c(
   "family_structure",
   "insurance_instability",
   "maternal_physical_health",
-  "paternal_mental_health",
-  "paternal_physical_health"
+  "paternal_physical_health",
+  "paternal_mental_health"
 )
 
 #Variables for HTE / sensitivity
@@ -287,44 +283,50 @@ simulate_power_once <- function(n = 78380,
 
   return(as.numeric(pval < alpha))
 }
+
+analysis_df <- nsch_df %>%
+#  select(all_of(c(outcome_var, outcome_binary_var, treat_var, x_vars_main, hte_vars))) %>%
+#  drop_na()
+
+#analysis_dt <- as.data.table(analysis_df)
 ```
 
 ```{r, eval=TRUE}
 #Estimate power across candidate effect sizes
 
-effect_grid <- seq(0.02, 0.20, by = 0.02)
-n_sims <- 1 #bump up to 200 sims if no errors with 1 sims
+#effect_grid <- seq(0.02, 0.20, by = 0.02)
+#n_sims <- 5 #bump up to 200 sims if no errors with 5 sims
 
-power_results <- map_dfr(effect_grid, function(eff) {
-  rejects <- replicate(
-    n_sims,
-    simulate_power_once(
-      n = 78380,
-      treat_prob = 0.065,
-      true_ate = eff
-    )
-  )
+#power_results <- map_dfr(effect_grid, function(eff) {
+#  rejects <- replicate(
+#    n_sims,
+#    simulate_power_once(
+#      n = 78380,
+#      treat_prob = 0.065,
+#      true_ate = eff
+#    )
+#  )
 
-  tibble(
-    effect_size = eff,
-    power = mean(rejects)
-  )
-})
+#  tibble(
+#    effect_size = eff,
+#    power = mean(rejects)
+#  )
+#})
 
-power_results
+# power_results
 
 #Minimum detectable effect (MDE)
 
-mde_result <- power_results %>%
-  filter(power >= 0.80) %>%
-  slice(1)
+#mde_result <- power_results %>%
+#  filter(power >= 0.80) %>%
+#  slice(1)
 
-mde_result
+#mde_result
 ```
 
 ## Estimation Strategy
 
-This study will estimate the causal effect of maternal MH on pediatric ED usage using DML. DML is a semi-parametric approach that combines ML methods with causal inference techniques to obtain unbiased estimates of treatment effects in the presence of high-dimensional covariates.
+This study will estimate the causal effect of maternal MH on pediatric ED usage using DML. DML is a semi-parametric approach that combines ML methods with causal inference techniques to obtain unbiased estimates of treatment effects in the presence of high-dimensional covariates. Given the binary nature of the exposure, we will implement the Interactive Regression Model (IRM) framework, which is well-suited for estimating ATEs in this setting.
 
 *Double Machine Learning Framework*
 
@@ -366,6 +368,61 @@ The primary outcome, pediatric ED utilization, will be modeled as an ordinal var
 ***Figure 5.** Sample R code for propensity score estimation and histogram to check overlap.*
 
 ```{r, eval=TRUE}
+#Simulate second dataset for analysis
+create_analysis_df <- function(n = 78380,
+                               treat_prob = 0.065,
+                               true_ate = 0.10) {
+
+  fpl_cat <- rnorm(n)
+  family_structure <- rbinom(n, 1, 0.30)
+  insurance_instability <- rbinom(n, 1, 0.15)
+  maternal_physical_health <- rnorm(n)
+  maternal_mh_fp <- rnorm(n)
+  paternal_physical_health <- rnorm(n)
+  paternal_mental_health <- rnorm(n)
+
+  linp_d <- -2.7 +
+    0.5 * fpl_cat +
+    0.7 * family_structure +
+    0.6 * insurance_instability +
+    0.5 * maternal_physical_health +
+    0.3 * maternal_mh_fp +
+    0.3 * paternal_physical_health
+
+  p_d <- plogis(linp_d)
+  p_d <- p_d * (treat_prob / mean(p_d))
+  p_d <- pmin(pmax(p_d, 0.001), 0.999)
+
+  d <- rbinom(n, 1, p_d)
+
+  y <- true_ate * d +
+    0.3 * fpl_cat +
+    0.4 * family_structure +
+    0.3 * insurance_instability +
+    0.3 * maternal_physical_health +
+    0.2 * maternal_mh_fp +
+    0.2 * paternal_physical_health +
+    rnorm(n) +
+    0.2 * paternal_mental_health
+
+  analysis_df <- tibble::tibble(
+    y = y,
+    d = d,
+    maternal_mh_fp = maternal_mh_fp,
+    fpl_cat = fpl_cat,
+    family_structure = family_structure,
+    insurance_instability = insurance_instability,
+    maternal_physical_health = maternal_physical_health,
+    paternal_physical_health = paternal_physical_health,
+    paternal_mental_health = paternal_mental_health,
+    p_d = p_d
+  )
+
+  return(analysis_df)
+}
+
+analysis_df <- create_analysis_df()
+
 #Estimate propensity scores with a flexible ML model
 
 ps_df <- analysis_df %>%
@@ -416,7 +473,7 @@ ps_df <- ps_df %>%
 table(ps_df$poor_overlap)
 ```
 
-**Figures 6 and 7** contain the R scripts for the primary estimation strategy.First, we will use an interactive regression model (IRM), which is better suited for binary treatment variables, to look at the relationship between maternal MH and child ED visits (yes/no). next (, we will use a partially linear regression model (PLR), which is more often used for continuous outcomes, to assess the relationship between maternal MH and the ordinal child ED utilization variable.
+**Figures 6 and 7** contain the R scripts for the primary estimation strategy. First, we will use an IRM, which is better suited for binary treatment variables, to look at the relationship between maternal MH and child ED visits (yes/no). next (, we will use a partially linear regression model (PLR), which is more often used for continuous outcomes, to assess the relationship between maternal MH and the ordinal child ED utilization variable.
 
 The two nuisance models estimated are 1. The outcome model estimating expected ED utilization conditional on covariates and treatment, and 2. A treatment model estimating the propensity score. Both models use random forests (via the ‘ranger’ package in R). To reduce overfitting, the DML estimator uses cross-fitting, in which data are divided into folds and nuisance models will be trained on one subset of data and evaluated on another.
 
@@ -525,6 +582,14 @@ results_tbl
 
 ## HTE Analysis Plan
 
+To examine whether the effect of maternal MH on pediatric ED utilization varies across subpopulations, we will conduct analyses of HTEs within the DML framework. Specifically, we will estimate subgroup-specific ATEs by fitting the primary DML IRM separately within levels of selected subgroup variables.  
+
+We will evaluate heterogeneity across three a priori subgroup dimensions motivated by theory and prior literature: child health status (poor, fair, good, very good, excellent), household socioeconomic status as measured by FPL category (0-99% FPL, 100-199% FPL, 200-399% FPL, ≥400% FPL), and family structure (single- versus multi-parent structure). For child health status specifically, we will estimate subgroup-specific effects with both dichotomized (poor/fair versus good/very good/excellent) and ordinal versions of child health status. For each subgroup level, we will subset the analytic sample, retain the primary outcome, treatment, and main covariate set, and estimate the ATE of maternal MH on pediatric ED utilization using the same DML specification as the primary analysis.  
+
+Within each subgroup-specific model, we will use the IRM formulation of DML with 5-fold cross-fitting and random forest learners for both the outcome model and treatment model. For each subgroup level, we will report the estimated effect, standard error, 95% confidence interval, and subgroup sample size. Heterogeneity will be assessed descriptively by comparing the magnitude, direction, and precision of effect estimates across subgroup levels.  
+
+These analyses are intended to assess whether the estimated effect of maternal MH is stronger among more vulnerable populations, including children in poorer health, children in lower-income households, and children in single-parent family structures. Because child health status may plausibly function as both an effect modifier and a mediator, heterogeneity analyses involving child health will be interpreted cautiously as exploratory.  
+
 ***Figure 9.** Sample R code for HTE analysis.*
 
 ```{r, eval=TRUE}
@@ -630,6 +695,16 @@ hte_family
 ```
 
 ## Sensitivity Analysis Plan
+
+To assess the robustness of our findings, we will conduct several sensitivity analyses that examine whether estimated effects are consistent across alternative modeling choices and assumptions.  
+
+First, we will compare results across alternative exposure specifications. In the primary analysis, maternal MH is modeled as a binary outcome. As a sensitivity check, we will re-estimate the effect using an ordinal-coded version of the outcome (i.e., keeping the original variable structure of poor, fair, good, very good, excellent). Comparing estimates across these specifications will help assess whether results are sensitive to how maternal MH is operationalized.  
+
+Second, we will re-fit the primary DML model using an expanded covariate set that includes child health status. As noted in the identification strategy, child health may plausibly function as either a confounder or a mediator in the relationship between maternal MH and pediatric ED utilization. Because of this dual role, child health is excluded from the primary adjustment set. However, including it in a sensitivity analysis will allow us to examine whether the estimated effect is substantively altered when adjusting for this potentially important variable.  
+
+Third, we will assess the robustness of results to the overlap assumption by restricting the analytic sample to observations in the common-support region. Specifically, we will trim observations with estimated propensity scores below 0.01 or above 0.99 and re-estimate the model in the trimmed sample. This analysis will help determine whether the primary findings are driven by observations with very limited comparability across levels of maternal MH status.  
+
+Finally, we will summarize and compare estimates, standard errors, and confidence intervals across the primary and sensitivity specifications. Consistency in the direction and magnitude of estimates across these models will strengthen confidence in the robustness of the findings, whereas meaningful differences will be interpreted as evidence that results may be sensitive to outcome specification, covariate adjustment, or limited overlap.
 
 ***Figure 10.** Sample R code for sensitivity analysis.*
 
@@ -743,6 +818,157 @@ Third, measurement error is a minor, but not insurmountable concern, as all vari
 Fourth, the relatively small proportion of mothers reporting Fair/Poor MH in the sample may limit statistical power and reduce overlap between treatment groups. This could potentially affect the precision and stability of estimated treatment effects, specifically in the subgroup analyses. A related, but distinct limitation is that the analytic sample is restricted to complete cases, which may introduce selection bias if missingness is systematically related to either maternal MH or child healthcare utilization. This could result in limitations to the generalizability of findings.
 
 Finally, while DML provides a flexible and robust approach to adjusting for observed confounding, its ability to support causal interpretations is conditional on the aforementioned assumptions—all of which have threats.
+
+## Tables
+
+***Table 1.** Sample characteristics of **unweighted sample** stratified by maternal mental health status NSCH 2022–2023 (n = 78,380).* 
+
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+|                                                  | **Excellent/Very Good/Good Maternal MH (n, %)**  | **Fair/Poor**  \        | **p-value**    |
+|                                                  |                                                  | **Maternal MH (n, %)**  |                |
+|                                                  | **(n = 73,307, 93.53%)**                         |                         |                |
+|                                                  |                                                  | **(n = 5,073, 6.47%)**  |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **\# of hospital ED visits (past 12 months)**    |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| None                                             | 62,014 (94.1%)                                   | 3,912 (5.9%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 1 time                                           | 9,053 (91.7%)                                    | 824 (8.3%)              |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 2-3 times                                        | 2,053 (87.0%)                                    | 306 (13.0%)	             |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 4+ times                                         | 187 (85.8%)                                      | 31 (14.2%)              |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Mother’s PH**                                  |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Excellent/Very Good/Good                         | 71,452 (95.3%)                                   | 3,526 (4.7%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Fair/Poor                                        | 1,855 (54.5%)                                    | 1,547 (45.5%)           |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Father’s MH**                                  |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Excellent/Very Good/Good                         | 70,847 (95.1%)                                   | 3,629 (4.9%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Fair/Poor                                        | 2,460 (63.0%)                                    | 1,444 (37.0%)           |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Father’s PH**                                  |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Excellent/Very Good/Good                         | 70,736 (94.5%)                                   | 4,114 (5.5%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Fair/Poor                                        | 2,571 (72.8%)                                    | 959 (27.2%)             |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Insurance gap in past 12 months**              |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Yes                                              | 2,949 (91.4%)                                    | 278 (8.6%)              |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| No                                               | 70,358 (93.6%)                                   | 4,795 (6.4%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Forgone needed health care (past 12 months)**  |                                                  |                         | 0.054          |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Yes                                              | 1,843 (79.9%)                                    | 464 (20.1%)             |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| No                                               | 71,464 (93.9%)                                   | 4,609 (6.1%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Preventive medical visit in past year**        |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Yes                                              | 62,598 (93.5%)                                   | 4,382 (6.5%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| No                                               | 10,709 (93.9%)                                   | 691 (6.1%)	              |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Child’s overall health status**                |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Excellent or very good                           | 68,834 (94.3%)                                   | 4,185 (5.7%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Good                                             | 3,922 (84.5%)                                    | 721 (15.5%)             |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| Fair or Poor                                     | 551 (76.7%)                                      | 167 (23.3%)             |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| **Federal Poverty Level (% of FPL)**             |                                                  |                         | **\<0.001\***  |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 0-99%                                            | 5,420 (90.2%)                                    | 588 (9.8%)              |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 100-199%                                         | 9,060 (90.3%)                                    | 975 (9.7%)              |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 200-399%                                         | 21,629 (92.4%)                                   | 1,780 (7.6%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+| 400%+                                            | 37,198 (95.6%)                                   | 1,730 (4.4%)            |                |
++--------------------------------------------------+--------------------------------------------------+-------------------------+----------------+
+
+\* Statistically significant at the 5% level 
+
+***Table 2.** Sample characteristics of **weighted %** by maternal mental health status NSCH 2022–2023.* 
+
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+|                                                  | **Excellent/Very Good/Good**   | **Fair/Poor Maternal MH (weighted %)**  |
+|                                                  |                                |                                         |
+|                                                  | **Maternal MH (weighted %)**   | **(6.58%)**                             |
+|                                                  |                                |                                         |
+|                                                  | **(93.42%)**                   |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **\# of hospital ED visits (past 12 months)**    |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| None                                             | 93.98%                         | 6.02%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 1 time                                           | 91.61%                         | 8.39%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 2-3 times                                        | 85.58%                         | 14.42%                                  |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 4+ times                                         | 87.27%                         | 12.73%                                  |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Mother’s PH**                                  |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Excellent/Very Good                              | 56%                            | 44%                                     |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Fair/Good/Poor                                   | 95.45%                         | 4.55%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Father’s MH**                                  |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Excellent/Very Good                              | 60.27%                         | 39.73%                                  |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Fair/Good/Poor                                   | 95.09%                         | 4.91%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Father’s PH**                                  |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Excellent/Very Good                              | 73.6%                          | 26.4%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Fair/Good/Poor                                   | 94.49%                         | 5.51%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Insurance gap in past 12 months**              |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Yes                                              | 91.8%                          | 8.2%                                    |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| No                                               | 93.53%                         | 6.47%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Forgone needed health care (past 12 months)**  |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Yes                                              | 78.32%                         | 21.68%                                  |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| No                                               | 93.42%                         | 6.11%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Preventive medical visit in past year**        |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Yes                                              | 93.34%                         | 6.66%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| No                                               | 93.75%                         | 6.25%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Child’s overall health status**                |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Excellent or very good                           | 94.19%                         | 5.81%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Good                                             | 85.4%                          | 14.6%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| Fair or Poor                                     | 76.91%                         | 23.09%                                  |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| **Federal Poverty Level (% of FPL)**             |                                |                                         |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 0-99%                                            | 90.62%                         | 9.38%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 100-199%                                         | 90.88%                         | 9.12%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 200-399%                                         | 92.34%                         | 7.66%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
+| 400%+                                            | 95.94%                         | 4.06%                                   |
++--------------------------------------------------+--------------------------------+-----------------------------------------+
 
 ## References
 
