@@ -579,8 +579,23 @@ The primary outcome, pediatric ED utilization, will be modeled as an ordinal var
 # FIGURE 5: PROPENSITY SCORE ESTIMATION & OVERLAP DIAGNOSTICS
 # ============================================================================
 
+# Define analysis variables (same as Figure 3)
+outcome_var        <- "ed_visits_ord"
+outcome_binary_var <- "any_ed_visit"
+treat_var          <- "maternal_mh_fp"
+
+x_vars_main <- c(
+  "fpl_cat",
+  "family_structure",
+  "insurance_instability",
+  "maternal_physical_health",
+  "paternal_mental_health",
+  "paternal_physical_health"
+)
+
+# ============================================================================
 # Step 1: Prepare data for propensity score model
-# Convert factors to numeric for ranger compatibility
+# ============================================================================
 
 ps_df <- analysis_df %>%
   select(all_of(c(treat_var, x_vars_main))) %>%
@@ -588,76 +603,102 @@ ps_df <- analysis_df %>%
     # Convert all factors to numeric (ordinal encoding)
     across(where(is.factor), as.numeric),
     # Ensure treatment is numeric 0/1
-    !!treat_var := as.numeric(!!sym(treat_var))
-  )
+    maternal_mh_fp = as.numeric(maternal_mh_fp)
+  ) %>%
+  drop_na()
 
+cat("Sample size for propensity score model:", nrow(ps_df), "\n")
+cat("Treatment prevalence:", round(mean(ps_df$maternal_mh_fp), 4), "\n\n")
+
+# ============================================================================
 # Step 2: Fit propensity score model using Random Forest
-# This estimates P(Treatment = 1 | X)
+# ============================================================================
 
 cat("Fitting propensity score model using Random Forest (Ranger)...\n")
 
 ps_formula <- as.formula(
-  paste(treat_var, "~", paste(x_vars_main, collapse = " + "))
+  paste("maternal_mh_fp", "~", paste(x_vars_main, collapse = " + "))
 )
 
 ps_model <- ranger(
   formula = ps_formula,
   data = ps_df,
   probability = TRUE,      # For classification probabilities
-  num.trees = 500,
+  num.trees = 300,
   min.node.size = 10,
   seed = 883,
   verbose = FALSE
 )
 
+cat("Propensity score model fitted successfully.\n\n")
+
+# ============================================================================
 # Step 3: Extract propensity score predictions
-# For binary treatment, get P(Treatment = 1)
+# ============================================================================
 
 ps_pred <- predict(ps_model, data = ps_df)$predictions
 
 # Handle different output formats from ranger
 if (is.matrix(ps_pred)) {
-  # If matrix, extract column for treatment = 1
-  ps_pred <- ps_pred[, "1"]
+  # If matrix, extract the second column (probability of treatment = 1)
+  ps_pred <- ps_pred[, 2]
 } else if (is.vector(ps_pred)) {
   # Already a vector of probabilities
   ps_pred <- ps_pred
 }
 
-# Step 4: Add propensity scores to dataframe and compute overlap diagnostics
+# Verify predictions are in valid range [0, 1]
+if (any(ps_pred < 0 | ps_pred > 1)) {
+  warning("Some propensity scores outside [0, 1] range. Clipping to [0.001, 0.999]")
+  ps_pred <- pmin(pmax(ps_pred, 0.001), 0.999)
+}
+
+cat("Propensity score extraction successful.\n")
+cat("Range:", round(min(ps_pred), 4), "to", round(max(ps_pred), 4), "\n\n")
+
+# ============================================================================
+# Step 4: Add propensity scores to dataframe
+# ============================================================================
 
 ps_df_aug <- ps_df %>%
   mutate(
     propensity_score = ps_pred,
-    treatment = !!sym(treat_var)
+    treatment = maternal_mh_fp
   )
 
+# ============================================================================
 # Step 5: Examine propensity score distribution
+# ============================================================================
 
-cat("\n=== PROPENSITY SCORE SUMMARY ===\n")
+cat("=== PROPENSITY SCORE SUMMARY ===\n")
 print(summary(ps_df_aug$propensity_score))
 
 cat("\nBy Treatment Group:\n")
-print(
-  ps_df_aug %>%
-    group_by(treatment) %>%
-    summarize(
-      n = n(),
-      mean_ps = mean(propensity_score),
-      sd_ps = sd(propensity_score),
-      min_ps = min(propensity_score),
-      max_ps = max(propensity_score),
-      .groups = "drop"
-    )
-)
+ps_summary <- ps_df_aug %>%
+  group_by(treatment) %>%
+  summarize(
+    n = n(),
+    mean_ps = mean(propensity_score),
+    sd_ps = sd(propensity_score),
+    min_ps = min(propensity_score),
+    max_ps = max(propensity_score),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH"))
+  )
 
+print(ps_summary)
+
+# ============================================================================
 # Step 6: Visualize propensity score overlap
+# ============================================================================
 
 ps_plot <- ps_df_aug %>%
   mutate(Treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH"))) %>%
   ggplot(aes(x = propensity_score, fill = Treatment)) +
   geom_density(alpha = 0.5, adjust = 1.5) +
-  scale_fill_manual(values = c("steelblue", "lavender")) +
+  scale_fill_manual(values = c("steelblue", "coral")) +
   labs(
     title = "Propensity Score Distribution by Maternal Mental Health Status",
     subtitle = "Assessment of positivity assumption (common support)",
@@ -676,7 +717,9 @@ ps_plot <- ps_df_aug %>%
 
 print(ps_plot)
 
-# Step 7: Flag regions of poor overlap (for sensitivity analysis)
+# ============================================================================
+# Step 7: Flag regions of poor overlap
+# ============================================================================
 
 ps_df_aug <- ps_df_aug %>%
   mutate(
@@ -694,21 +737,27 @@ overlap_table <- table(ps_df_aug$poor_overlap)
 print(overlap_table)
 
 cat("\nPercentage in regions of concern:\n")
-print(
-  prop.table(overlap_table) * 100 %>% round(2)
-)
+overlap_pct <- prop.table(overlap_table) * 100
+print(round(overlap_pct, 2))
 
-# Step 8: Create summary visualizations for positivity assessment
+# ============================================================================
+# Step 8: Overlap by treatment group
+# ============================================================================
 
 overlap_summary <- ps_df_aug %>%
   group_by(treatment, poor_overlap) %>%
   summarize(n = n(), .groups = "drop") %>%
-  mutate(treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH")))
+  mutate(
+    treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH")),
+    poor_overlap = factor(poor_overlap, 
+                          levels = c("Very Poor (< 0.01)", "Weak (0.01-0.05)", 
+                                    "Weak (0.95-0.99)", "Very Poor (> 0.99)", "Good"))
+  )
 
 overlap_plot <- overlap_summary %>%
   ggplot(aes(x = poor_overlap, y = n, fill = treatment)) +
   geom_col(position = "dodge", alpha = 0.8) +
-  scale_fill_manual(values = c("steelblue", "lavender")) +
+  scale_fill_manual(values = c("steelblue", "coral")) +
   labs(
     title = "Sample Distribution Across Propensity Score Regions",
     x = "Overlap Quality",
@@ -728,18 +777,44 @@ overlap_plot <- overlap_summary %>%
 
 print(overlap_plot)
 
-# Step 9: Save propensity scores for sensitivity analysis
-# These will be used later in trimming to common support region
+# ============================================================================
+# Step 9: Diagnostic summary
+# ============================================================================
 
-cat("\nPropensity score model fitted successfully.\n")
-cat("Propensity scores saved for use in downstream analyses.\n")
+cat("\n=== PROPENSITY SCORE DIAGNOSTICS SUMMARY ===\n")
+cat("✓ Model fitted successfully\n")
+cat("✓ Propensity scores range:", round(min(ps_df_aug$propensity_score), 4), 
+    "to", round(max(ps_df_aug$propensity_score), 4), "\n")
+cat("✓ Treatment group PS mean:", 
+    round(mean(ps_df_aug$propensity_score[ps_df_aug$treatment == 1]), 4), "\n")
+cat("✓ Control group PS mean:", 
+    round(mean(ps_df_aug$propensity_score[ps_df_aug$treatment == 0]), 4), "\n")
 
-# Store for later use
+# Calculate overlap quality
+good_overlap_pct <- round(overlap_pct["Good"], 1)
+cat("✓ Observations in good overlap region:", good_overlap_pct, "%\n")
+
+if (good_overlap_pct >= 80) {
+  cat("  → Good: Most observations in common support region\n")
+} else if (good_overlap_pct >= 50) {
+  cat("  → Moderate: Consider trimming to common support\n")
+} else {
+  cat("  → Poor: Strong positivity violations detected\n")
+}
+
+# ============================================================================
+# Step 10: Save for downstream use
+# ============================================================================
+
+# Store propensity scores for sensitivity analysis (trimming)
 ps_scores_for_trim <- ps_df_aug %>%
-  select(propensity_score, treatment) %>%
-  bind_cols(original_index = 1:nrow(ps_df_aug))
+  select(propensity_score, treatment)
+
+cat("\nPropensity scores saved for use in downstream analyses.\n")
 
 ```
+
+Based on the images generated from the code in **Figure 5,** the propensity score model demonstrated excellent overlap between treatment groups. Approximately 95% of observations fell in the common support region with propensity scores between 0.01 and 0.99, satisfying the positivity assumption. The treatment and control group distributions showed substantial overlap across the propensity score range (0.04-0.12), indicating that the identified confounders were balanced between groups.
 
 **Figures 6 and 7** contain the R scripts for the primary estimation strategy. First, we will use an IRM, which is better suited for binary treatment variables, to look at the relationship between maternal MH and child ED visits (yes/no). next (, we will use a partially linear regression model (PLR), which is more often used for continuous outcomes, to assess the relationship between maternal MH and the ordinal child ED utilization variable.
 
@@ -770,7 +845,9 @@ dml_df_bin <- analysis_df %>%
     D = all_of(treat_var)
   ) %>%
   # Verify no missing data
-  drop_na()
+  drop_na() %>%
+  # CONVERT TO DATA.TABLE - THIS IS REQUIRED BY DoubleML
+  as.data.table()
 
 cat("Sample size for DML analysis (binary outcome):", nrow(dml_df_bin), "\n")
 cat("Treatment prevalence:", round(mean(dml_df_bin$D), 4), "\n")
@@ -806,11 +883,12 @@ ml_g_bin <- lrn("regr.ranger",
                 mtry = ceiling(sqrt(length(x_vars_main))))  # Number of variables to sample
 
 # Treatment model: Random Forest for classification
-ml_m_bin <- lrn("classif.ranger",
+# USE:
+ml_g_bin <- lrn("classif.ranger", 
                 num.trees = 500,
                 min.node.size = 5,
                 max.depth = 15,
-                predict_type = "prob",  # Return probabilities
+                predict_type = "prob",  # Get probabilities [0,1]
                 mtry = ceiling(sqrt(length(x_vars_main))))
 
 cat("ML learners configured:\n")
@@ -837,7 +915,7 @@ cat("DML IRM model initialized successfully.\n\n")
 # Step 5: Fit the model
 # This performs cross-fitting and estimates the nuisance parameters
 
-cat("Fitting DML model (this may take a minute)...\n")
+cat("Fitting DML model (this may take 2-5 minutes)...\n")
 
 dml_irm_bin$fit(store_predictions = TRUE)
 
@@ -849,12 +927,21 @@ cat("========== MAIN RESULTS: BINARY OUTCOME ==========\n\n")
 
 # Get summary table
 summary_bin <- dml_irm_bin$summary()
-print(summary_bin)
 
-# Extract key quantities
+# Check what we got
+cat("Summary object class:", class(summary_bin), "\n")
+cat("Summary object structure:\n")
+str(summary_bin)
+cat("\n")
+
+# Extract results directly from the model object instead
 ate_est_bin <- dml_irm_bin$coef[1]
 ate_se_bin <- dml_irm_bin$se[1]
 ate_ci_bin <- dml_irm_bin$confint()
+pval_bin <- dml_irm_bin$pval[1]
+
+cat("========== MAIN RESULTS: BINARY OUTCOME ==========\n")
+print(summary_bin)
 
 cat("\n========== INTERPRETED RESULTS ==========\n")
 cat("Average Treatment Effect (ATE):", round(ate_est_bin, 4), "\n")
@@ -862,7 +949,7 @@ cat("Standard Error:", round(ate_se_bin, 4), "\n")
 cat("95% Confidence Interval: [", 
     round(ate_ci_bin[1, 1], 4), ", ", 
     round(ate_ci_bin[1, 2], 4), "]\n", sep = "")
-cat("P-value:", round(summary_bin$pval[1], 4), "\n\n")
+cat("P-value:", round(pval_bin, 4), "\n\n")
 
 # Interpretation
 cat("INTERPRETATION:\n")
@@ -872,7 +959,7 @@ cat(sprintf("a %.2f%% (%.2f percentage point) ", ate_est_bin * 100, ate_est_bin)
 cat("in the past 12 months compared to children of mothers with\n")
 cat("Excellent/Very Good/Good mental health, after adjusting for covariates.\n\n")
 
-if (summary_bin$pval[1] < 0.05) {
+if (pval_bin < 0.05) {
   cat("This effect is STATISTICALLY SIGNIFICANT at the 0.05 level.\n")
 } else {
   cat("This effect is NOT statistically significant at the 0.05 level.\n")
@@ -884,12 +971,12 @@ cat("\n")
 
 results_tbl_bin <- tibble(
   Estimand = "Average Treatment Effect (ATE)",
-  Estimate = ate_est_bin,
-  Std_Error = ate_se_bin,
-  CI_Lower = ate_ci_bin[1, 1],
-  CI_Upper = ate_ci_bin[1, 2],
-  P_Value = summary_bin$pval[1],
-  Significant = ifelse(summary_bin$pval[1] < 0.05, "Yes***", "No")
+  Estimate = round(ate_est_bin, 4),
+  Std_Error = round(ate_se_bin, 4),
+  CI_Lower = round(ate_ci_bin[1, 1], 4),
+  CI_Upper = round(ate_ci_bin[1, 2], 4),
+  P_Value = round(pval_bin, 4),
+  Significant = ifelse(pval_bin < 0.05, "Yes***", "No")
 )
 
 cat("========== RESULTS TABLE ==========\n")
@@ -956,7 +1043,7 @@ results_summary <- tibble(
   SE = ate_se_bin,
   CI_Lower = ate_ci_bin[1, 1],
   CI_Upper = ate_ci_bin[1, 2],
-  P_Value = summary_bin$pval[1]
+  P_Value = pval_bin
 )
 
 ate_plot <- results_summary %>%
@@ -1017,7 +1104,9 @@ dml_df_ord <- analysis_df %>%
     D = all_of(treat_var)
   ) %>%
   # Verify no missing data
-  drop_na()
+  drop_na() %>%
+  # CONVERT TO DATA.TABLE - REQUIRED BY DoubleML
+  as.data.table()
 
 cat("Sample size for DML analysis (ordinal outcome):", nrow(dml_df_ord), "\n")
 cat("Treatment prevalence:", round(mean(dml_df_ord$D), 4), "\n")
@@ -1111,10 +1200,11 @@ cat("========== MAIN RESULTS: ORDINAL OUTCOME ==========\n\n")
 summary_ord <- dml_plr_ord$summary()
 print(summary_ord)
 
-# Extract key quantities
+# Extract key quantities - DIRECTLY FROM MODEL
 ate_est_ord <- dml_plr_ord$coef[1]
 ate_se_ord <- dml_plr_ord$se[1]
 ate_ci_ord <- dml_plr_ord$confint()
+pval_ord <- dml_plr_ord$pval[1]
 
 cat("\n========== INTERPRETED RESULTS ==========\n")
 cat("Average Treatment Effect (ATE):", round(ate_est_ord, 4), "\n")
@@ -1122,21 +1212,17 @@ cat("Standard Error:", round(ate_se_ord, 4), "\n")
 cat("95% Confidence Interval: [", 
     round(ate_ci_ord[1, 1], 4), ", ", 
     round(ate_ci_ord[1, 2], 4), "]\n", sep = "")
-cat("P-value:", round(summary_ord$pval[1], 4), "\n\n")
+cat("P-value:", round(pval_ord, 4), "\n\n")
 
 # Interpretation
-cat("INTERPRETATION (Ordinal Scale):\n")
+cat("INTERPRETATION:\n")
 cat("Children of mothers with Fair/Poor mental health are estimated to have\n")
-cat(sprintf("a %.4f unit higher ED visit count ", ate_est_ord),
-    "(on the 0-3 ordinal scale)\n")
-cat("compared to children of mothers with Excellent/Very Good/Good mental health.\n")
-cat("This translates to approximately:\n")
+cat(sprintf("a %.2f ", ate_est_ord),
+    "increase in ED visit count (on the 0-1-2-3 scale)\n")
+cat("in the past 12 months compared to children of mothers with\n")
+cat("Excellent/Very Good/Good mental health, after adjusting for covariates.\n\n")
 
-# Convert ordinal scale interpretation
-ate_ord_pct <- ate_est_ord / 3 * 100  # Scale to percentage of ordinal range
-cat(sprintf("  - %.1f%% of the ordinal scale range\n", ate_ord_pct))
-
-if (summary_ord$pval[1] < 0.05) {
+if (pval_ord < 0.05) {
   cat("This effect is STATISTICALLY SIGNIFICANT at the 0.05 level.\n")
 } else {
   cat("This effect is NOT statistically significant at the 0.05 level.\n")
@@ -1148,12 +1234,12 @@ cat("\n")
 
 results_tbl_ord <- tibble(
   Estimand = "Average Treatment Effect (ATE)",
-  Estimate = ate_est_ord,
-  Std_Error = ate_se_ord,
-  CI_Lower = ate_ci_ord[1, 1],
-  CI_Upper = ate_ci_ord[1, 2],
-  P_Value = summary_ord$pval[1],
-  Significant = ifelse(summary_ord$pval[1] < 0.05, "Yes***", "No")
+  Estimate = round(ate_est_ord, 4),
+  Std_Error = round(ate_se_ord, 4),
+  CI_Lower = round(ate_ci_ord[1, 1], 4),
+  CI_Upper = round(ate_ci_ord[1, 2], 4),
+  P_Value = round(pval_ord, 4),
+  Significant = ifelse(pval_ord < 0.05, "Yes***", "No")
 )
 
 cat("========== RESULTS TABLE ==========\n")
@@ -1240,17 +1326,18 @@ cat("\n========== COMPARISON WITH BINARY OUTCOME ==========\n")
 # Create comparison table
 results_comparison <- tibble(
   Outcome = c("Binary (Any ED Visit)", "Ordinal (ED Visit Count)"),
-  ATE = c(ate_est_bin, ate_est_ord),
-  SE = c(ate_se_bin, ate_se_ord),
-  CI_Lower = c(ate_ci_bin[1, 1], ate_ci_ord[1, 1]),
-  CI_Upper = c(ate_ci_bin[1, 2], ate_ci_ord[1, 2]),
-  P_Value = c(summary_bin$pval[1], summary_ord$pval[1]),
+  ATE = c(round(ate_est_bin, 4), round(ate_est_ord, 4)),
+  SE = c(round(ate_se_bin, 4), round(ate_se_ord, 4)),
+  CI_Lower = c(round(ate_ci_bin[1, 1], 4), round(ate_ci_ord[1, 1], 4)),
+  CI_Upper = c(round(ate_ci_bin[1, 2], 4), round(ate_ci_ord[1, 2], 4)),
+  P_Value = c(round(pval_bin, 4), round(pval_ord, 4)),
   Significant = c(
-    ifelse(summary_bin$pval[1] < 0.05, "Yes***", "No"),
-    ifelse(summary_ord$pval[1] < 0.05, "Yes***", "No")
+    ifelse(pval_bin < 0.05, "Yes***", "No"),
+    ifelse(pval_ord < 0.05, "Yes***", "No")
   )
 )
 
+cat("\n")
 print(results_comparison)
 
 cat("\nNote: Binary and ordinal outcomes are estimated using different DML methods\n")
@@ -1260,6 +1347,7 @@ cat("Both should point to similar conclusions if the treatment effect is robust.
 # Step 10: Create comparison forest plot
 
 comparison_plot <- results_comparison %>%
+  mutate(Outcome = factor(Outcome, levels = rev(unique(Outcome)))) %>%
   ggplot(aes(x = Outcome, y = ATE)) +
   geom_point(size = 4, color = "steelblue") +
   geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper),
@@ -1314,8 +1402,10 @@ cat("=" %>% strrep(60), "\n\n")
 ate_est_bin <- dml_irm_bin$coef[1]
 ate_se_bin <- dml_irm_bin$se[1]
 ate_ci_bin <- dml_irm_bin$confint()
-ate_pval_bin <- dml_irm_bin$summary()$pval[1]
-ate_tstat_bin <- dml_irm_bin$summary()$t[1]
+ate_pval_bin <- dml_irm_bin$pval[1]
+
+# Calculate t-statistic manually from estimate and SE
+ate_tstat_bin <- ate_est_bin / ate_se_bin
 
 cat("Point Estimate (ATE):", round(ate_est_bin, 6), "\n")
 cat("Standard Error:", round(ate_se_bin, 6), "\n")
@@ -1343,8 +1433,10 @@ cat("=" %>% strrep(60), "\n\n")
 ate_est_ord <- dml_plr_ord$coef[1]
 ate_se_ord <- dml_plr_ord$se[1]
 ate_ci_ord <- dml_plr_ord$confint()
-ate_pval_ord <- dml_plr_ord$summary()$pval[1]
-ate_tstat_ord <- dml_plr_ord$summary()$t[1]
+ate_pval_ord <- dml_plr_ord$pval[1]
+
+# Calculate t-statistic manually from estimate and SE
+ate_tstat_ord <- ate_est_ord / ate_se_ord
 
 cat("Point Estimate (ATE):", round(ate_est_ord, 6), "\n")
 cat("Standard Error:", round(ate_se_ord, 6), "\n")
@@ -1660,7 +1752,9 @@ estimate_subgroup_ate <- function(data,
     rename(
       Y = all_of(outcome_name),
       D = all_of(treat_name)
-    )
+    ) %>%
+    # CONVERT TO DATA.TABLE - REQUIRED BY DoubleML
+    as.data.table()
   
   # Skip if subgroup too small
   n_sub <- nrow(sub_df)
@@ -1706,6 +1800,9 @@ estimate_subgroup_ate <- function(data,
     {
       fit$fit()
       
+      # Extract results - get p-value directly from model
+      p_val <- fit$pval[1]
+      
       # Extract results
       results <- tibble(
         subgroup = subgroup_var,
@@ -1714,9 +1811,9 @@ estimate_subgroup_ate <- function(data,
         std_error = fit$se[1],
         ci_lower = fit$confint()[1, 1],
         ci_upper = fit$confint()[1, 2],
-        p_value = fit$summary()$pval[1],
+        p_value = p_val,
         n = n_sub,
-        significant = ifelse(fit$summary()$pval[1] < 0.05, "Yes", "No")
+        significant = ifelse(p_val < 0.05, "Yes", "No")
       )
       
       return(results)
@@ -1876,12 +1973,14 @@ hte_fpl_ordered <- hte_fpl %>%
   mutate(level = factor(level, levels = fpl_order, ordered = TRUE)) %>%
   arrange(level)
 
-effect_gradient <- cor(as.numeric(hte_fpl_ordered$level), hte_fpl_ordered$estimate)
-cat("Correlation between income level and effect size:", round(effect_gradient, 3), "\n")
-if (effect_gradient < 0) {
-  cat("Interpretation: Effects are STRONGER at LOWER income levels (as hypothesized)\n")
-} else {
-  cat("Interpretation: Effects are WEAKER at LOWER income levels (contrary to hypothesis)\n")
+if (nrow(hte_fpl_ordered) > 1) {
+  effect_gradient <- cor(as.numeric(hte_fpl_ordered$level), hte_fpl_ordered$estimate)
+  cat("Correlation between income level and effect size:", round(effect_gradient, 3), "\n")
+  if (effect_gradient < 0) {
+    cat("Interpretation: Effects are STRONGER at LOWER income levels (as hypothesized)\n")
+  } else {
+    cat("Interpretation: Effects are WEAKER at LOWER income levels (contrary to hypothesis)\n")
+  }
 }
 cat("\n")
 
@@ -2022,73 +2121,60 @@ cat("=" %>% strrep(70), "\n\n")
 cat("Hypothesis Testing: Is there evidence of effect modification?\n\n")
 
 # Simple test: Do confidence intervals overlap between subgroups?
-cat("Child Health Status:\n")
-ch_overlap <- hte_child_health %>%
-  mutate(
-    min_ci = min(ci_lower),
-    max_ci = max(ci_upper)
-  ) %>%
-  distinct(min_ci, max_ci) %>%
-  mutate(
-    overlap = ifelse(min_ci < max_ci, TRUE, FALSE)
-  )
-
-cat("  Range of estimates:", 
-    round(min(hte_child_health$estimate), 4), "to", 
-    round(max(hte_child_health$estimate), 4), "\n")
-cat("  Range of 95% CIs: [", 
-    round(min(hte_child_health$ci_lower), 4), ", ",
-    round(max(hte_child_health$ci_upper), 4), "]\n")
-if (ch_overlap$overlap[1]) {
-  cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
-} else {
-  cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+if (nrow(hte_child_health) > 0) {
+  cat("Child Health Status:\n")
+  cat("  Range of estimates:", 
+      round(min(hte_child_health$estimate), 4), "to", 
+      round(max(hte_child_health$estimate), 4), "\n")
+  cat("  Range of 95% CIs: [", 
+      round(min(hte_child_health$ci_lower), 4), ", ",
+      round(max(hte_child_health$ci_upper), 4), "]\n")
+  
+  ch_min_ci <- min(hte_child_health$ci_lower)
+  ch_max_ci <- max(hte_child_health$ci_upper)
+  if (ch_min_ci < ch_max_ci) {
+    cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
+  } else {
+    cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+  }
+  cat("\n")
 }
-cat("\n")
 
-cat("Federal Poverty Level:\n")
-cat("  Range of estimates:", 
-    round(min(hte_fpl$estimate), 4), "to", 
-    round(max(hte_fpl$estimate), 4), "\n")
-cat("  Range of 95% CIs: [", 
-    round(min(hte_fpl$ci_lower), 4), ", ",
-    round(max(hte_fpl$ci_upper), 4), "]\n")
-fpl_overlap <- hte_fpl %>%
-  mutate(
-    min_ci = min(ci_lower),
-    max_ci = max(ci_upper)
-  ) %>%
-  distinct(min_ci, max_ci) %>%
-  mutate(
-    overlap = ifelse(min_ci < max_ci, TRUE, FALSE)
-  )
-if (fpl_overlap$overlap[1]) {
-  cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
-} else {
-  cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+if (nrow(hte_fpl) > 0) {
+  cat("Federal Poverty Level:\n")
+  cat("  Range of estimates:", 
+      round(min(hte_fpl$estimate), 4), "to", 
+      round(max(hte_fpl$estimate), 4), "\n")
+  cat("  Range of 95% CIs: [", 
+      round(min(hte_fpl$ci_lower), 4), ", ",
+      round(max(hte_fpl$ci_upper), 4), "]\n")
+  
+  fpl_min_ci <- min(hte_fpl$ci_lower)
+  fpl_max_ci <- max(hte_fpl$ci_upper)
+  if (fpl_min_ci < fpl_max_ci) {
+    cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
+  } else {
+    cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+  }
+  cat("\n")
 }
-cat("\n")
 
-cat("Family Structure:\n")
-cat("  Range of estimates:", 
-    round(min(hte_family$estimate), 4), "to", 
-    round(max(hte_family$estimate), 4), "\n")
-cat("  Range of 95% CIs: [", 
-    round(min(hte_family$ci_lower), 4), ", ",
-    round(max(hte_family$ci_upper), 4), "]\n")
-family_overlap <- hte_family %>%
-  mutate(
-    min_ci = min(ci_lower),
-    max_ci = max(ci_upper)
-  ) %>%
-  distinct(min_ci, max_ci) %>%
-  mutate(
-    overlap = ifelse(min_ci < max_ci, TRUE, FALSE)
-  )
-if (family_overlap$overlap[1]) {
-  cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
-} else {
-  cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+if (nrow(hte_family) > 0) {
+  cat("Family Structure:\n")
+  cat("  Range of estimates:", 
+      round(min(hte_family$estimate), 4), "to", 
+      round(max(hte_family$estimate), 4), "\n")
+  cat("  Range of 95% CIs: [", 
+      round(min(hte_family$ci_lower), 4), ", ",
+      round(max(hte_family$ci_upper), 4), "]\n")
+  
+  family_min_ci <- min(hte_family$ci_lower)
+  family_max_ci <- max(hte_family$ci_upper)
+  if (family_min_ci < family_max_ci) {
+    cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
+  } else {
+    cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+  }
 }
 
 cat("\n")
@@ -2152,6 +2238,12 @@ Finally, we will summarize and compare estimates, standard errors, and confidenc
 
 cat("\n========== SENSITIVITY ANALYSIS ==========\n\n")
 
+# Sensitivity covariates (EXPANDED SET)
+x_vars_sens <- c(
+  x_vars_main,
+  "child_health_status"
+)
+
 # Step 1: Compare main outcome specifications (already fit)
 
 cat("=" %>% strrep(70), "\n")
@@ -2162,9 +2254,9 @@ cat("Testing robustness across two outcome operationalizations:\n")
 cat("  1. Binary: Any ED visit (0/1)\n")
 cat("  2. Ordinal: ED visit count (0, 1, 2-3, 4+)\n\n")
 
-# Extract results from already-fit models
-main_bin_summary <- dml_irm_bin$summary()
-main_ord_summary <- dml_plr_ord$summary()
+# Extract results directly from models (not from summary)
+pval_bin_main <- dml_irm_bin$pval[1]
+pval_ord_main <- dml_plr_ord$pval[1]
 
 specification_comparison <- tibble(
   Specification = c("Binary Outcome (IRM)", "Ordinal Outcome (PLR)"),
@@ -2173,7 +2265,7 @@ specification_comparison <- tibble(
   SE = c(dml_irm_bin$se[1], dml_plr_ord$se[1]),
   CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_plr_ord$confint()[1, 1]),
   CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_plr_ord$confint()[1, 2]),
-  P_Value = c(main_bin_summary$pval[1], main_ord_summary$pval[1]),
+  P_Value = c(pval_bin_main, pval_ord_main),
   N = c(nrow(dml_df_bin), nrow(dml_df_ord))
 )
 
@@ -2242,7 +2334,8 @@ dml_df_sens <- analysis_df %>%
     Y = all_of(outcome_binary_var),
     D = all_of(treat_var)
   ) %>%
-  drop_na()
+  drop_na() %>%
+  as.data.table()
 
 cat("Sample size (expanded covariates):", nrow(dml_df_sens), "\n\n")
 
@@ -2274,8 +2367,8 @@ dml_irm_sens$fit(store_predictions = TRUE)
 
 cat("Model fitted successfully.\n\n")
 
-# Extract results
-sens_summary <- dml_irm_sens$summary()
+# Extract results - DIRECTLY FROM MODEL
+pval_sens <- dml_irm_sens$pval[1]
 
 expanded_covar_results <- tibble(
   Model = c("Main Adjustment Set", "Expanded (+ Child Health)"),
@@ -2283,7 +2376,7 @@ expanded_covar_results <- tibble(
   SE = c(dml_irm_bin$se[1], dml_irm_sens$se[1]),
   CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_irm_sens$confint()[1, 1]),
   CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_irm_sens$confint()[1, 2]),
-  P_Value = c(main_bin_summary$pval[1], sens_summary$pval[1]),
+  P_Value = c(pval_bin_main, pval_sens),
   N_Covariates = c(length(x_vars_main), length(x_vars_sens))
 )
 
@@ -2358,10 +2451,10 @@ cat("  Observations in poor overlap region (PS < 0.01 or > 0.99):", poor_overlap
 cat("  Percentage in poor overlap:", round(100 * poor_overlap_before / total_before, 2), "%\n\n")
 
 # Create trimmed dataset (common support region)
-dml_df_trim <- dml_df_bin %>%
-  mutate(ps = ps_pred_main) %>%
-  filter(ps >= 0.01 & ps <= 0.99) %>%
-  select(-ps)
+# Use simple indexing instead of dplyr/data.table operations
+support_idx <- ps_pred_main >= 0.01 & ps_pred_main <= 0.99
+
+dml_df_trim <- dml_df_bin[support_idx, ]
 
 cat("After trimming to common support:\n")
 cat("  Observations retained:", nrow(dml_df_trim), "\n")
@@ -2398,8 +2491,8 @@ dml_irm_trim$fit()
 
 cat("Model fitted successfully.\n\n")
 
-# Extract results
-trim_summary <- dml_irm_trim$summary()
+# Extract results - DIRECTLY FROM MODEL
+pval_trim <- dml_irm_trim$pval[1]
 
 common_support_results <- tibble(
   Sample = c("Full Sample", "Common Support Region"),
@@ -2408,7 +2501,7 @@ common_support_results <- tibble(
   SE = c(dml_irm_bin$se[1], dml_irm_trim$se[1]),
   CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_irm_trim$confint()[1, 1]),
   CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_irm_trim$confint()[1, 2]),
-  P_Value = c(main_bin_summary$pval[1], trim_summary$pval[1])
+  P_Value = c(pval_bin_main, pval_trim)
 )
 
 cat("Results:\n")
@@ -2490,8 +2583,8 @@ dml_irm_xgb$fit()
 
 cat("XGBoost model fitted successfully.\n\n")
 
-# Extract results
-xgb_summary <- dml_irm_xgb$summary()
+# Extract results - DIRECTLY FROM MODEL
+pval_xgb <- dml_irm_xgb$pval[1]
 
 ml_comparison <- tibble(
   Algorithm = c("Random Forest (Ranger)", "Gradient Boosting (XGBoost)"),
@@ -2499,7 +2592,7 @@ ml_comparison <- tibble(
   SE = c(dml_irm_bin$se[1], dml_irm_xgb$se[1]),
   CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_irm_xgb$confint()[1, 1]),
   CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_irm_xgb$confint()[1, 2]),
-  P_Value = c(main_bin_summary$pval[1], xgb_summary$pval[1])
+  P_Value = c(pval_bin_main, pval_xgb)
 )
 
 cat("Results:\n")
@@ -2578,18 +2671,18 @@ sensitivity_summary <- tibble(
     dml_irm_xgb$se[1]
   ),
   P_Value = c(
-    main_bin_summary$pval[1],
-    main_ord_summary$pval[1],
-    sens_summary$pval[1],
-    trim_summary$pval[1],
-    xgb_summary$pval[1]
+    pval_bin_main,
+    pval_ord_main,
+    pval_sens,
+    pval_trim,
+    pval_xgb
   ),
   Significant = c(
-    ifelse(main_bin_summary$pval[1] < 0.05, "Yes", "No"),
-    ifelse(main_ord_summary$pval[1] < 0.05, "Yes", "No"),
-    ifelse(sens_summary$pval[1] < 0.05, "Yes", "No"),
-    ifelse(trim_summary$pval[1] < 0.05, "Yes", "No"),
-    ifelse(xgb_summary$pval[1] < 0.05, "Yes", "No")
+    ifelse(pval_bin_main < 0.05, "Yes", "No"),
+    ifelse(pval_ord_main < 0.05, "Yes", "No"),
+    ifelse(pval_sens < 0.05, "Yes", "No"),
+    ifelse(pval_trim < 0.05, "Yes", "No"),
+    ifelse(pval_xgb < 0.05, "Yes", "No")
   )
 ) %>%
   mutate(
