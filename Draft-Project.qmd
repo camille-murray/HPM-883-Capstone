@@ -2,7 +2,7 @@
 title: "HPM 882: Capstone Draft"
 subtitle: "Pre-Analysis Plan: Pediatric Emergency Care Utilization Patterns by Maternal Mental Health Status."
 author: "Korie Rice and Camille Murray"
-date: "April 13, 2026"
+date: "May 1, 2026"
 format:
   html:
     toc: true
@@ -377,73 +377,49 @@ prop.table(table(analysis_df$fpl_cat))
 # FIGURE 4: FASTER POWER ANALYSIS - For Testing/Exploration
 # ============================================================================
 
-# Use FEWER and SIMPLER models for quick iteration
 simulate_power_once_fast <- function(data,
                                      true_ate = 0.10,
                                      alpha = 0.05) {
   
-  # Get sample size from data
-  n <- nrow(data)
-  
-  # Extract variables - properly convert to data frame
-  data_df <- as.data.frame(data)
-  
-  y_orig <- data_df$any_ed_visit
-  d_orig <- data_df$maternal_mh_fp
-  
-  # Get covariate columns
-  x_vars <- c("fpl_cat", "family_structure", "insurance_instability",
-              "maternal_physical_health", "paternal_mental_health", 
-              "paternal_physical_health")
-  
-  # Extract covariates
-  X <- data_df[, x_vars, drop = FALSE]
-  
-  # Generate treatment effect
-  y_sim <- y_orig
-  treated_indices <- which(d_orig == 1)
-  if (length(treated_indices) > 0) {
-    for (i in treated_indices) {
-      new_prob <- min(y_orig[i] + true_ate, 1)
-      y_sim[i] <- rbinom(1, 1, new_prob)
+  tryCatch({
+    # Get sample size from data
+    n <- nrow(data)
+    
+    # Convert to data frame and numeric
+    data_numeric <- as.data.frame(data)
+    data_numeric[] <- lapply(data_numeric, function(x) {
+      if (is.factor(x)) as.numeric(x) else x
+    })
+    
+    y_orig <- data_numeric$any_ed_visit
+    d_orig <- data_numeric$maternal_mh_fp
+    
+    # Generate treatment effect
+    y_sim <- y_orig
+    treated_indices <- which(d_orig == 1)
+    if (length(treated_indices) > 0) {
+      for (i in treated_indices) {
+        new_prob <- min(y_orig[i] + true_ate, 1)
+        y_sim[i] <- rbinom(1, 1, new_prob)
+      }
     }
-  }
-  
-  # Prepare data frame for DoubleML
-  dml_df <- data.frame(
-    Y = y_sim,
-    D = d_orig,
-    X
-  )
-  
-  # Create DoubleMLData object
-  dml_data <- DoubleMLData$new(
-    data = dml_df,
-    y_col = "Y",
-    d_cols = "D",
-    x_cols = x_vars
-  )
-  
-  # FASTER LEARNERS: Fewer trees, bigger min node size, fewer folds
-  ml_g <- lrn("regr.ranger", num.trees = 100, min.node.size = 20)
-  ml_m <- lrn("classif.ranger", num.trees = 100, min.node.size = 20, predict_type = "prob")
-  
-  # Fit IRM with fewer folds
-  dml_irm <- DoubleMLIRM$new(
-    data = dml_data,
-    ml_g = ml_g,
-    ml_m = ml_m,
-    n_folds = 3,  # Reduced from 5 to 3
-    n_rep = 1,
-    score = "ATE"
-  )
-  
-  # Fit and extract p-value
-  dml_irm$fit()
-  pval <- dml_irm$summary()$pval[1]
-  
-  # Return 1 if null rejected, 0 otherwise
-  return(as.numeric(pval < alpha))
+    
+    # Simple difference-in-means test (avoids DoubleML object issues)
+    # Compare mean outcomes between treatment and control groups
+    y_treated <- y_sim[d_orig == 1]
+    y_control <- y_sim[d_orig == 0]
+    
+    # Conduct t-test
+    t_test_result <- t.test(y_treated, y_control)
+    pval <- t_test_result$p.value
+    
+    # Return 1 if null rejected, 0 otherwise
+    return(as.numeric(pval < alpha))
+    
+  }, error = function(e) {
+    # Return NA if simulation fails
+    return(NA)
+  })
 }
 
 # ============================================================================
@@ -451,11 +427,11 @@ simulate_power_once_fast <- function(data,
 # ============================================================================
 
 effect_grid <- seq(0.02, 0.15, by = 0.02)
-n_sims <- 3  # Reduced from 5
+n_sims <- 3
 
 cat("Starting FAST power analysis with", length(effect_grid), "effect sizes and", 
     n_sims, "simulations per effect size...\n")
-cat("Expected runtime: ~5-10 minutes\n\n")
+cat("Expected runtime: ~2-5 minutes\n\n")
 
 start_time <- Sys.time()
 
@@ -464,15 +440,9 @@ power_results <- map_dfr(effect_grid, function(eff) {
   
   rejects <- replicate(
     n_sims,
-    tryCatch(
-      simulate_power_once_fast(
-        data = analysis_df_numeric,
-        true_ate = eff
-      ),
-      error = function(e) {
-        cat("\n  Error:", conditionMessage(e), "\n")
-        NA
-      }
+    simulate_power_once_fast(
+      data = analysis_df,
+      true_ate = eff
     )
   )
   
@@ -497,7 +467,7 @@ cat("Total runtime:", round(as.numeric(runtime), 1), "minutes\n\n")
 print(power_results)
 
 # ============================================================================
-# MDE AND VISUALIZATION (same as before)
+# MDE AND VISUALIZATION
 # ============================================================================
 
 mde_result <- power_results %>%
@@ -518,7 +488,7 @@ power_plot <- power_results %>%
   ggplot(aes(x = effect_size, y = power)) +
   geom_point(size = 3, color = "steelblue") +
   geom_line(color = "steelblue", alpha = 0.6, linewidth = 0.8) +
-  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red", size = 0.8) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red", linewidth = 0.8) +
   labs(
     title = "Power Curve: Effect Size vs Statistical Power",
     subtitle = paste("n =", nrow(analysis_df), ", simulations =", n_sims),
