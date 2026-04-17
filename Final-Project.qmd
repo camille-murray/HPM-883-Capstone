@@ -1,0 +1,3081 @@
+---
+title: "HPM 882: Capstone Draft"
+subtitle: "Pre-Analysis Plan: Pediatric Emergency Care Utilization Patterns by Maternal Mental Health Status."
+author: "Korie Rice and Camille Murray"
+date: "May 1, 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-tools: true
+editor: visual
+  markdown: 
+    wrap: 72
+execute:
+  eval: false
+  echo: true
+---
+
+## Collaboration Note:
+
+We were allowed to collaborate on these capstone projects if they aligned with both of our interests and could conceivably be a for a project that would benefit both of us. Looking at maternal mental health and child emergency department visits is a perfect alignment of our interests. Camille is a caregiving researcher whose primary interests revolve around the total-family impacts of illness. Korie is a maternal-child health researcher whose prior work has focused on veterans and how healthcare access for parents shifts childrens' health outcomes. After taking comprehensive exams in May, we plan to revisit this analysis and write it into a manuscript.
+
+## Introduction and Significance
+
+*Pediatric ED Use*
+
+Emergency department (ED) utilization among children remains a persistent policy concern in the United States (US) healthcare system, particularly when visits might be avoided through timely preventive care, seeking appropriate level of care acuity (e.g., urgent care vs. ED), or better at-home management of conditions. Nearly 13% of pediatric ED visits are for ambulatory care-sensitive conditions that could likely be prevented or managed with timely primary care services (Jaeger et al., 2015). Numerous factors have already been identified to be associated with recurrent ED visits among children including being in a low-income household (\<200% Federal Poverty Level \[FPL\]), being publicly insured, and residing in neighborhoods with poor physical or social conditions (Chang et al., 2021; Jaeger et al., 2015). Thus, ED use among children signals gaps in primary care access or broader social inequities and contributes to healthcare costs and ED overcrowding, straining an already overburdened system (Chang et al., 2021; Neuman et al., 2014).
+
+*Maternal Mental Health (MH) as a Driver of ED Use*
+
+Growing evidence also suggests that maternal mental health (MH) is related to ED visits. Maternal depression and anxiety, along with other psychosocial risk factors, have been linked to increased ED use among infants and young children. Rokicki (2024) demonstrated that even mild perinatal depressive symptoms were associated with higher rates of both emergent and nonemergent ED visits during infants’ first year of life, especially among Medicaid-enrolled families (Rokicki, 2024). Similarly, Guyon-Harris et al. (2021) found that prenatal maternal MH symptoms, low relational health, and maternal histories of childhood maltreatment were significant predictors of increased infant ED utilization (Guyon-Harris et al., 2021). Although Giusto et al. (2021) did not find a direct association between maternal confidence and ED use, their study reinforced the importance of maternal psychosocial resources and socioeconomic factors in shaping healthcare-seeking behaviors (Giusto et al., 2021). Additionally, Brooks et al. (2015) identified maternal depressive symptoms as predictors of higher healthcare expenditures, including increased ED costs, among publicly insured children with chronic health conditions (Brooks et al., 2015). All of these studies, however, used small or high-risk samples and generally focused on younger pediatric populations.
+
+While the existing literature has explored broader trends in pediatric ED use and maternal MH in high-risk populations, there remain gaps around how, if at all, this might present in a nationally representative dataset with children from a greater range of ages. This study aims to address this gap using 2022-23 National Survey of Children’s Health (NSCH) data to answer the following research question: Among children aged 0-17 years in the US, what is the estimated causal effect of maternal MH status on pediatric ED utilization in the past 12 months?
+
+*Theoretical Background*
+
+This study is grounded in Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare. Family Systems Theory describes families as complex, interconnected, and ever-changing systems where changes to an individual member reverberate throughout the group (Hammond, Robert et al., 2015; Lang, 2022). Applied to this context, when a parent experiences mental or physical health (PH) challenges, it may disrupt family roles, shift attention away from children, and leave them undersupported. Levesque et al.’s (2013) Conceptual Framework of Access to Healthcare provides structure in understanding how parents’ perceptions and circumstances shape children’s access to timely and appropriate health care (Levesque et al., 2013).
+
+Together, these frameworks describe how maternal well-being may shape a child’s use of emergency care (see **Figure 1**). Based on Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare, we hypothesize that children of mothers with poorer MH (i.e., Fair/Poor) will have children visited the ED more in the past year.
+
+***Figure 1.** Conceptual framework of how maternal health affects child emergency department utilization.*
+
+![](images/capstone_conceptualmodel.png)
+
+## Research Question and Hypotheses
+
+*Primary Research Question*
+
+The primary research question is: Among children aged 0-17 years in the US, what is the causal effect of maternal MH status on pediatric ED utilization in the past 12 months? Specifically, we define the treatment as maternal MH status (Fair/Poor vs. Excellent/Very Good/Good), and the outcome as the frequency of caregiver-reported child ED visits in the past year. Notably, this is the number of ED visits for a randomly selected child in the household (please see **Setting and Population** for more details).
+
+*Estimands*
+
+The primary estimand of interest is the average treatment effect (ATE) of poorer maternal MH on pediatric ED utilization.
+
+As a secondary objective, we will estimate the conditional average treatment effects (CATEs) to examine whether the effect of maternal MH varies across key subgroups including child health status, household socioeconomic status, and family structure.
+
+*Hypotheses*
+
+Our primary hypothesis is that children of mothers with Fair/Poor MH will have higher levels of ED utilization compared to children of mothers with Excellent/Very Good/Good MH, under a causal interpretation.
+
+Our secondary hypotheses revolve around the presence of heterogenous treatment effects (HTE) and are as follows:
+
+1.  The effect of maternal MH on ED utilization will be stronger among children in poorer overall health.
+2.  The effect will be more pronounced among children in lower-income households.
+3.  Family structure (e.g., single-parent households) will modify the relationship between maternal MH and ED utilization.
+
+These hypotheses are informed by prior findings suggesting that maternal MH may both directly influence healthcare-seeking behaviors and interact with broader structural and family-level factors to shape access to care.
+
+## Setting and Population
+
+*National Survey of Children’s Health (NSCH)*
+
+This study will use data from the 2022-2023 NSCH, a nationally representative, cross-sectional survey that explores the physical, emotional, and behavioral health of children aged 0-17 in the US, particularly children with special healthcare needs. The survey also captures key indicators related to access and quality of health care, family and neighborhood characteristics, and other social determinants of health.
+
+Data for the 2022-23 NSCH were collected between July 2022 and January 2023 by the Health Resources and Services Administration’s Maternal and Child Health Bureau. Households were randomly sampled from the Census Master Address File and invited to complete an initial screening questionnaire (available online, on paper, or by phone) to identify the presence of children in the home.(U.S. Census Bureau, 2023) One child per eligible household was randomly selected to be the subject of a detailed age-specific topical questionnaire. Oversampling methods were used to ensure adequate representation of children aged 0-5 and those with special health care needs.(U.S. Census Bureau, 2023)
+
+*Analytic Sample*
+
+The analytic sample will include children with complete data on maternal MH, ED utilization, and all covariates required for the identification strategy. Consistent with prior analyses, survey weights, strata, and clustering will be incorporated to account for the complex survey design and to produce nationally representative estimates.
+
+Although the underlying NSCH data are observational and cross-sectional, this pre-analysis plan conceptualizes a hypothetical causal study in which maternal MH is treated as the exposure of interest. Under standard identification assumptions, we aim to estimate the causal effect of maternal MH on pediatric ED utilization by adjusting for observed covariates.
+
+## Experimental Design
+
+*Assumptions*
+
+To interpret the estimates effects as causal, this study relies on several key identification assumptions:
+
+::: callout-tip
+1.  **Exchangeability (i.e., no unmeasured confounding)**
+:::
+
+Conditional on the observed covariates included in the adjustment set (e.g., socioeconomic status, family structure), maternal MH is assumed to be independent of potential outcomes in pediatric ED utilization. This assumption may be violated if there are unobserved factors (i.e., those that were not captured in the NSCH dataset) that influence both maternal MH and healthcare utilization.
+
+::: callout-tip
+2.  **Positivity**
+:::
+
+All individuals have a non-zero probability of being in either maternal MH group (Fair/Poor vs. Excellent/Very Good/Good) across levels of observed covariates. While the NSCH provides a large, nationally representative sample, the relatively small proportion of mothers reporting Fair/Poor mental health (see **Table 1**) may pose challenges for overlap in certain subgroups.
+
+::: callout-tip
+3.  **Consistency**
+:::
+
+The observed outcome for each child corresponds to the potential outcome under their observed maternal MH status. This assumes that maternal MH is well-defined and consistently measured across respondents.
+
+*Randomization Strategy*
+
+Because this study relies on observational survey data, treatment assignment is not randomized. Instead, this pre-analysis plan conceptualizes a hypothetical target trial in which maternal MH is the exposure of interest. We approximate randomization using Double Machine Learning (DML), a flexible and data-driven approach. This approach aims to reduce bias due to observed confounding by flexibly modeling both the treatment assignment mechanism and the outcome.
+
+*Treatment Arms*
+
+The treatment is defined as maternal MH status, operationalized as a binary exposure:
+
+-   **Treatment group:** Mothers reporting Fair or Poor MH
+
+-   **Control group:** Mothers reporting Excellent, Very Good, or Good MH
+
+This classification is consistent with prior analyses (including one that used NSCH data: Hinojosa et al., 2012, and one that did not: Pfefferle & Spitznagel, 2009) and reflects a meaningful contrast between mothers experiencing poorer MH and those with relatively better MH.
+
+*Timeline*
+
+The NSCH data are cross-sectional, with all variables measured in the same survey period. Additionally, the maternal MH question refers to current mental health status while the ED utilization question refers to ED usage in the past 12 months. As such, the temporal ordering of maternal MH and pediatric ED utilization cannot be definitively established.
+
+In our hypothetical causal framework, we assume that maternal MH precedes pediatric ED utilization within the past 12 months. However, reverse causality, where increased child healthcare needs lead to deteriorated maternal MH, remains a key threat to identification and will be addressed in sensitivity analyses.
+
+## Identification Strategy and Power Analysis
+
+*Identification Strategy*
+
+As previously described, this study is grounded in a causal framework informed by Family Systems Theory and Levesque’s Conceptual Framework of Access to Healthcare. We conceptualize maternal MH as the exposure and pediatric ED utilization as the outcome. A directed acyclic graph (DAG) was developed to identify the minimally sufficient adjustment set required to estimate the causal effect of maternal MH on ED utilization (see **Figure 2)**.
+
+***Figure 2.** Directed Acyclic Graph (DAG) demonstrating assumed relationships between variables.*
+
+![](images/capstone_dag.png)
+
+Based on this DAG, we have identified the following variables as potential confounders:
+
+-   Household socioeconomic status (based on the federal poverty level)
+
+-   Family structure
+
+-   Insurance instability
+
+-   Maternal physical health
+
+-   Paternal mental and physical health
+
+In contrast, variables related to healthcare utilization and access, such as foregone needed care and preventive medical visits, are conceptualized as mediators, as maternal MH may influence these behaviors, which could in turn affect ED utilization. Adjusting for these variables might block part of the causal pathway and bias effect estimates toward the null.
+
+Child health status (labeled as an “other variable” in **Figure 2**) is more complicated. Poor child health may increase maternal psychological distress while also directly increasing ED utilization, meaning it would act as a confounder. However, maternal MH may also influence child health through caregiving behaviors and healthcare engagement, meaning it would act as a mediator. Given this dual role, child health status will not be included in the primary adjustment set but will be incorporated in sensitivity and heterogeneity analyses.
+
+*Power Analysis*
+
+Because this study uses an existing, nationally representative secondary dataset rather than prospectively collecting new data, the purpose of the power analysis is not to determine a required sample size in advance. Rather, we aim to assess whether the available analytic sample is likely to provide sufficient statistical power to detect a meaningful effect on maternal MH on pediatric ED utilization.
+
+Power will be evaluated using a simulation-based minimum detectable effect (MDE) approach. For each candidate effect size, repeated simulations will be used to estimate the probability of rejecting the null hypothesis at a two-sided alpha level of 0.05. The MDE will be defined as the smallest true effect size that yields at least 80% power under the assumed data-generating process. Power for the HTE analyses is expected to be lower than that for the primary ATE analysis, particularly in smaller subgroups. Accordingly, subgroup and CATE findings will be interpreted as secondary and potentially exploratory unless adequate subgroup sample sizes are observed. The primary inferential focus of the study will remain on the overall ATE.
+
+**Figure 3** contains a sample R script for setting up analysis and **Figure 4** contains a sample R script for MDE calculation. All sample scripts in this document were created by looking at HPM 883 course materials and revising them with the support of ChatGPT Instant 5.3.
+
+From a prior analysis, the 2022-23 NSCH yields an analytic sample of 78,380 children/mothers with complete data on the exposure, outcome, and covariates of interest (see **Table 1**). Maternal MH is relatively imbalanced across groups, with approximately 6.5% of mothers reporting Fair/Poor MH. However, a formal power analysis will be conducted in the full empirical analysis following this pre-analysis plan. 
+
+For this assignment, we will synthesize data that mirrors partially cleaned 2022-23 NSCH data from a prior assignment and analysis (**Tables 1 and 2**). Synthesized variables will be created to mimic those from the actual NSCH dataset, including through the response options.
+
+***Figure 3.** Sample R code for setting up analysis.*
+
+```{r, eval=TRUE}
+#Use renv package for replicability
+renv::restore()
+
+#Load packages
+
+library(tidyverse)
+library(data.table)
+library(DoubleML)
+library(mlr3)
+library(mlr3learners)
+library(ranger)
+library(glmnet)
+library(xgboost)
+library(tidyverse)
+library(data.table)
+
+set.seed(883)
+
+# Sample size: Use actual NSCH sample size - see Table
+n <- 78380
+
+# ============================================================================
+# 1. OUTCOME VARIABLES
+# ============================================================================
+
+# ED visits (ordinal): 0 / 1 / 2-3 / 4+
+# Distribution from NSCH: ~70% had 0 visits, ~15% had 1, ~10% had 2-3, ~5% had 4+
+ed_visits_ord <- sample(
+  x = c(0, 1, 2, 3),
+  size = n,
+  prob = c(0.70, 0.15, 0.10, 0.05),
+  replace = TRUE
+)
+
+# Binary ED visit outcome (any visit in past 12 months)
+any_ed_visit <- as.numeric(ed_visits_ord > 0)
+
+# ============================================================================
+# 2. TREATMENT VARIABLE
+# ============================================================================
+
+# Maternal Mental Health: Fair/Poor vs. Excellent/Very Good/Good
+# Distribution: ~6.5% report Fair/Poor MH (from proposal: treat_prob = 0.065)
+maternal_mh_fp <- rbinom(n = n, size = 1, prob = 0.065)
+
+# ============================================================================
+# 3. CONFOUNDERS - MAIN ADJUSTMENT SET
+# ============================================================================
+
+# 3a. Federal Poverty Level (FPL) Category
+# Categories: <100% FPL, 100-200% FPL, 200-400% FPL, >=400% FPL
+# Distribution from NSCH: roughly 20%, 25%, 30%, 25%
+fpl_cat <- factor(
+  sample(
+    x = c("<100%", "100-200%", "200-400%", ">=400%"),
+    size = n,
+    prob = c(0.20, 0.25, 0.30, 0.25),
+    replace = TRUE
+  ),
+  levels = c("<100%", "100-200%", "200-400%", ">=400%")
+)
+
+# 3b. Family Structure
+# Categories: Two-parent household, Single-parent household, Other
+# Distribution: ~70% two-parent, ~25% single-parent, ~5% other
+family_structure <- factor(
+  sample(
+    x = c("Two-parent", "Single-parent", "Other"),
+    size = n,
+    prob = c(0.70, 0.25, 0.05),
+    replace = TRUE
+  ),
+  levels = c("Two-parent", "Single-parent", "Other")
+)
+
+# 3c. Insurance Instability
+# Binary: Had gap in coverage or unstable insurance
+# Distribution: ~15% experienced insurance instability
+insurance_instability <- rbinom(n = n, size = 1, prob = 0.15)
+
+# 3d. Maternal Physical Health
+# Ordinal scale: Excellent, Very Good, Good, Fair, Poor
+# Distribution: ~40% Excellent, ~35% Very Good, ~20% Good, ~4% Fair, ~1% Poor
+maternal_physical_health <- factor(
+  sample(
+    x = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+    size = n,
+    prob = c(0.40, 0.35, 0.20, 0.04, 0.01),
+    replace = TRUE
+  ),
+  levels = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+  ordered = TRUE
+)
+
+# 3e. Paternal Mental Health
+# Ordinal scale: Same as maternal
+# Distribution: ~45% Excellent, ~30% Very Good, ~18% Good, ~5% Fair, ~2% Poor
+paternal_mental_health <- factor(
+  sample(
+    x = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+    size = n,
+    prob = c(0.45, 0.30, 0.18, 0.05, 0.02),
+    replace = TRUE
+  ),
+  levels = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+  ordered = TRUE
+)
+
+# 3f. Paternal Physical Health
+# Ordinal scale: Same as maternal
+# Distribution: ~42% Excellent, ~32% Very Good, ~19% Good, ~5% Fair, ~2% Poor
+paternal_physical_health <- factor(
+  sample(
+    x = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+    size = n,
+    prob = c(0.42, 0.32, 0.19, 0.05, 0.02),
+    replace = TRUE
+  ),
+  levels = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+  ordered = TRUE
+)
+
+# ============================================================================
+# 4. HTE VARIABLES
+# ============================================================================
+
+# 4a. Child Health Status
+# Ordinal scale: Excellent, Very Good, Good, Fair, Poor
+# Distribution: ~42% Excellent, ~30% Very Good, ~20% Good, ~6% Fair, ~2% Poor
+child_health_status <- factor(
+  sample(
+    x = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+    size = n,
+    prob = c(0.42, 0.30, 0.20, 0.06, 0.02),
+    replace = TRUE
+  ),
+  levels = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+  ordered = TRUE
+)
+
+# ============================================================================
+# 5. MEDIATOR VARIABLES (for sensitivity analysis)
+# ============================================================================
+
+# Foregone needed care (binary)
+foregone_care <- rbinom(n = n, size = 1, prob = 0.08)
+
+# Preventive medical visits (binary: had well-child visit in past year)
+preventive_visits <- rbinom(n = n, size = 1, prob = 0.75)
+
+# ============================================================================
+# 6. COMBINE INTO DATAFRAME
+# ============================================================================
+
+nsch_df <- tibble(
+  # Outcome variables
+  ed_visits_ord,
+  any_ed_visit,
+  # Treatment
+  maternal_mh_fp,
+  # Main confounders
+  fpl_cat,
+  family_structure,
+  insurance_instability,
+  maternal_physical_health,
+  paternal_mental_health,
+  paternal_physical_health,
+  # HTE variables
+  child_health_status,
+  # Mediators
+  foregone_care,
+  preventive_visits
+)
+
+# Create analysis dataset with complete cases
+analysis_df <- nsch_df %>%
+  select(all_of(c("ed_visits_ord", "any_ed_visit", "maternal_mh_fp", 
+                    "fpl_cat", "family_structure", "insurance_instability",
+                    "maternal_physical_health", "paternal_mental_health", 
+                    "paternal_physical_health", "child_health_status"))) %>%
+  drop_na()
+
+# Convert to data.table for later use
+analysis_dt <- as.data.table(analysis_df)
+
+# ============================================================================
+# 7. INSPECT SYNTHETIC DATA
+# ============================================================================
+
+# Check sample size
+nrow(analysis_df)
+
+# Check distributions
+summary(analysis_df)
+
+# Cross-tabulations
+table(analysis_df$maternal_mh_fp) 
+#Setting seed at 883 should yield 73,259  participants with good maternal MH and 5,121 participants with poor maternal MH. Of note, this is slightly off but very close to the values observed in the true NSCH 2022-23 dataset (see Table 1).
+table(analysis_df$ed_visits_ord)
+table(analysis_df$maternal_mh_fp, analysis_df$any_ed_visit)
+table(analysis_df$fpl_cat)
+table(analysis_df$family_structure)
+
+# Proportions
+prop.table(table(analysis_df$maternal_mh_fp))
+prop.table(table(analysis_df$any_ed_visit))
+prop.table(table(analysis_df$fpl_cat))
+```
+
+***Figure 4.** Sample R code for power and MDE analysis with simulated data.*
+
+```{r, eval=TRUE}
+# ============================================================================
+# FIGURE 4: FASTER POWER ANALYSIS - For Testing/Exploration
+# ============================================================================
+
+simulate_power_once_fast <- function(data,
+                                     true_ate = 0.10,
+                                     alpha = 0.05) {
+  
+  tryCatch({
+    # Get sample size from data
+    n <- nrow(data)
+    
+    # Convert to data frame and numeric
+    data_numeric <- as.data.frame(data)
+    data_numeric[] <- lapply(data_numeric, function(x) {
+      if (is.factor(x)) as.numeric(x) else x
+    })
+    
+    y_orig <- data_numeric$any_ed_visit
+    d_orig <- data_numeric$maternal_mh_fp
+    
+    # Generate treatment effect
+    y_sim <- y_orig
+    treated_indices <- which(d_orig == 1)
+    if (length(treated_indices) > 0) {
+      for (i in treated_indices) {
+        new_prob <- min(y_orig[i] + true_ate, 1)
+        y_sim[i] <- rbinom(1, 1, new_prob)
+      }
+    }
+    
+    # Simple difference-in-means test (avoids DoubleML object issues)
+    # Compare mean outcomes between treatment and control groups
+    y_treated <- y_sim[d_orig == 1]
+    y_control <- y_sim[d_orig == 0]
+    
+    # Conduct t-test
+    t_test_result <- t.test(y_treated, y_control)
+    pval <- t_test_result$p.value
+    
+    # Return 1 if null rejected, 0 otherwise
+    return(as.numeric(pval < alpha))
+    
+  }, error = function(e) {
+    # Return NA if simulation fails
+    return(NA)
+  })
+}
+
+# ============================================================================
+# RUN FAST POWER ANALYSIS
+# ============================================================================
+
+effect_grid <- seq(0.02, 0.15, by = 0.02)
+n_sims <- 3
+
+cat("Starting FAST power analysis with", length(effect_grid), "effect sizes and", 
+    n_sims, "simulations per effect size...\n")
+cat("Expected runtime: ~2-5 minutes\n\n")
+
+start_time <- Sys.time()
+
+power_results <- map_dfr(effect_grid, function(eff) {
+  cat("Testing effect size =", eff, "...")
+  
+  rejects <- replicate(
+    n_sims,
+    simulate_power_once_fast(
+      data = analysis_df,
+      true_ate = eff
+    )
+  )
+  
+  power <- mean(rejects, na.rm = TRUE)
+  n_successful <- sum(!is.na(rejects))
+  
+  cat(" Power =", round(power, 3), "(",  n_successful, "/", n_sims, "successful)\n")
+  
+  tibble(
+    effect_size = eff,
+    power = power,
+    n_successful_sims = n_successful,
+    n_total_sims = n_sims
+  )
+})
+
+end_time <- Sys.time()
+runtime <- difftime(end_time, start_time, units = "mins")
+
+cat("\n=== POWER ANALYSIS RESULTS ===\n")
+cat("Total runtime:", round(as.numeric(runtime), 1), "minutes\n\n")
+print(power_results)
+
+# ============================================================================
+# MDE AND VISUALIZATION
+# ============================================================================
+
+mde_result <- power_results %>%
+  filter(power >= 0.80) %>%
+  slice(1)
+
+cat("\n=== MINIMUM DETECTABLE EFFECT (MDE) ===\n\n")
+if (nrow(mde_result) > 0) {
+  cat("MDE:", round(mde_result$effect_size, 3), "\n")
+  cat("Power at MDE:", round(mde_result$power, 3), "\n")
+} else {
+  cat("No effect size achieved 80% power.\n")
+  cat("Max power observed:", round(max(power_results$power), 3), "\n")
+}
+
+# Visualization
+power_plot <- power_results %>%
+  ggplot(aes(x = effect_size, y = power)) +
+  geom_point(size = 3, color = "steelblue") +
+  geom_line(color = "steelblue", alpha = 0.6, linewidth = 0.8) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red", linewidth = 0.8) +
+  labs(
+    title = "Power Curve: Effect Size vs Statistical Power",
+    subtitle = paste("n =", nrow(analysis_df), ", simulations =", n_sims),
+    x = "Effect Size",
+    y = "Statistical Power"
+  ) +
+  theme_minimal() +
+  ylim(0, 1)
+
+print(power_plot)
+```
+
+## Estimation Strategy
+
+This study will estimate the causal effect of maternal MH on pediatric ED usage using DML. DML is a semi-parametric approach that combines ML methods with causal inference techniques to obtain unbiased estimates of treatment effects in the presence of high-dimensional covariates. Given the binary nature of the exposure, we will implement the Interactive Regression Model (IRM) framework, which is well-suited for estimating ATEs in this setting.
+
+*Double Machine Learning Framework*
+
+The DML approach is composed of two primary components:
+
+1.  **Treatment model (propensity score):** The probability of a mother having Fair/Poor MH conditional on observed covariates.
+2.  **Outcome model:** The expected level of pediatric ED utilization conditional on maternal MH status and observed covariates.
+
+As previously stated, the primary estimand is the ATE of poorer maternal MH (Fair/Poor) compared to better maternal MH (Excellent/Very Good/Good) on pediatric ED utilization in the past 12 months. Formally, this is defined as the difference in expected outcomes under the two potential treatment states:
+
+*ATE = E\[Y(1) - Y(0)\]*
+
+Where *Y(1)* represents ED utilization if maternal MH is Fair/Poor, and *Y(0)* represents ED utilization if maternal MH is Excellent/Very Good/Good.
+
+*Covariate Adjustment*
+
+The covariates included in the DML procedure are informed by the identification strategy and DAG. The primary adjustment set includes:
+
+-   Household socioeconomic status (based on the federal poverty level)
+
+-   Family structure
+
+-   Insurance instability
+
+-   Maternal physical health
+
+-   Paternal mental and physical health
+
+Variables identified as mediators (i.e., foregone needed care and preventive medical visits) will be excluded from the primary adjustment set to avoid blocking causal pathways. Child health status will be excluded from the main specification due to its ambiguous role as both a potential confounder and mediator but will be included in the secondary and sensitivity analyses.
+
+*Outcome Specification*
+
+The primary outcome, pediatric ED utilization, will be modeled as an ordinal variable capturing the number of ED visits in the past 12 months (0, 1, 2-3, or 4+ visits). For the purposes of DML implementation, we will also estimate models using a binary outcome (any ED visit vs. none) to support interpretation and ensure robustness across outcome specifications.
+
+*Estimation Strategy Overview and Code*
+
+**Figure 5** estimates the propensity score, defined as the probability a mother reports Fair/Poor MH conditional on observed covariates. The model includes all variables in the primary adjustment set identified through the DAG ( e.g., socioeconomic status, family structure). We will assess the positivity assumption by examining overlap between the treatment group using a histogram.
+
+***Figure 5.** Sample R code for propensity score estimation and histogram to check overlap.*
+
+```{r, eval=TRUE}
+# ============================================================================
+# FIGURE 5: PROPENSITY SCORE ESTIMATION & OVERLAP DIAGNOSTICS
+# ============================================================================
+
+# Define analysis variables (same as Figure 3)
+outcome_var        <- "ed_visits_ord"
+outcome_binary_var <- "any_ed_visit"
+treat_var          <- "maternal_mh_fp"
+
+x_vars_main <- c(
+  "fpl_cat",
+  "family_structure",
+  "insurance_instability",
+  "maternal_physical_health",
+  "paternal_mental_health",
+  "paternal_physical_health"
+)
+
+# ============================================================================
+# Step 1: Prepare data for propensity score model
+# ============================================================================
+
+ps_df <- analysis_df %>%
+  select(all_of(c(treat_var, x_vars_main))) %>%
+  mutate(
+    # Convert all factors to numeric (ordinal encoding)
+    across(where(is.factor), as.numeric),
+    # Ensure treatment is numeric 0/1
+    maternal_mh_fp = as.numeric(maternal_mh_fp)
+  ) %>%
+  drop_na()
+
+cat("Sample size for propensity score model:", nrow(ps_df), "\n")
+cat("Treatment prevalence:", round(mean(ps_df$maternal_mh_fp), 4), "\n\n")
+
+# ============================================================================
+# Step 2: Fit propensity score model using Random Forest
+# ============================================================================
+
+cat("Fitting propensity score model using Random Forest (Ranger)...\n")
+
+ps_formula <- as.formula(
+  paste("maternal_mh_fp", "~", paste(x_vars_main, collapse = " + "))
+)
+
+ps_model <- ranger(
+  formula = ps_formula,
+  data = ps_df,
+  probability = TRUE,      # For classification probabilities
+  num.trees = 300,
+  min.node.size = 10,
+  seed = 883,
+  verbose = FALSE
+)
+
+cat("Propensity score model fitted successfully.\n\n")
+
+# ============================================================================
+# Step 3: Extract propensity score predictions
+# ============================================================================
+
+ps_pred <- predict(ps_model, data = ps_df)$predictions
+
+# Handle different output formats from ranger
+if (is.matrix(ps_pred)) {
+  # If matrix, extract the second column (probability of treatment = 1)
+  ps_pred <- ps_pred[, 2]
+} else if (is.vector(ps_pred)) {
+  # Already a vector of probabilities
+  ps_pred <- ps_pred
+}
+
+# Verify predictions are in valid range [0, 1]
+if (any(ps_pred < 0 | ps_pred > 1)) {
+  warning("Some propensity scores outside [0, 1] range. Clipping to [0.001, 0.999]")
+  ps_pred <- pmin(pmax(ps_pred, 0.001), 0.999)
+}
+
+cat("Propensity score extraction successful.\n")
+cat("Range:", round(min(ps_pred), 4), "to", round(max(ps_pred), 4), "\n\n")
+
+# ============================================================================
+# Step 4: Add propensity scores to dataframe
+# ============================================================================
+
+ps_df_aug <- ps_df %>%
+  mutate(
+    propensity_score = ps_pred,
+    treatment = maternal_mh_fp
+  )
+
+# ============================================================================
+# Step 5: Examine propensity score distribution
+# ============================================================================
+
+cat("=== PROPENSITY SCORE SUMMARY ===\n")
+print(summary(ps_df_aug$propensity_score))
+
+cat("\nBy Treatment Group:\n")
+ps_summary <- ps_df_aug %>%
+  group_by(treatment) %>%
+  summarize(
+    n = n(),
+    mean_ps = mean(propensity_score),
+    sd_ps = sd(propensity_score),
+    min_ps = min(propensity_score),
+    max_ps = max(propensity_score),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH"))
+  )
+
+print(ps_summary)
+
+# ============================================================================
+# Step 6: Visualize propensity score overlap
+# ============================================================================
+
+ps_plot <- ps_df_aug %>%
+  mutate(Treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH"))) %>%
+  ggplot(aes(x = propensity_score, fill = Treatment)) +
+  geom_density(alpha = 0.5, adjust = 1.5) +
+  scale_fill_manual(values = c("steelblue", "coral")) +
+  labs(
+    title = "Propensity Score Distribution by Maternal Mental Health Status",
+    subtitle = "Assessment of positivity assumption (common support)",
+    x = "Estimated Propensity Score P(Fair/Poor MH | X)",
+    y = "Density",
+    fill = "Maternal MH"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13, face = "bold"),
+    plot.subtitle = element_text(size = 11, color = "gray40"),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 11),
+    legend.position = "right"
+  )
+
+print(ps_plot)
+
+# ============================================================================
+# Step 7: Flag regions of poor overlap
+# ============================================================================
+
+ps_df_aug <- ps_df_aug %>%
+  mutate(
+    poor_overlap = case_when(
+      propensity_score < 0.01 ~ "Very Poor (< 0.01)",
+      propensity_score > 0.99 ~ "Very Poor (> 0.99)",
+      propensity_score < 0.05 ~ "Weak (0.01-0.05)",
+      propensity_score > 0.95 ~ "Weak (0.95-0.99)",
+      TRUE ~ "Good"
+    )
+  )
+
+cat("\n=== OVERLAP REGION ASSESSMENT ===\n")
+overlap_table <- table(ps_df_aug$poor_overlap)
+print(overlap_table)
+
+cat("\nPercentage in regions of concern:\n")
+overlap_pct <- prop.table(overlap_table) * 100
+print(round(overlap_pct, 2))
+
+# ============================================================================
+# Step 8: Overlap by treatment group
+# ============================================================================
+
+overlap_summary <- ps_df_aug %>%
+  group_by(treatment, poor_overlap) %>%
+  summarize(n = n(), .groups = "drop") %>%
+  mutate(
+    treatment = factor(treatment, labels = c("Excellent/VG/Good MH", "Fair/Poor MH")),
+    poor_overlap = factor(poor_overlap, 
+                          levels = c("Very Poor (< 0.01)", "Weak (0.01-0.05)", 
+                                    "Weak (0.95-0.99)", "Very Poor (> 0.99)", "Good"))
+  )
+
+overlap_plot <- overlap_summary %>%
+  ggplot(aes(x = poor_overlap, y = n, fill = treatment)) +
+  geom_col(position = "dodge", alpha = 0.8) +
+  scale_fill_manual(values = c("steelblue", "coral")) +
+  labs(
+    title = "Sample Distribution Across Propensity Score Regions",
+    x = "Overlap Quality",
+    y = "Count",
+    fill = "Maternal MH",
+    subtitle = "Assessing positivity: overlap between treatment groups across covariate space"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13, face = "bold"),
+    plot.subtitle = element_text(size = 11, color = "gray40"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 11),
+    legend.position = "right"
+  )
+
+print(overlap_plot)
+
+# ============================================================================
+# Step 9: Diagnostic summary
+# ============================================================================
+
+cat("\n=== PROPENSITY SCORE DIAGNOSTICS SUMMARY ===\n")
+cat("✓ Model fitted successfully\n")
+cat("✓ Propensity scores range:", round(min(ps_df_aug$propensity_score), 4), 
+    "to", round(max(ps_df_aug$propensity_score), 4), "\n")
+cat("✓ Treatment group PS mean:", 
+    round(mean(ps_df_aug$propensity_score[ps_df_aug$treatment == 1]), 4), "\n")
+cat("✓ Control group PS mean:", 
+    round(mean(ps_df_aug$propensity_score[ps_df_aug$treatment == 0]), 4), "\n")
+
+# Calculate overlap quality
+good_overlap_pct <- round(overlap_pct["Good"], 1)
+cat("✓ Observations in good overlap region:", good_overlap_pct, "%\n")
+
+if (good_overlap_pct >= 80) {
+  cat("  → Good: Most observations in common support region\n")
+} else if (good_overlap_pct >= 50) {
+  cat("  → Moderate: Consider trimming to common support\n")
+} else {
+  cat("  → Poor: Strong positivity violations detected\n")
+}
+
+# ============================================================================
+# Step 10: Save for downstream use
+# ============================================================================
+
+# Store propensity scores for sensitivity analysis (trimming)
+ps_scores_for_trim <- ps_df_aug %>%
+  select(propensity_score, treatment)
+
+cat("\nPropensity scores saved for use in downstream analyses.\n")
+
+```
+
+Based on the images generated from the code in **Figure 5,** the propensity score model demonstrated excellent overlap between treatment groups. Approximately 95% of observations fell in the common support region with propensity scores between 0.01 and 0.99, satisfying the positivity assumption. The treatment and control group distributions showed substantial overlap across the propensity score range (0.04-0.12), indicating that the identified confounders were balanced between groups.
+
+**Figures 6 and 7** contain the R scripts for the primary estimation strategy. First, we will use an IRM, which is better suited for binary treatment variables, to look at the relationship between maternal MH and child ED visits (yes/no). next (, we will use a partially linear regression model (PLR), which is more often used for continuous outcomes, to assess the relationship between maternal MH and the ordinal child ED utilization variable.
+
+The two nuisance models estimated are 1. The outcome model estimating expected ED utilization conditional on covariates and treatment, and 2. A treatment model estimating the propensity score. Both models use random forests (via the ‘ranger’ package in R). To reduce overfitting, the DML estimator uses cross-fitting, in which data are divided into folds and nuisance models will be trained on one subset of data and evaluated on another.
+
+***Figure 6.** Sample R code for estimation strategy – Part 1: Main ATE with binary maternal MH outcome.*
+
+```{r, eval=TRUE}
+# ============================================================================
+
+# FIGURE 6: DOUBLE MACHINE LEARNING - PART 1
+
+# Main ATE Estimation with Binary Outcome (any ED visit)
+
+# ============================================================================
+ 
+cat("\n========== DOUBLE MACHINE LEARNING: BINARY OUTCOME ==========\n")
+ 
+# Step 1: Prepare data for DoubleML with binary outcome
+
+# Convert all variables to numeric format for DML compatibility
+ 
+dml_df_bin <- analysis_df %>%
+
+  select(all_of(c(outcome_binary_var, treat_var, x_vars_main))) %>%
+
+  # Convert factors to numeric
+
+  mutate(
+
+    across(where(is.factor), as.numeric)
+
+  ) %>%
+
+  # Rename for DML (Y = outcome, D = treatment)
+
+  rename(
+
+    Y = all_of(outcome_binary_var),
+
+    D = all_of(treat_var)
+
+  ) %>%
+
+  # Verify no missing data
+
+  drop_na() %>%
+
+  # CONVERT TO DATA.TABLE - THIS IS REQUIRED BY DoubleML
+
+  as.data.table()
+ 
+cat("Sample size for DML analysis (binary outcome):", nrow(dml_df_bin), "\n")
+
+cat("Treatment prevalence:", round(mean(dml_df_bin$D), 4), "\n")
+
+cat("Outcome prevalence (any ED visit):", round(mean(dml_df_bin$Y), 4), "\n\n")
+ 
+# Step 2: Create DoubleMLData object
+
+# This structures the data for DML estimation
+ 
+dml_data_bin <- DoubleMLData$new(
+
+  data = dml_df_bin,
+
+  y_col = "Y",                    # Outcome column
+
+  d_cols = "D",                   # Treatment column
+
+  x_cols = x_vars_main            # Covariate columns (from adjustment set)
+
+)
+ 
+cat("DoubleMLData object created successfully.\n")
+
+cat("Outcome variable: Y (", outcome_binary_var, ")\n", sep = "")
+
+cat("Treatment variable: D (", treat_var, ")\n", sep = "")
+
+cat("Adjustment set covariates (", length(x_vars_main), "):\n", sep = "")
+
+cat("  -", paste(x_vars_main, collapse = "\n  - "), "\n\n")
+ 
+# Step 3: Specify machine learning learners for nuisance parameters
+
+# ml_g: outcome model E[Y | X, D] - LOGISTIC REGRESSION for binary outcome
+
+# ml_m: treatment model (propensity score) P(D = 1 | X) - CLASSIFICATION
+ 
+cat("Specifying machine learning learners...\n")
+ 
+# Outcome model: Logistic Regression for binary outcome
+
+ml_g_bin <- lrn("classif.log_reg",
+
+                predict_type = "prob")  # Get probabilities [0,1]
+ 
+# Treatment model: Random Forest for classification (propensity score)
+
+ml_m_bin <- lrn("classif.ranger", 
+
+                num.trees = 500,
+
+                min.node.size = 5,
+
+                max.depth = 15,
+
+                predict_type = "prob",  # Get probabilities [0,1]
+
+                mtry = ceiling(sqrt(length(x_vars_main))))
+ 
+cat("ML learners configured:\n")
+
+cat("  - Outcome model: Random Forest (Ranger) with", 500, "trees\n")
+
+cat("  - Treatment model: Random Forest (Ranger) with", 500, "trees\n\n")
+ 
+# Step 4: Initialize DoubleML IRM (Interactive Regression Model)
+
+# IRM is appropriate for binary treatments with ATE score
+ 
+cat("Initializing DoubleML IRM model...\n")
+ 
+dml_irm_bin <- DoubleMLIRM$new(
+
+  data = dml_data_bin,
+
+  ml_g = ml_g_bin,               # Outcome model learner
+
+  ml_m = ml_m_bin,               # Treatment model learner
+
+  n_folds = 5,                   # 5-fold cross-fitting
+
+  n_rep = 1,                     # Single repetition
+
+  score = "ATE",                 # Average Treatment Effect score
+
+  dml_procedure = "dml2"         # Neyman orthogonality procedure
+
+)
+ 
+cat("DML IRM model initialized successfully.\n\n")
+ 
+# Step 5: Fit the model
+
+# This performs cross-fitting and estimates the nuisance parameters
+ 
+cat("Fitting DML model (this may take 2-5 minutes)...\n")
+ 
+dml_irm_bin$fit(store_predictions = TRUE)
+ 
+cat("Model fitted successfully!\n\n")
+ 
+# Step 6: Extract and display results
+ 
+cat("========== MAIN RESULTS: BINARY OUTCOME ==========\n\n")
+ 
+# Get summary table
+
+summary_bin <- dml_irm_bin$summary()
+ 
+# Check what we got
+
+cat("Summary object class:", class(summary_bin), "\n")
+
+cat("Summary object structure:\n")
+
+str(summary_bin)
+
+cat("\n")
+ 
+# Extract results directly from the model object instead
+
+ate_est_bin <- dml_irm_bin$coef[1]
+
+ate_se_bin <- dml_irm_bin$se[1]
+
+ate_ci_bin <- dml_irm_bin$confint()
+
+pval_bin <- dml_irm_bin$pval[1]
+ 
+cat("========== MAIN RESULTS: BINARY OUTCOME ==========\n")
+
+print(summary_bin)
+ 
+cat("\n========== INTERPRETED RESULTS ==========\n")
+
+cat("Average Treatment Effect (ATE):", round(ate_est_bin, 4), "\n")
+
+cat("Standard Error:", round(ate_se_bin, 4), "\n")
+
+cat("95% Confidence Interval: [", 
+
+    round(ate_ci_bin[1, 1], 4), ", ", 
+
+    round(ate_ci_bin[1, 2], 4), "]\n", sep = "")
+
+cat("P-value:", round(pval_bin, 4), "\n\n")
+ 
+# Interpretation
+
+cat("INTERPRETATION:\n")
+
+cat("Children of mothers with Fair/Poor mental health are estimated to have\n")
+
+cat(sprintf("a %.2f%% (%.2f percentage point) ", ate_est_bin * 100, ate_est_bin),
+
+    "higher probability of any ED visit\n")
+
+cat("in the past 12 months compared to children of mothers with\n")
+
+cat("Excellent/Very Good/Good mental health, after adjusting for covariates.\n\n")
+ 
+if (pval_bin < 0.05) {
+
+  cat("This effect is STATISTICALLY SIGNIFICANT at the 0.05 level.\n")
+
+} else {
+
+  cat("This effect is NOT statistically significant at the 0.05 level.\n")
+
+}
+ 
+cat("\n")
+ 
+# Step 7: Create results table
+ 
+results_tbl_bin <- tibble(
+
+  Estimand = "Average Treatment Effect (ATE)",
+
+  Estimate = round(ate_est_bin, 4),
+
+  Std_Error = round(ate_se_bin, 4),
+
+  CI_Lower = round(ate_ci_bin[1, 1], 4),
+
+  CI_Upper = round(ate_ci_bin[1, 2], 4),
+
+  P_Value = round(pval_bin, 4),
+
+  Significant = ifelse(pval_bin < 0.05, "Yes***", "No")
+
+)
+ 
+cat("========== RESULTS TABLE ==========\n")
+
+print(results_tbl_bin)
+ 
+# Step 8: Diagnostic plots
+ 
+cat("\n========== DIAGNOSTIC PLOTS ==========\n")
+ 
+# Plot 1: Predicted values vs residuals
+
+predictions_bin <- dml_irm_bin$predictions
+ 
+pred_resid_plot <- tibble(
+
+  predicted = predictions_bin$ml_g0,
+
+  residuals = predictions_bin$ml_g0 - dml_df_bin$Y
+
+) %>%
+
+  ggplot(aes(x = predicted, y = residuals)) +
+
+  geom_point(alpha = 0.3, size = 1.5) +
+
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+
+  labs(
+
+    title = "Residual Plot: Outcome Model Diagnostics",
+
+    x = "Predicted ED Visit Probability",
+
+    y = "Residuals",
+
+    subtitle = "Should show random scatter around y=0 with no patterns"
+
+  ) +
+
+  theme_minimal() +
+
+  theme(
+
+    plot.title = element_text(size = 12, face = "bold"),
+
+    plot.subtitle = element_text(size = 10, color = "gray40")
+
+  )
+ 
+print(pred_resid_plot)
+ 
+# Plot 2: Treatment propensity score overlap
+
+propensity_plot <- tibble(
+
+  propensity = predictions_bin$ml_m,
+
+  treatment = dml_df_bin$D
+
+) %>%
+
+  mutate(treatment = factor(treatment, labels = c("Good MH", "Fair/Poor MH"))) %>%
+
+  ggplot(aes(x = propensity, fill = treatment)) +
+
+  geom_histogram(alpha = 0.6, bins = 30, position = "identity") +
+
+  scale_fill_manual(values = c("steelblue", "firebrick")) +
+
+  labs(
+
+    title = "Propensity Score Overlap Assessment",
+
+    x = "Estimated Propensity Score P(Fair/Poor MH | X)",
+
+    y = "Count",
+
+    fill = "Maternal MH",
+
+    subtitle = "Histograms should have substantial overlap"
+
+  ) +
+
+  theme_minimal() +
+
+  theme(
+
+    plot.title = element_text(size = 12, face = "bold"),
+
+    plot.subtitle = element_text(size = 10, color = "gray40")
+
+  )
+ 
+print(propensity_plot)
+ 
+# Step 9: Model comparison with confidence intervals
+ 
+results_summary <- tibble(
+
+  Model = "Binary Outcome (Main)",
+
+  Method = "DML IRM",
+
+  ATE = ate_est_bin,
+
+  SE = ate_se_bin,
+
+  CI_Lower = ate_ci_bin[1, 1],
+
+  CI_Upper = ate_ci_bin[1, 2],
+
+  P_Value = pval_bin
+
+)
+ 
+ate_plot <- results_summary %>%
+
+  ggplot(aes(x = Model, y = ATE)) +
+
+  geom_point(size = 4, color = "steelblue") +
+
+  geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper), 
+
+                width = 0.2, color = "steelblue", size = 1) +
+
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.5) +
+
+  labs(
+
+    title = "Average Treatment Effect with 95% Confidence Interval",
+
+    y = "ATE (Probability Increase in ED Visit)",
+
+    x = "",
+
+    subtitle = "Effect of Fair/Poor vs. Excellent/Very Good/Good Maternal MH"
+
+  ) +
+
+  theme_minimal() +
+
+  theme(
+
+    plot.title = element_text(size = 12, face = "bold"),
+
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+
+    axis.text = element_text(size = 11),
+
+    axis.title = element_text(size = 11)
+
+  ) +
+
+  coord_flip()
+ 
+print(ate_plot)
+ 
+# Step 10: Save key results for later use
+ 
+cat("\n========== MODEL SAVED FOR SENSITIVITY ANALYSIS ==========\n")
+
+cat("dml_irm_bin object contains:\n")
+
+cat("  - Fitted coefficients and standard errors\n")
+
+cat("  - Confidence intervals\n")
+
+cat("  - Predictions for diagnostics\n")
+
+cat("  - Ready for use in sensitivity analyses\n\n")
+ 
+```
+
+***Figure 7.** Sample R code for estimation strategy – Part 2: Main ATE for ordinal/approximately continuous outcome.*
+
+```{r, eval=TRUE}
+# ============================================================================
+# FIGURE 7: DOUBLE MACHINE LEARNING - PART 2
+# Main ATE Estimation with Ordinal Outcome (ED visit counts: 0/1/2-3/4+)
+# ============================================================================
+
+cat("\n========== DOUBLE MACHINE LEARNING: ORDINAL OUTCOME ==========\n")
+
+# Step 1: Prepare data for DoubleML with ordinal outcome
+# Outcome coded as: 0, 1, 2, 3 representing 0 / 1 / 2-3 / 4+ visits
+
+dml_df_ord <- analysis_df %>%
+  select(all_of(c(outcome_var, treat_var, x_vars_main))) %>%
+  # Convert factors to numeric
+  mutate(
+    across(where(is.factor), as.numeric)
+  ) %>%
+  # Rename for DML (Y = outcome, D = treatment)
+  rename(
+    Y = all_of(outcome_var),
+    D = all_of(treat_var)
+  ) %>%
+  # Verify no missing data
+  drop_na() %>%
+  # CONVERT TO DATA.TABLE - REQUIRED BY DoubleML
+  as.data.table()
+
+cat("Sample size for DML analysis (ordinal outcome):", nrow(dml_df_ord), "\n")
+cat("Treatment prevalence:", round(mean(dml_df_ord$D), 4), "\n")
+cat("Outcome distribution (ED visits):\n")
+
+outcome_dist <- table(dml_df_ord$Y)
+cat("  0 visits:", outcome_dist["0"], "(", 
+    round(100 * outcome_dist["0"] / nrow(dml_df_ord), 1), "%)\n", sep = "")
+cat("  1 visit: ", outcome_dist["1"], "(", 
+    round(100 * outcome_dist["1"] / nrow(dml_df_ord), 1), "%)\n", sep = "")
+cat("  2-3 visits:", outcome_dist["2"], "(", 
+    round(100 * outcome_dist["2"] / nrow(dml_df_ord), 1), "%)\n", sep = "")
+cat("  4+ visits:", outcome_dist["3"], "(", 
+    round(100 * outcome_dist["3"] / nrow(dml_df_ord), 1), "%)\n\n", sep = "")
+
+# Step 2: Create DoubleMLData object for ordinal outcome
+
+dml_data_ord <- DoubleMLData$new(
+  data = dml_df_ord,
+  y_col = "Y",                    # Outcome column (ordinal: 0,1,2,3)
+  d_cols = "D",                   # Treatment column
+  x_cols = x_vars_main            # Covariate columns
+)
+
+cat("DoubleMLData object created successfully.\n")
+cat("Outcome variable: Y (", outcome_var, ") - ordinal scale 0-3\n", sep = "")
+cat("Treatment variable: D (", treat_var, ")\n", sep = "")
+cat("Adjustment set covariates (", length(x_vars_main), "):\n", sep = "")
+cat("  -", paste(x_vars_main, collapse = "\n  - "), "\n\n")
+
+# Step 3: Specify machine learning learners for ordinal outcome
+# For ordinal outcomes, we use PLR (Partialling Out / Frisch-Waugh-Lovell)
+# ml_l: outcome model E[Y | X, D] - treated as approximately continuous
+# ml_m: treatment model (propensity score) P(D = 1 | X)
+
+cat("Specifying machine learning learners for ordinal outcome...\n")
+
+# Outcome model: Random Forest for regression (treats ordinal as continuous)
+ml_l_ord <- lrn("regr.ranger",
+                num.trees = 500,
+                min.node.size = 5,
+                max.depth = 15,
+                mtry = ceiling(sqrt(length(x_vars_main))))
+
+# Treatment model: Random Forest for classification
+ml_m_ord <- lrn("classif.ranger",
+                num.trees = 500,
+                min.node.size = 5,
+                max.depth = 15,
+                predict_type = "prob",
+                mtry = ceiling(sqrt(length(x_vars_main))))
+
+cat("ML learners configured:\n")
+cat("  - Outcome model: Random Forest (Ranger) with", 500, "trees\n")
+cat("    (Treats ordinal outcome as approximately continuous)\n")
+cat("  - Treatment model: Random Forest (Ranger) with", 500, "trees\n\n")
+
+# Step 4: Initialize DoubleML PLR (Partialling Out / Frisch-Waugh-Lovell)
+# PLR is more suitable for continuous/ordinal outcomes
+# Uses 'partialling out' score which is robust to nuisance parameter estimation
+
+cat("Initializing DoubleML PLR model...\n")
+cat("Note: PLR uses the 'partialling out' orthogonality condition,\n")
+cat("which is more robust for continuous/ordinal outcomes.\n\n")
+
+dml_plr_ord <- DoubleMLPLR$new(
+  data = dml_data_ord,
+  ml_l = ml_l_ord,                # Outcome model learner
+  ml_m = ml_m_ord,                # Treatment model learner
+  n_folds = 5,                    # 5-fold cross-fitting
+  n_rep = 1,                      # Single repetition
+  score = "partialling out",      # Partialling out score (recommended for PLR)
+  dml_procedure = "dml2"          # Neyman orthogonality procedure
+)
+
+cat("DML PLR model initialized successfully.\n\n")
+
+# Step 5: Fit the model
+
+cat("Fitting DML PLR model (this may take a minute)...\n")
+
+dml_plr_ord$fit(store_predictions = TRUE)
+
+cat("Model fitted successfully!\n\n")
+
+# Step 6: Extract and display results
+
+cat("========== MAIN RESULTS: ORDINAL OUTCOME ==========\n\n")
+
+# Get summary table
+summary_ord <- dml_plr_ord$summary()
+print(summary_ord)
+
+# Extract key quantities - DIRECTLY FROM MODEL
+ate_est_ord <- dml_plr_ord$coef[1]
+ate_se_ord <- dml_plr_ord$se[1]
+ate_ci_ord <- dml_plr_ord$confint()
+pval_ord <- dml_plr_ord$pval[1]
+
+cat("\n========== INTERPRETED RESULTS ==========\n")
+cat("Average Treatment Effect (ATE):", round(ate_est_ord, 4), "\n")
+cat("Standard Error:", round(ate_se_ord, 4), "\n")
+cat("95% Confidence Interval: [", 
+    round(ate_ci_ord[1, 1], 4), ", ", 
+    round(ate_ci_ord[1, 2], 4), "]\n", sep = "")
+cat("P-value:", round(pval_ord, 4), "\n\n")
+
+# Interpretation
+cat("INTERPRETATION:\n")
+cat("Children of mothers with Fair/Poor mental health are estimated to have\n")
+cat(sprintf("a %.2f ", ate_est_ord),
+    "increase in ED visit count (on the 0-1-2-3 scale)\n")
+cat("in the past 12 months compared to children of mothers with\n")
+cat("Excellent/Very Good/Good mental health, after adjusting for covariates.\n\n")
+
+if (pval_ord < 0.05) {
+  cat("This effect is STATISTICALLY SIGNIFICANT at the 0.05 level.\n")
+} else {
+  cat("This effect is NOT statistically significant at the 0.05 level.\n")
+}
+
+cat("\n")
+
+# Step 7: Create results table
+
+results_tbl_ord <- tibble(
+  Estimand = "Average Treatment Effect (ATE)",
+  Estimate = round(ate_est_ord, 4),
+  Std_Error = round(ate_se_ord, 4),
+  CI_Lower = round(ate_ci_ord[1, 1], 4),
+  CI_Upper = round(ate_ci_ord[1, 2], 4),
+  P_Value = round(pval_ord, 4),
+  Significant = ifelse(pval_ord < 0.05, "Yes***", "No")
+)
+
+cat("========== RESULTS TABLE ==========\n")
+print(results_tbl_ord)
+
+# Step 8: Diagnostic plots
+
+cat("\n========== DIAGNOSTIC PLOTS ==========\n")
+
+# Plot 1: Predicted values vs residuals for outcome model
+predictions_ord <- dml_plr_ord$predictions
+
+pred_resid_plot_ord <- tibble(
+  predicted = predictions_ord$ml_l,
+  residuals = predictions_ord$ml_l - dml_df_ord$Y
+) %>%
+  ggplot(aes(x = predicted, y = residuals)) +
+  geom_point(alpha = 0.3, size = 1.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  geom_smooth(method = "loess", se = FALSE, color = "blue", alpha = 0.5) +
+  labs(
+    title = "Residual Plot: Outcome Model Diagnostics (Ordinal)",
+    x = "Predicted ED Visit Count",
+    y = "Residuals",
+    subtitle = "Should show random scatter around y=0; loess line should be flat"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40")
+  )
+
+print(pred_resid_plot_ord)
+
+# Plot 2: Distribution of residuals
+residual_dist_plot <- tibble(
+  residuals = predictions_ord$ml_l - dml_df_ord$Y
+) %>%
+  ggplot(aes(x = residuals)) +
+  geom_histogram(bins = 50, alpha = 0.7, fill = "steelblue", color = "black") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red", size = 1) +
+  labs(
+    title = "Distribution of Outcome Model Residuals",
+    x = "Residuals",
+    y = "Frequency",
+    subtitle = "Should be approximately symmetric around zero"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40")
+  )
+
+print(residual_dist_plot)
+
+# Plot 3: Treatment propensity score overlap
+propensity_plot_ord <- tibble(
+  propensity = predictions_ord$ml_m,
+  treatment = dml_df_ord$D
+) %>%
+  mutate(treatment = factor(treatment, labels = c("Good MH", "Fair/Poor MH"))) %>%
+  ggplot(aes(x = propensity, fill = treatment)) +
+  geom_histogram(alpha = 0.6, bins = 30, position = "identity") +
+  scale_fill_manual(values = c("steelblue", "firebrick")) +
+  labs(
+    title = "Propensity Score Overlap (Ordinal Analysis)",
+    x = "Estimated Propensity Score P(Fair/Poor MH | X)",
+    y = "Count",
+    fill = "Maternal MH",
+    subtitle = "Histograms should have substantial overlap"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40")
+  )
+
+print(propensity_plot_ord)
+
+# Step 9: Comparison between ordinal and binary results
+
+cat("\n========== COMPARISON WITH BINARY OUTCOME ==========\n")
+
+# Create comparison table
+results_comparison <- tibble(
+  Outcome = c("Binary (Any ED Visit)", "Ordinal (ED Visit Count)"),
+  ATE = c(round(ate_est_bin, 4), round(ate_est_ord, 4)),
+  SE = c(round(ate_se_bin, 4), round(ate_se_ord, 4)),
+  CI_Lower = c(round(ate_ci_bin[1, 1], 4), round(ate_ci_ord[1, 1], 4)),
+  CI_Upper = c(round(ate_ci_bin[1, 2], 4), round(ate_ci_ord[1, 2], 4)),
+  P_Value = c(round(pval_bin, 4), round(pval_ord, 4)),
+  Significant = c(
+    ifelse(pval_bin < 0.05, "Yes***", "No"),
+    ifelse(pval_ord < 0.05, "Yes***", "No")
+  )
+)
+
+cat("\n")
+print(results_comparison)
+
+cat("\nNote: Binary and ordinal outcomes are estimated using different DML methods\n")
+cat("(IRM vs. PLR) and on different scales, so direct comparison requires caution.\n")
+cat("Both should point to similar conclusions if the treatment effect is robust.\n\n")
+
+# Step 10: Create comparison forest plot
+
+comparison_plot <- results_comparison %>%
+  mutate(Outcome = factor(Outcome, levels = rev(unique(Outcome)))) %>%
+  ggplot(aes(x = Outcome, y = ATE)) +
+  geom_point(size = 4, color = "steelblue") +
+  geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper),
+                width = 0.2, color = "steelblue", size = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.5) +
+  labs(
+    title = "Treatment Effects: Binary vs. Ordinal Outcomes",
+    y = "Average Treatment Effect",
+    x = "",
+    subtitle = "Effect of Fair/Poor vs. Excellent/Very Good/Good Maternal MH"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 11)
+  ) +
+  coord_flip()
+
+print(comparison_plot)
+
+# Step 11: Save key results for sensitivity analysis
+
+cat("\n========== MODEL SAVED FOR SENSITIVITY ANALYSIS ==========\n")
+cat("dml_plr_ord object contains:\n")
+cat("  - Fitted coefficients and standard errors\n")
+cat("  - Confidence intervals\n")
+cat("  - Predictions for diagnostics\n")
+cat("  - Ready for use in sensitivity analyses\n\n")
+```
+
+*Inference*
+
+The code in **Figure 8** extracts key inferential quantities from the fitted DML model, including the ATE, its standard error, and the corresponding confidence interval. These summarize the magnitude and statistical uncertainty of the estimated effect of maternal MH on pediatric ED utilization.
+
+***Figure 8.** Inference estimation and results summary.*
+
+```{r, eval=TRUE}
+# ============================================================================
+# FIGURE 8: INFERENCE ESTIMATION
+# Extract and Summarize Main Results from Both DML Models
+# ============================================================================
+
+cat("\n========== COMPREHENSIVE INFERENCE SUMMARY ==========\n\n")
+
+# Step 1: Extract main quantities from the binary outcome DML model
+
+cat("EXTRACTING RESULTS FROM BINARY OUTCOME MODEL (IRM)\n")
+cat("=" %>% strrep(60), "\n\n")
+
+ate_est_bin <- dml_irm_bin$coef[1]
+ate_se_bin <- dml_irm_bin$se[1]
+ate_ci_bin <- dml_irm_bin$confint()
+ate_pval_bin <- dml_irm_bin$pval[1]
+
+# Calculate t-statistic manually from estimate and SE
+ate_tstat_bin <- ate_est_bin / ate_se_bin
+
+cat("Point Estimate (ATE):", round(ate_est_bin, 6), "\n")
+cat("Standard Error:", round(ate_se_bin, 6), "\n")
+cat("95% CI Lower:", round(ate_ci_bin[1, 1], 6), "\n")
+cat("95% CI Upper:", round(ate_ci_bin[1, 2], 6), "\n")
+cat("t-statistic:", round(ate_tstat_bin, 4), "\n")
+cat("p-value:", round(ate_pval_bin, 6), "\n\n")
+
+results_tbl_bin <- tibble(
+  Model = "Binary Outcome (IRM)",
+  Estimate = ate_est_bin,
+  Std_Error = ate_se_bin,
+  CI_Lower = ate_ci_bin[1, 1],
+  CI_Upper = ate_ci_bin[1, 2],
+  t_Stat = ate_tstat_bin,
+  P_Value = ate_pval_bin,
+  Significant = ifelse(ate_pval_bin < 0.05, "Yes***", "No")
+)
+
+# Step 2: Extract main quantities from the ordinal outcome DML model
+
+cat("EXTRACTING RESULTS FROM ORDINAL OUTCOME MODEL (PLR)\n")
+cat("=" %>% strrep(60), "\n\n")
+
+ate_est_ord <- dml_plr_ord$coef[1]
+ate_se_ord <- dml_plr_ord$se[1]
+ate_ci_ord <- dml_plr_ord$confint()
+ate_pval_ord <- dml_plr_ord$pval[1]
+
+# Calculate t-statistic manually from estimate and SE
+ate_tstat_ord <- ate_est_ord / ate_se_ord
+
+cat("Point Estimate (ATE):", round(ate_est_ord, 6), "\n")
+cat("Standard Error:", round(ate_se_ord, 6), "\n")
+cat("95% CI Lower:", round(ate_ci_ord[1, 1], 6), "\n")
+cat("95% CI Upper:", round(ate_ci_ord[1, 2], 6), "\n")
+cat("t-statistic:", round(ate_tstat_ord, 4), "\n")
+cat("p-value:", round(ate_pval_ord, 6), "\n\n")
+
+results_tbl_ord <- tibble(
+  Model = "Ordinal Outcome (PLR)",
+  Estimate = ate_est_ord,
+  Std_Error = ate_se_ord,
+  CI_Lower = ate_ci_ord[1, 1],
+  CI_Upper = ate_ci_ord[1, 2],
+  t_Stat = ate_tstat_ord,
+  P_Value = ate_pval_ord,
+  Significant = ifelse(ate_pval_ord < 0.05, "Yes***", "No")
+)
+
+# Step 3: Combine both results into master results table
+
+cat("COMBINED RESULTS TABLE\n")
+cat("=" %>% strrep(60), "\n\n")
+
+results_master <- bind_rows(results_tbl_bin, results_tbl_ord) %>%
+  mutate(
+    across(where(is.numeric), ~round(., 6))
+  )
+
+print(results_master)
+
+# Step 4: Effect size interpretation
+
+cat("\n\nEFFECT SIZE INTERPRETATION\n")
+cat("=" %>% strrep(60), "\n\n")
+
+cat("BINARY OUTCOME (Any ED Visit):\n")
+cat("  Treatment Effect:", round(ate_est_bin, 4), "\n")
+cat("  Interpretation: Children of mothers with Fair/Poor mental health have a\n")
+cat("                  ", sprintf("%.2f%%", ate_est_bin * 100), 
+    " (or ", round(ate_est_bin, 4), " percentage point)\n", sep = "")
+cat("                  higher probability of any ED visit compared to children\n")
+cat("                  of mothers with Excellent/Very Good/Good mental health.\n")
+cat("  95% CI:        [", sprintf("%.2f%%", ate_ci_bin[1, 1] * 100), ", ", 
+    sprintf("%.2f%%", ate_ci_bin[1, 2] * 100), "]\n\n", sep = "")
+
+cat("ORDINAL OUTCOME (ED Visit Count):\n")
+cat("  Treatment Effect:", round(ate_est_ord, 4), "units\n")
+cat("  Interpretation: Children of mothers with Fair/Poor mental health have\n")
+cat("                  ", sprintf("%.4f", ate_est_ord), " additional ED visits (on 0-3 scale)\n", sep = "")
+cat("                  compared to children of mothers with Excellent/Very Good/Good MH.\n")
+cat("  95% CI:        [", sprintf("%.4f", ate_ci_ord[1, 1]), ", ", 
+    sprintf("%.4f", ate_ci_ord[1, 2]), "]\n\n", sep = "")
+
+# Step 5: Statistical significance assessment
+
+cat("STATISTICAL SIGNIFICANCE ASSESSMENT\n")
+cat("=" %>% strrep(60), "\n\n")
+
+if (ate_pval_bin < 0.001) {
+  sig_bin <- "Highly significant (p < 0.001)"
+} else if (ate_pval_bin < 0.01) {
+  sig_bin <- "Very significant (p < 0.01)"
+} else if (ate_pval_bin < 0.05) {
+  sig_bin <- "Significant (p < 0.05)"
+} else if (ate_pval_bin < 0.10) {
+  sig_bin <- "Marginally significant (0.05 < p < 0.10)"
+} else {
+  sig_bin <- "Not statistically significant (p >= 0.10)"
+}
+
+if (ate_pval_ord < 0.001) {
+  sig_ord <- "Highly significant (p < 0.001)"
+} else if (ate_pval_ord < 0.01) {
+  sig_ord <- "Very significant (p < 0.01)"
+} else if (ate_pval_ord < 0.05) {
+  sig_ord <- "Significant (p < 0.05)"
+} else if (ate_pval_ord < 0.10) {
+  sig_ord <- "Marginally significant (0.05 < p < 0.10)"
+} else {
+  sig_ord <- "Not statistically significant (p >= 0.10)"
+}
+
+cat("Binary Outcome Result:  ", sig_bin, "\n")
+cat("Ordinal Outcome Result: ", sig_ord, "\n\n")
+
+# Step 6: Create comprehensive results figure
+
+cat("COMPREHENSIVE FOREST PLOT\n")
+cat("=" %>% strrep(60), "\n\n")
+
+# Standardize for comparison: convert ordinal to probability scale
+ate_est_ord_std <- ate_est_ord / 3  # Ordinal range is 0-3
+ate_se_ord_std <- ate_se_ord / 3
+ate_ci_ord_std <- ate_ci_ord / 3
+
+forest_data <- tibble(
+  Model = c("Binary Outcome\n(Any ED Visit)", "Ordinal Outcome\n(ED Visit Count)"),
+  ATE = c(ate_est_bin, ate_est_ord_std),
+  SE = c(ate_se_bin, ate_se_ord_std),
+  CI_Lower = c(ate_ci_bin[1, 1], ate_ci_ord_std[1, 1]),
+  CI_Upper = c(ate_ci_bin[1, 2], ate_ci_ord_std[1, 2]),
+  P_Value = c(ate_pval_bin, ate_pval_ord),
+  Method = c("IRM", "PLR (scaled)")
+)
+
+forest_plot <- forest_data %>%
+  mutate(
+    Significant = ifelse(P_Value < 0.05, "Significant", "Not Significant"),
+    Model = factor(Model, levels = rev(unique(Model)))
+  ) %>%
+  ggplot(aes(x = Model, y = ATE, color = Significant)) +
+  geom_point(size = 5, position = position_dodge(width = 0.3)) +
+  geom_errorbar(
+    aes(ymin = CI_Lower, ymax = CI_Upper),
+    width = 0.2,
+    size = 1,
+    position = position_dodge(width = 0.3)
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black", 
+             alpha = 0.3, size = 1) +
+  scale_color_manual(
+    values = c("Significant" = "darkgreen", "Not Significant" = "gray50")
+  ) +
+  labs(
+    title = "Double Machine Learning: Main Results",
+    subtitle = "Effect of Fair/Poor vs. Excellent/Very Good/Good Maternal Mental Health\non Pediatric ED Utilization",
+    y = "Average Treatment Effect (ATE)",
+    x = "Outcome Specification",
+    color = "Significance\n(α = 0.05)",
+    caption = "Ordinal outcome scaled to 0-1 for visual comparison"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 11, color = "gray40", margin = margin(b = 10)),
+    plot.caption = element_text(size = 9, color = "gray60", hjust = 0),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 12),
+    legend.position = "right",
+    panel.grid.major.y = element_line(color = "gray90", size = 0.3)
+  ) +
+  coord_flip()
+
+print(forest_plot)
+
+# Step 7: Create summary table for publication
+
+cat("\n\nPUBLICATION-READY RESULTS TABLE\n")
+cat("=" %>% strrep(60), "\n\n")
+
+publication_table <- tibble(
+  Outcome = c("Any ED Visit (Binary)", "ED Visit Count (Ordinal)"),
+  DML_Method = c("Interactive Regression Model (IRM)", "Partialling Out (PLR)"),
+  ATE = c(
+    sprintf("%.4f", ate_est_bin),
+    sprintf("%.4f", ate_est_ord)
+  ),
+  `95% CI` = c(
+    sprintf("[%.4f, %.4f]", ate_ci_bin[1, 1], ate_ci_bin[1, 2]),
+    sprintf("[%.4f, %.4f]", ate_ci_ord[1, 1], ate_ci_ord[1, 2])
+  ),
+  `p-value` = c(
+    sprintf("%.4f", ate_pval_bin),
+    sprintf("%.4f", ate_pval_ord)
+  ),
+  Conclusion = c(
+    ifelse(ate_pval_bin < 0.05, "Significant", "Not Significant"),
+    ifelse(ate_pval_ord < 0.05, "Significant", "Not Significant")
+  )
+)
+
+print(publication_table)
+
+# Step 8: Create detailed interpretation document
+
+cat("\n\nDETAILED INTERPRETATION\n")
+cat("=" %>% strrep(60), "\n\n")
+
+cat("PRIMARY FINDING (Binary Outcome):\n")
+cat("-" %>% strrep(60), "\n")
+cat("The effect of maternal Fair/Poor mental health on any ED visit is:\n")
+cat("  Estimate: ", sprintf("%.4f", ate_est_bin), "\n", sep = "")
+cat("  SE: ", sprintf("%.4f", ate_se_bin), "\n", sep = "")
+cat("  95% CI: [", sprintf("%.4f", ate_ci_bin[1, 1]), ", ", 
+    sprintf("%.4f", ate_ci_bin[1, 2]), "]\n", sep = "")
+cat("  p-value: ", sprintf("%.4f", ate_pval_bin), "\n\n", sep = "")
+
+cat("ROBUSTNESS CHECK (Ordinal Outcome):\n")
+cat("-" %>% strrep(60), "\n")
+cat("Using the ordinal outcome as a robustness check yields:\n")
+cat("  Estimate: ", sprintf("%.4f", ate_est_ord), " units on 0-3 scale\n", sep = "")
+cat("  SE: ", sprintf("%.4f", ate_se_ord), "\n", sep = "")
+cat("  95% CI: [", sprintf("%.4f", ate_ci_ord[1, 1]), ", ", 
+    sprintf("%.4f", ate_ci_ord[1, 2]), "]\n", sep = "")
+cat("  p-value: ", sprintf("%.4f", ate_pval_ord), "\n\n", sep = "")
+
+cat("CONCLUSION:\n")
+cat("-" %>% strrep(60), "\n")
+
+if (ate_pval_bin < 0.05 && ate_pval_ord < 0.05) {
+  cat("Both outcome specifications yield statistically significant results at α = 0.05.\n")
+  cat("The results are ROBUST across different outcome operationalizations.\n")
+} else if (ate_pval_bin < 0.05 || ate_pval_ord < 0.05) {
+  cat("Results differ across outcome specifications:\n")
+  if (ate_pval_bin < 0.05) {
+    cat("  - Binary outcome: SIGNIFICANT\n")
+  } else {
+    cat("  - Binary outcome: NOT SIGNIFICANT\n")
+  }
+  if (ate_pval_ord < 0.05) {
+    cat("  - Ordinal outcome: SIGNIFICANT\n")
+  } else {
+    cat("  - Ordinal outcome: NOT SIGNIFICANT\n")
+  }
+  cat("Further investigation and sensitivity analysis recommended.\n")
+} else {
+  cat("Neither outcome specification yields statistically significant results.\n")
+  cat("Insufficient evidence to conclude maternal MH affects ED utilization.\n")
+}
+
+cat("\n")
+
+# Step 9: Save results for export
+
+cat("RESULTS OBJECTS CREATED\n")
+cat("=" %>% strrep(60), "\n\n")
+
+cat("Available for use in downstream analyses:\n")
+cat("  - results_master: Master results table (both models)\n")
+cat("  - results_tbl_bin: Binary outcome results\n")
+cat("  - results_tbl_ord: Ordinal outcome results\n")
+cat("  - publication_table: Publication-ready format\n")
+cat("  - forest_data: Data for forest plots\n")
+cat("  - dml_irm_bin: Fitted binary model object\n")
+cat("  - dml_plr_ord: Fitted ordinal model object\n\n")
+
+# Step 10: Model specification summary
+
+cat("MODEL SPECIFICATIONS USED\n")
+cat("=" %>% strrep(60), "\n\n")
+
+model_spec <- tibble(
+  Component = c("Sample Size", "Treatment Variable", "Treatment Prevalence",
+                "Outcome Variable (Binary)", "Outcome Prevalence",
+                "Outcome Variable (Ordinal)", "Adjustment Set Size",
+                "DML Method (Binary)", "DML Method (Ordinal)",
+                "Machine Learner (Outcome)", "Machine Learner (Treatment)",
+                "Cross-Fitting Folds", "Significance Level"),
+  Specification = c(
+    paste(nrow(analysis_df), "observations"),
+    "Maternal MH (Fair/Poor = 1, Good = 0)",
+    paste0(sprintf("%.2f%%", 100 * mean(analysis_df$maternal_mh_fp))),
+    "Any ED Visit (0/1)",
+    paste0(sprintf("%.2f%%", 100 * mean(analysis_df$any_ed_visit))),
+    "ED Visit Count (0, 1, 2, 3)",
+    paste(length(x_vars_main), "covariates"),
+    "Interactive Regression Model (IRM)",
+    "Partialling Out / Frisch-Waugh-Lovell (PLR)",
+    "Random Forest (Ranger, 500 trees)",
+    "Random Forest (Ranger, 500 trees)",
+    "5-fold cross-fitting",
+    "α = 0.05"
+  )
+)
+
+print(model_spec)
+
+cat("\n========== END OF INFERENCE SECTION ==========\n\n")
+```
+
+## HTE Analysis Plan
+
+To examine whether the effect of maternal MH on pediatric ED utilization varies across subpopulations, we will conduct analyses of HTEs within the DML framework. Specifically, we will estimate subgroup-specific ATEs by fitting the primary DML IRM separately within levels of selected subgroup variables.  
+
+We will evaluate heterogeneity across three a priori subgroup dimensions motivated by theory and prior literature: child health status (poor, fair, good, very good, excellent), household socioeconomic status as measured by FPL category (0-99% FPL, 100-199% FPL, 200-399% FPL, ≥400% FPL), and family structure (single- versus multi-parent structure). For child health status specifically, we will estimate subgroup-specific effects with both dichotomized (poor/fair versus good/very good/excellent) and ordinal versions of child health status. For each subgroup level, we will subset the analytic sample, retain the primary outcome, treatment, and main covariate set, and estimate the ATE of maternal MH on pediatric ED utilization using the same DML specification as the primary analysis.  
+
+Within each subgroup-specific model, we will use the IRM formulation of DML with 5-fold cross-fitting and random forest learners for both the outcome model and treatment model. For each subgroup level, we will report the estimated effect, standard error, 95% confidence interval, and subgroup sample size. Heterogeneity will be assessed descriptively by comparing the magnitude, direction, and precision of effect estimates across subgroup levels.  
+
+These analyses are intended to assess whether the estimated effect of maternal MH is stronger among more vulnerable populations, including children in poorer health, children in lower-income households, and children in single-parent family structures. Because child health status may plausibly function as both an effect modifier and a mediator, heterogeneity analyses involving child health will be interpreted cautiously as exploratory.  
+
+***Figure 9.** Sample R code for HTE analysis.*
+
+```{r, eval=TRUE}
+# ============================================================================
+# FIGURE 9: HETEROGENEOUS TREATMENT EFFECTS (HTE) ANALYSIS
+# Examine whether treatment effects vary across key subgroups
+# ============================================================================
+
+cat("\n========== HETEROGENEOUS TREATMENT EFFECTS (HTE) ANALYSIS ==========\n\n")
+
+# Step 1: Define function to estimate subgroup-specific ATEs
+
+cat("Defining function to estimate subgroup-specific treatment effects...\n\n")
+
+estimate_subgroup_ate <- function(data, 
+                                  subgroup_var, 
+                                  subgroup_level,
+                                  outcome_name, 
+                                  treat_name, 
+                                  x_names,
+                                  method = "binary") {
+  
+  # Filter to subgroup
+  sub_df <- data %>%
+    filter(.data[[subgroup_var]] == subgroup_level) %>%
+    select(all_of(c(outcome_name, treat_name, x_names))) %>%
+    drop_na() %>%
+    mutate(
+      # Convert factors to numeric
+      across(where(is.factor), as.numeric)
+    ) %>%
+    rename(
+      Y = all_of(outcome_name),
+      D = all_of(treat_name)
+    ) %>%
+    # CONVERT TO DATA.TABLE - REQUIRED BY DoubleML
+    as.data.table()
+  
+  # Skip if subgroup too small
+  n_sub <- nrow(sub_df)
+  if (n_sub < 50) {
+    warning(paste("Subgroup", subgroup_level, "has only", n_sub, "observations"))
+    return(NULL)
+  }
+  
+  # Create DML data object
+  dml_data <- DoubleMLData$new(
+    data = sub_df,
+    y_col = "Y",
+    d_cols = "D",
+    x_cols = x_names
+  )
+  
+  # Specify learners
+  ml_g <- lrn("regr.ranger", num.trees = 300, min.node.size = 10)
+  ml_m <- lrn("classif.ranger", num.trees = 300, min.node.size = 10, 
+              predict_type = "prob")
+  
+  # Fit appropriate model
+  if (method == "binary") {
+    fit <- DoubleMLIRM$new(
+      data = dml_data,
+      ml_g = ml_g,
+      ml_m = ml_m,
+      n_folds = 5,
+      score = "ATE"
+    )
+  } else {
+    fit <- DoubleMLPLR$new(
+      data = dml_data,
+      ml_l = ml_g,
+      ml_m = ml_m,
+      n_folds = 5,
+      score = "partialling out"
+    )
+  }
+  
+  # Fit model
+  tryCatch(
+    {
+      fit$fit()
+      
+      # Extract results - get p-value directly from model
+      p_val <- fit$pval[1]
+      
+      # Extract results
+      results <- tibble(
+        subgroup = subgroup_var,
+        level = as.character(subgroup_level),
+        estimate = fit$coef[1],
+        std_error = fit$se[1],
+        ci_lower = fit$confint()[1, 1],
+        ci_upper = fit$confint()[1, 2],
+        p_value = p_val,
+        n = n_sub,
+        significant = ifelse(p_val < 0.05, "Yes", "No")
+      )
+      
+      return(results)
+    },
+    error = function(e) {
+      warning(paste("Error fitting model for", subgroup_var, "=", subgroup_level, ":", e$message))
+      return(NULL)
+    }
+  )
+}
+
+cat("Function defined successfully.\n\n")
+
+# Step 2: HTE by Child Health Status
+
+cat("=" %>% strrep(70), "\n")
+cat("HTE ANALYSIS 1: BY CHILD HEALTH STATUS\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Hypothesis: Treatment effect should be stronger among children in poorer health.\n\n")
+
+# Get unique levels of child health status
+child_health_levels <- unique(analysis_df$child_health_status)
+
+cat("Estimating subgroup effects for child health status levels:\n")
+cat("  Levels:", paste(child_health_levels, collapse = ", "), "\n\n")
+
+# Estimate effects for each level
+hte_child_health <- map_dfr(
+  child_health_levels,
+  ~estimate_subgroup_ate(
+    data = analysis_df,
+    subgroup_var = "child_health_status",
+    subgroup_level = .x,
+    outcome_name = outcome_binary_var,
+    treat_name = treat_var,
+    x_names = x_vars_main,
+    method = "binary"
+  )
+)
+
+# Remove any NULL results
+hte_child_health <- hte_child_health %>%
+  filter(!is.na(estimate))
+
+cat("Results by Child Health Status:\n")
+print(hte_child_health)
+
+# Create visualization for child health HTE
+hte_ch_plot <- hte_child_health %>%
+  mutate(level = factor(level, 
+                        levels = c("Excellent", "Very Good", "Good", "Fair", "Poor"),
+                        ordered = TRUE)) %>%
+  arrange(level) %>%
+  ggplot(aes(x = level, y = estimate, color = significant)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), 
+                width = 0.2, size = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black", alpha = 0.3) +
+  scale_color_manual(values = c("Yes" = "darkgreen", "No" = "gray50")) +
+  labs(
+    title = "HTE by Child Health Status",
+    subtitle = "Does treatment effect vary by child's overall health?",
+    x = "Child Health Status",
+    y = "Average Treatment Effect",
+    color = "Significant\n(p < 0.05)",
+    caption = paste("n ranges from", min(hte_child_health$n), "to", max(hte_child_health$n))
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(hte_ch_plot)
+
+cat("\nInterpretation: ", nrow(hte_child_health), " subgroups analyzed.\n")
+cat("Significant effects found in ", 
+    sum(hte_child_health$significant == "Yes"), " subgroups.\n\n", sep = "")
+
+# Step 3: HTE by Federal Poverty Level (FPL) Category
+
+cat("=" %>% strrep(70), "\n")
+cat("HTE ANALYSIS 2: BY FEDERAL POVERTY LEVEL (FPL) CATEGORY\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Hypothesis: Treatment effect should be stronger in lower-income households.\n\n")
+
+# Get unique levels of FPL category
+fpl_levels <- unique(analysis_df$fpl_cat)
+
+cat("Estimating subgroup effects for FPL categories:\n")
+cat("  Levels:", paste(fpl_levels, collapse = ", "), "\n\n")
+
+# Estimate effects for each level
+hte_fpl <- map_dfr(
+  fpl_levels,
+  ~estimate_subgroup_ate(
+    data = analysis_df,
+    subgroup_var = "fpl_cat",
+    subgroup_level = .x,
+    outcome_name = outcome_binary_var,
+    treat_name = treat_var,
+    x_names = x_vars_main,
+    method = "binary"
+  )
+)
+
+# Remove any NULL results
+hte_fpl <- hte_fpl %>%
+  filter(!is.na(estimate))
+
+cat("Results by FPL Category:\n")
+print(hte_fpl)
+
+# Create visualization for FPL HTE
+hte_fpl_plot <- hte_fpl %>%
+  mutate(level = factor(level, 
+                        levels = c("<100%", "100-200%", "200-400%", ">=400%"),
+                        ordered = TRUE)) %>%
+  arrange(level) %>%
+  ggplot(aes(x = level, y = estimate, color = significant)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), 
+                width = 0.2, size = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black", alpha = 0.3) +
+  scale_color_manual(values = c("Yes" = "darkgreen", "No" = "gray50")) +
+  labs(
+    title = "HTE by Federal Poverty Level",
+    subtitle = "Does treatment effect vary by household income?",
+    x = "Federal Poverty Level Category",
+    y = "Average Treatment Effect",
+    color = "Significant\n(p < 0.05)",
+    caption = paste("n ranges from", min(hte_fpl$n), "to", max(hte_fpl$n))
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(hte_fpl_plot)
+
+cat("\nInterpretation: ", nrow(hte_fpl), " subgroups analyzed.\n")
+cat("Significant effects found in ", 
+    sum(hte_fpl$significant == "Yes"), " subgroups.\n", sep = "")
+
+# Check for income gradient (is effect stronger at lower income levels?)
+fpl_order <- c("<100%", "100-200%", "200-400%", ">=400%")
+hte_fpl_ordered <- hte_fpl %>%
+  mutate(level = factor(level, levels = fpl_order, ordered = TRUE)) %>%
+  arrange(level)
+
+if (nrow(hte_fpl_ordered) > 1) {
+  effect_gradient <- cor(as.numeric(hte_fpl_ordered$level), hte_fpl_ordered$estimate)
+  cat("Correlation between income level and effect size:", round(effect_gradient, 3), "\n")
+  if (effect_gradient < 0) {
+    cat("Interpretation: Effects are STRONGER at LOWER income levels (as hypothesized)\n")
+  } else {
+    cat("Interpretation: Effects are WEAKER at LOWER income levels (contrary to hypothesis)\n")
+  }
+}
+cat("\n")
+
+# Step 4: HTE by Family Structure
+
+cat("=" %>% strrep(70), "\n")
+cat("HTE ANALYSIS 3: BY FAMILY STRUCTURE\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Hypothesis: Family structure modifies the relationship between maternal MH and ED use.\n\n")
+
+# Get unique levels of family structure
+family_levels <- unique(analysis_df$family_structure)
+
+cat("Estimating subgroup effects for family structure types:\n")
+cat("  Levels:", paste(family_levels, collapse = ", "), "\n\n")
+
+# Estimate effects for each level
+hte_family <- map_dfr(
+  family_levels,
+  ~estimate_subgroup_ate(
+    data = analysis_df,
+    subgroup_var = "family_structure",
+    subgroup_level = .x,
+    outcome_name = outcome_binary_var,
+    treat_name = treat_var,
+    x_names = x_vars_main,
+    method = "binary"
+  )
+)
+
+# Remove any NULL results
+hte_family <- hte_family %>%
+  filter(!is.na(estimate))
+
+cat("Results by Family Structure:\n")
+print(hte_family)
+
+# Create visualization for family structure HTE
+hte_family_plot <- hte_family %>%
+  ggplot(aes(x = level, y = estimate, color = significant)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), 
+                width = 0.2, size = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black", alpha = 0.3) +
+  scale_color_manual(values = c("Yes" = "darkgreen", "No" = "gray50")) +
+  labs(
+    title = "HTE by Family Structure",
+    subtitle = "Does treatment effect differ by family composition?",
+    x = "Family Structure",
+    y = "Average Treatment Effect",
+    color = "Significant\n(p < 0.05)",
+    caption = paste("n ranges from", min(hte_family$n), "to", max(hte_family$n))
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(hte_family_plot)
+
+cat("\nInterpretation: ", nrow(hte_family), " subgroups analyzed.\n")
+cat("Significant effects found in ", 
+    sum(hte_family$significant == "Yes"), " subgroups.\n\n", sep = "")
+
+# Step 5: Combine all HTE results into master table
+
+cat("=" %>% strrep(70), "\n")
+cat("COMPREHENSIVE HTE SUMMARY TABLE\n")
+cat("=" %>% strrep(70), "\n\n")
+
+hte_master <- bind_rows(
+  hte_child_health %>% mutate(Variable = "Child Health Status"),
+  hte_fpl %>% mutate(Variable = "Federal Poverty Level"),
+  hte_family %>% mutate(Variable = "Family Structure")
+) %>%
+  select(Variable, Level = level, N = n, Estimate = estimate, 
+         SE = std_error, CI_Lower = ci_lower, CI_Upper = ci_upper, 
+         P_Value = p_value, Significant = significant) %>%
+  mutate(
+    across(c(Estimate, SE, CI_Lower, CI_Upper, P_Value), 
+           ~round(., 6))
+  )
+
+print(hte_master)
+
+# Step 6: Create combined forest plot across all subgroups
+
+cat("\n\nCOMBINED FOREST PLOT: ALL SUBGROUPS\n")
+cat("=" %>% strrep(70), "\n\n")
+
+hte_combined_plot <- bind_rows(
+  hte_child_health %>% 
+    mutate(Variable = "Child Health\nStatus"),
+  hte_fpl %>% 
+    mutate(Variable = "Federal\nPoverty Level"),
+  hte_family %>% 
+    mutate(Variable = "Family\nStructure")
+) %>%
+  mutate(
+    subgroup_label = paste0(Variable, ": ", level),
+    subgroup_label = fct_reorder(subgroup_label, estimate)
+  ) %>%
+  ggplot(aes(x = subgroup_label, y = estimate, color = significant)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), 
+                width = 0.15, size = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black", alpha = 0.3) +
+  scale_color_manual(values = c("Yes" = "darkgreen", "No" = "gray50")) +
+  labs(
+    title = "Heterogeneous Treatment Effects Across All Subgroups",
+    subtitle = "Effect of Fair/Poor vs. Excellent/Very Good/Good Maternal MH\non Probability of Any ED Visit",
+    x = "Subgroup",
+    y = "Average Treatment Effect",
+    color = "Significant\n(p < 0.05)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text.y = element_text(size = 10),
+    axis.title = element_text(size = 11),
+    panel.grid.major.x = element_line(color = "gray90")
+  ) +
+  coord_flip()
+
+print(hte_combined_plot)
+
+# Step 7: Test for treatment effect heterogeneity
+
+cat("\n\nTEST FOR TREATMENT EFFECT HETEROGENEITY\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Hypothesis Testing: Is there evidence of effect modification?\n\n")
+
+# Simple test: Do confidence intervals overlap between subgroups?
+if (nrow(hte_child_health) > 0) {
+  cat("Child Health Status:\n")
+  cat("  Range of estimates:", 
+      round(min(hte_child_health$estimate), 4), "to", 
+      round(max(hte_child_health$estimate), 4), "\n")
+  cat("  Range of 95% CIs: [", 
+      round(min(hte_child_health$ci_lower), 4), ", ",
+      round(max(hte_child_health$ci_upper), 4), "]\n")
+  
+  ch_min_ci <- min(hte_child_health$ci_lower)
+  ch_max_ci <- max(hte_child_health$ci_upper)
+  if (ch_min_ci < ch_max_ci) {
+    cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
+  } else {
+    cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+  }
+  cat("\n")
+}
+
+if (nrow(hte_fpl) > 0) {
+  cat("Federal Poverty Level:\n")
+  cat("  Range of estimates:", 
+      round(min(hte_fpl$estimate), 4), "to", 
+      round(max(hte_fpl$estimate), 4), "\n")
+  cat("  Range of 95% CIs: [", 
+      round(min(hte_fpl$ci_lower), 4), ", ",
+      round(max(hte_fpl$ci_upper), 4), "]\n")
+  
+  fpl_min_ci <- min(hte_fpl$ci_lower)
+  fpl_max_ci <- max(hte_fpl$ci_upper)
+  if (fpl_min_ci < fpl_max_ci) {
+    cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
+  } else {
+    cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+  }
+  cat("\n")
+}
+
+if (nrow(hte_family) > 0) {
+  cat("Family Structure:\n")
+  cat("  Range of estimates:", 
+      round(min(hte_family$estimate), 4), "to", 
+      round(max(hte_family$estimate), 4), "\n")
+  cat("  Range of 95% CIs: [", 
+      round(min(hte_family$ci_lower), 4), ", ",
+      round(max(hte_family$ci_upper), 4), "]\n")
+  
+  family_min_ci <- min(hte_family$ci_lower)
+  family_max_ci <- max(hte_family$ci_upper)
+  if (family_min_ci < family_max_ci) {
+    cat("  CIs overlap: YES - Limited evidence of heterogeneity\n")
+  } else {
+    cat("  CIs overlap: NO - Some evidence of heterogeneity\n")
+  }
+}
+
+cat("\n")
+
+# Step 8: Summary of HTE findings
+
+cat("=" %>% strrep(70), "\n")
+cat("HTE ANALYSIS SUMMARY\n")
+cat("=" %>% strrep(70), "\n\n")
+
+hte_summary <- tibble(
+  Variable = c("Child Health Status", "Federal Poverty Level", "Family Structure"),
+  N_Subgroups = c(nrow(hte_child_health), nrow(hte_fpl), nrow(hte_family)),
+  N_Significant = c(
+    sum(hte_child_health$significant == "Yes"),
+    sum(hte_fpl$significant == "Yes"),
+    sum(hte_family$significant == "Yes")
+  ),
+  Effect_Range = c(
+    paste0("[", round(min(hte_child_health$estimate), 4), ", ",
+           round(max(hte_child_health$estimate), 4), "]"),
+    paste0("[", round(min(hte_fpl$estimate), 4), ", ",
+           round(max(hte_fpl$estimate), 4), "]"),
+    paste0("[", round(min(hte_family$estimate), 4), ", ",
+           round(max(hte_family$estimate), 4), "]")
+  ),
+  Hypothesis_Supported = c("To be determined", "To be determined", "To be determined")
+)
+
+print(hte_summary)
+
+cat("\n\nKey Findings:\n")
+cat("1. Child Health Status: ", nrow(hte_child_health), " subgroups analyzed\n", sep = "")
+cat("2. Federal Poverty Level: ", nrow(hte_fpl), " subgroups analyzed\n", sep = "")
+cat("3. Family Structure: ", nrow(hte_family), " subgroups analyzed\n", sep = "")
+cat("4. Total subgroup analyses conducted: ", 
+    nrow(hte_child_health) + nrow(hte_fpl) + nrow(hte_family), "\n\n", sep = "")
+
+cat("========== END OF HTE ANALYSIS SECTION ==========\n\n")
+```
+
+## Sensitivity Analysis Plan
+
+To assess the robustness of our findings, we will conduct several sensitivity analyses that examine whether estimated effects are consistent across alternative modeling choices and assumptions.  
+
+First, we will compare results across alternative exposure specifications. In the primary analysis, maternal MH is modeled as a binary outcome. As a sensitivity check, we will re-estimate the effect using an ordinal-coded version of the outcome (i.e., keeping the original variable structure of poor, fair, good, very good, excellent). Comparing estimates across these specifications will help assess whether results are sensitive to how maternal MH is operationalized.  
+
+Second, we will re-fit the primary DML model using an expanded covariate set that includes child health status. As noted in the identification strategy, child health may plausibly function as either a confounder or a mediator in the relationship between maternal MH and pediatric ED utilization. Because of this dual role, child health is excluded from the primary adjustment set. However, including it in a sensitivity analysis will allow us to examine whether the estimated effect is substantively altered when adjusting for this potentially important variable.  
+
+Third, we will assess the robustness of results to the overlap assumption by restricting the analytic sample to observations in the common-support region. Specifically, we will trim observations with estimated propensity scores below 0.01 or above 0.99 and re-estimate the model in the trimmed sample. This analysis will help determine whether the primary findings are driven by observations with very limited comparability across levels of maternal MH status.  
+
+Finally, we will summarize and compare estimates, standard errors, and confidence intervals across the primary and sensitivity specifications. Consistency in the direction and magnitude of estimates across these models will strengthen confidence in the robustness of the findings, whereas meaningful differences will be interpreted as evidence that results may be sensitive to outcome specification, covariate adjustment, or limited overlap.
+
+***Figure 10.** Sample R code for sensitivity analysis.*
+
+```{r, eval=TRUE}
+# ============================================================================
+# FIGURE 10: SENSITIVITY ANALYSIS PLAN
+# Robustness checks across alternative specifications and sample restrictions
+# ============================================================================
+
+cat("\n========== SENSITIVITY ANALYSIS ==========\n\n")
+
+# Sensitivity covariates (EXPANDED SET)
+x_vars_sens <- c(
+  x_vars_main,
+  "child_health_status"
+)
+
+# Step 1: Compare main outcome specifications (already fit)
+
+cat("=" %>% strrep(70), "\n")
+cat("SENSITIVITY ANALYSIS 1: OUTCOME SPECIFICATION COMPARISON\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Testing robustness across two outcome operationalizations:\n")
+cat("  1. Binary: Any ED visit (0/1)\n")
+cat("  2. Ordinal: ED visit count (0, 1, 2-3, 4+)\n\n")
+
+# Extract results directly from models (not from summary)
+pval_bin_main <- dml_irm_bin$pval[1]
+pval_ord_main <- dml_plr_ord$pval[1]
+
+specification_comparison <- tibble(
+  Specification = c("Binary Outcome (IRM)", "Ordinal Outcome (PLR)"),
+  Method = c("Interactive Regression Model", "Partialling Out"),
+  Estimate = c(dml_irm_bin$coef[1], dml_plr_ord$coef[1]),
+  SE = c(dml_irm_bin$se[1], dml_plr_ord$se[1]),
+  CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_plr_ord$confint()[1, 1]),
+  CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_plr_ord$confint()[1, 2]),
+  P_Value = c(pval_bin_main, pval_ord_main),
+  N = c(nrow(dml_df_bin), nrow(dml_df_ord))
+)
+
+cat("Results:\n")
+print(specification_comparison)
+
+cat("\nInterpretation:\n")
+cat("  Main Binary Result (ATE = ", round(specification_comparison$Estimate[1], 4), "): ",
+    ifelse(specification_comparison$P_Value[1] < 0.05, "SIGNIFICANT", "NOT SIGNIFICANT"), "\n", sep = "")
+cat("  Main Ordinal Result (ATE = ", round(specification_comparison$Estimate[2], 4), "): ",
+    ifelse(specification_comparison$P_Value[2] < 0.05, "SIGNIFICANT", "NOT SIGNIFICANT"), "\n\n", sep = "")
+
+if (abs(specification_comparison$Estimate[1] - specification_comparison$Estimate[2]/3) < 0.01) {
+  cat("  ✓ Results are CONSISTENT across outcome operationalizations\n")
+} else {
+  cat("  ⚠ Results differ across outcome operationalizations - investigate further\n")
+}
+
+cat("\n")
+
+# Visualization: Outcome specification comparison
+outcome_comp_plot <- specification_comparison %>%
+  mutate(Specification = factor(Specification, levels = Specification)) %>%
+  ggplot(aes(x = Specification, y = Estimate)) +
+  geom_point(size = 5, color = "steelblue") +
+  geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper),
+                width = 0.2, size = 1, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.3) +
+  labs(
+    title = "Sensitivity Analysis 1: Outcome Specification",
+    subtitle = "Robustness across binary vs. ordinal outcome coding",
+    y = "Average Treatment Effect (ATE)",
+    x = "Outcome Specification",
+    caption = "Error bars represent 95% confidence intervals"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(outcome_comp_plot)
+
+# Step 2: Sensitivity analysis with expanded covariate set
+
+cat("\n" %+% "=" %>% strrep(70), "\n")
+cat("SENSITIVITY ANALYSIS 2: EXPANDED COVARIATE SET\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Testing whether including child health status (potential mediator/confounder)\n")
+cat("changes the treatment effect estimate.\n\n")
+
+cat("Main adjustment set (", length(x_vars_main), " covariates):\n", sep = "")
+cat("  -", paste(x_vars_main, collapse = "\n  - "), "\n\n")
+cat("Expanded adjustment set (", length(x_vars_sens), " covariates):\n", sep = "")
+cat("  -", paste(x_vars_sens, collapse = "\n  - "), "\n\n")
+
+# Prepare data for sensitivity analysis with expanded covariates
+dml_df_sens <- analysis_df %>%
+  select(all_of(c(outcome_binary_var, treat_var, x_vars_sens))) %>%
+  mutate(across(where(is.factor), as.numeric)) %>%
+  rename(
+    Y = all_of(outcome_binary_var),
+    D = all_of(treat_var)
+  ) %>%
+  drop_na() %>%
+  as.data.table()
+
+cat("Sample size (expanded covariates):", nrow(dml_df_sens), "\n\n")
+
+# Create DoubleML data object
+dml_data_sens <- DoubleMLData$new(
+  data = dml_df_sens,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = x_vars_sens
+)
+
+# Fit model with expanded covariates
+cat("Fitting DML model with expanded covariate set...\n")
+
+ml_g_sens <- lrn("regr.ranger", num.trees = 500, min.node.size = 5)
+ml_m_sens <- lrn("classif.ranger", num.trees = 500, min.node.size = 5, 
+                 predict_type = "prob")
+
+dml_irm_sens <- DoubleMLIRM$new(
+  data = dml_data_sens,
+  ml_g = ml_g_sens,
+  ml_m = ml_m_sens,
+  n_folds = 5,
+  n_rep = 1,
+  score = "ATE"
+)
+
+dml_irm_sens$fit(store_predictions = TRUE)
+
+cat("Model fitted successfully.\n\n")
+
+# Extract results - DIRECTLY FROM MODEL
+pval_sens <- dml_irm_sens$pval[1]
+
+expanded_covar_results <- tibble(
+  Model = c("Main Adjustment Set", "Expanded (+ Child Health)"),
+  Estimate = c(dml_irm_bin$coef[1], dml_irm_sens$coef[1]),
+  SE = c(dml_irm_bin$se[1], dml_irm_sens$se[1]),
+  CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_irm_sens$confint()[1, 1]),
+  CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_irm_sens$confint()[1, 2]),
+  P_Value = c(pval_bin_main, pval_sens),
+  N_Covariates = c(length(x_vars_main), length(x_vars_sens))
+)
+
+cat("Results:\n")
+print(expanded_covar_results)
+
+# Calculate percentage change
+pct_change <- ((expanded_covar_results$Estimate[2] - expanded_covar_results$Estimate[1]) / 
+               abs(expanded_covar_results$Estimate[1])) * 100
+
+cat("\nPercentage change in ATE when adding child health status: ", 
+    round(pct_change, 1), "%\n", sep = "")
+
+if (abs(pct_change) < 10) {
+  cat("Interpretation: ✓ Results are ROBUST to expanded covariate set\n")
+  cat("                 (< 10% change in estimate)\n")
+} else if (abs(pct_change) < 25) {
+  cat("Interpretation: ⚠ Moderate sensitivity to expanded covariate set\n")
+  cat("                 (", round(pct_change, 1), "% change in estimate)\n", sep = "")
+} else {
+  cat("Interpretation: ✗ Results are NOT ROBUST to expanded covariate set\n")
+  cat("                 (", round(pct_change, 1), "% change in estimate)\n", sep = "")
+}
+
+cat("\n")
+
+# Visualization: Expanded covariates
+expanded_covar_plot <- expanded_covar_results %>%
+  mutate(Model = factor(Model, levels = Model)) %>%
+  ggplot(aes(x = Model, y = Estimate)) +
+  geom_point(size = 5, color = "steelblue") +
+  geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper),
+                width = 0.2, size = 1, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.3) +
+  labs(
+    title = "Sensitivity Analysis 2: Expanded Covariate Set",
+    subtitle = "Does including child health status change the effect estimate?",
+    y = "Average Treatment Effect (ATE)",
+    x = "Model Specification",
+    caption = paste("Percentage change:", round(pct_change, 1), "%")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(expanded_covar_plot)
+
+# Step 3: Common support trimming (positivity assessment)
+
+cat("\n" %+% "=" %>% strrep(70), "\n")
+cat("SENSITIVITY ANALYSIS 3: COMMON SUPPORT TRIMMING\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Testing whether results hold when restricting to region of common support.\n")
+cat("Common support = propensity score between 0.01 and 0.99\n\n")
+
+# Get propensity scores from binary outcome model
+ps_pred_main <- dml_irm_bin$predictions$ml_m
+
+# Check overlap before trimming
+poor_overlap_before <- sum(ps_pred_main < 0.01 | ps_pred_main > 0.99)
+total_before <- length(ps_pred_main)
+
+cat("Before trimming:\n")
+cat("  Total observations:", total_before, "\n")
+cat("  Observations in poor overlap region (PS < 0.01 or > 0.99):", poor_overlap_before, "\n")
+cat("  Percentage in poor overlap:", round(100 * poor_overlap_before / total_before, 2), "%\n\n")
+
+# Create trimmed dataset (common support region)
+# Use simple indexing instead of dplyr/data.table operations
+support_idx <- ps_pred_main >= 0.01 & ps_pred_main <= 0.99
+
+dml_df_trim <- dml_df_bin[support_idx, ]
+
+cat("After trimming to common support:\n")
+cat("  Observations retained:", nrow(dml_df_trim), "\n")
+cat("  Observations removed:", total_before - nrow(dml_df_trim), "\n")
+cat("  Percentage retained:", round(100 * nrow(dml_df_trim) / total_before, 2), "%\n\n")
+
+# Check treatment balance in trimmed sample
+cat("Treatment distribution:\n")
+cat("  Before trimming - Treated: ", sum(dml_df_bin$D == 1), " (",
+    round(100 * mean(dml_df_bin$D), 2), "%)\n", sep = "")
+cat("  After trimming - Treated:  ", sum(dml_df_trim$D == 1), " (",
+    round(100 * mean(dml_df_trim$D), 2), "%)\n\n", sep = "")
+
+# Fit model on trimmed sample
+trim_data <- DoubleMLData$new(
+  data = dml_df_trim,
+  y_col = "Y",
+  d_cols = "D",
+  x_cols = x_vars_main
+)
+
+cat("Fitting DML model on trimmed sample...\n")
+
+dml_irm_trim <- DoubleMLIRM$new(
+  data = trim_data,
+  ml_g = ml_g_bin,
+  ml_m = ml_m_bin,
+  n_folds = 5,
+  n_rep = 1,
+  score = "ATE"
+)
+
+dml_irm_trim$fit()
+
+cat("Model fitted successfully.\n\n")
+
+# Extract results - DIRECTLY FROM MODEL
+pval_trim <- dml_irm_trim$pval[1]
+
+common_support_results <- tibble(
+  Sample = c("Full Sample", "Common Support Region"),
+  N = c(nrow(dml_df_bin), nrow(dml_df_trim)),
+  Estimate = c(dml_irm_bin$coef[1], dml_irm_trim$coef[1]),
+  SE = c(dml_irm_bin$se[1], dml_irm_trim$se[1]),
+  CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_irm_trim$confint()[1, 1]),
+  CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_irm_trim$confint()[1, 2]),
+  P_Value = c(pval_bin_main, pval_trim)
+)
+
+cat("Results:\n")
+print(common_support_results)
+
+# Calculate percentage change
+pct_change_trim <- ((common_support_results$Estimate[2] - common_support_results$Estimate[1]) / 
+                     abs(common_support_results$Estimate[1])) * 100
+
+cat("\nPercentage change in ATE after common support trimming: ", 
+    round(pct_change_trim, 1), "%\n", sep = "")
+
+if (abs(pct_change_trim) < 10) {
+  cat("Interpretation: ✓ Results are ROBUST to common support restriction\n")
+  cat("                 (< 10% change in estimate)\n")
+} else if (abs(pct_change_trim) < 25) {
+  cat("Interpretation: ⚠ Moderate sensitivity to common support restriction\n")
+  cat("                 (", round(pct_change_trim, 1), "% change in estimate)\n", sep = "")
+} else {
+  cat("Interpretation: ✗ Results are NOT ROBUST to common support restriction\n")
+  cat("                 (", round(pct_change_trim, 1), "% change in estimate)\n", sep = "")
+}
+
+cat("\n")
+
+# Visualization: Common support
+common_support_plot <- common_support_results %>%
+  mutate(Sample = factor(Sample, levels = Sample)) %>%
+  ggplot(aes(x = Sample, y = Estimate)) +
+  geom_point(size = 5, color = "steelblue") +
+  geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper),
+                width = 0.2, size = 1, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.3) +
+  labs(
+    title = "Sensitivity Analysis 3: Common Support Trimming",
+    subtitle = "Robustness when restricting to region of overlap (PS: 0.01-0.99)",
+    y = "Average Treatment Effect (ATE)",
+    x = "Sample",
+    caption = paste(common_support_results$N[1] - common_support_results$N[2],
+                    "observations removed")
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(common_support_plot)
+
+# Step 4: Machine learner sensitivity
+
+cat("\n" %+% "=" %>% strrep(70), "\n")
+cat("SENSITIVITY ANALYSIS 4: MACHINE LEARNER ROBUSTNESS\n")
+cat("=" %>% strrep(70), "\n\n")
+
+cat("Testing whether results are robust to choice of machine learning algorithm.\n")
+cat("Comparing Random Forest (Ranger) with Gradient Boosting (XGBoost).\n\n")
+
+# Fit model with XGBoost learners
+cat("Fitting DML model with XGBoost learners...\n")
+
+ml_g_xgb <- lrn("regr.xgboost", nrounds = 100, eta = 0.1, max_depth = 5, verbose = 0)
+ml_m_xgb <- lrn("classif.xgboost", nrounds = 100, eta = 0.1, max_depth = 5,
+                predict_type = "prob", verbose = 0)
+
+dml_irm_xgb <- DoubleMLIRM$new(
+  data = dml_data_bin,
+  ml_g = ml_g_xgb,
+  ml_m = ml_m_xgb,
+  n_folds = 5,
+  n_rep = 1,
+  score = "ATE"
+)
+
+dml_irm_xgb$fit()
+
+cat("XGBoost model fitted successfully.\n\n")
+
+# Extract results - DIRECTLY FROM MODEL
+pval_xgb <- dml_irm_xgb$pval[1]
+
+ml_comparison <- tibble(
+  Algorithm = c("Random Forest (Ranger)", "Gradient Boosting (XGBoost)"),
+  Estimate = c(dml_irm_bin$coef[1], dml_irm_xgb$coef[1]),
+  SE = c(dml_irm_bin$se[1], dml_irm_xgb$se[1]),
+  CI_Lower = c(dml_irm_bin$confint()[1, 1], dml_irm_xgb$confint()[1, 1]),
+  CI_Upper = c(dml_irm_bin$confint()[1, 2], dml_irm_xgb$confint()[1, 2]),
+  P_Value = c(pval_bin_main, pval_xgb)
+)
+
+cat("Results:\n")
+print(ml_comparison)
+
+pct_change_ml <- ((ml_comparison$Estimate[2] - ml_comparison$Estimate[1]) / 
+                   abs(ml_comparison$Estimate[1])) * 100
+
+cat("\nPercentage change in ATE with different ML algorithm: ", 
+    round(pct_change_ml, 1), "%\n", sep = "")
+
+if (abs(pct_change_ml) < 10) {
+  cat("Interpretation: ✓ Results are ROBUST to choice of ML algorithm\n")
+  cat("                 (< 10% change in estimate)\n")
+} else if (abs(pct_change_ml) < 25) {
+  cat("Interpretation: ⚠ Moderate sensitivity to ML algorithm choice\n")
+  cat("                 (", round(pct_change_ml, 1), "% change in estimate)\n", sep = "")
+} else {
+  cat("Interpretation: ✗ Results are sensitive to ML algorithm choice\n")
+  cat("                 (", round(pct_change_ml, 1), "% change in estimate)\n", sep = "")
+}
+
+cat("\n")
+
+# Visualization: Machine learner comparison
+ml_comp_plot <- ml_comparison %>%
+  mutate(Algorithm = factor(Algorithm, levels = Algorithm)) %>%
+  ggplot(aes(x = Algorithm, y = Estimate)) +
+  geom_point(size = 5, color = "steelblue") +
+  geom_errorbar(aes(ymin = CI_Lower, ymax = CI_Upper),
+                width = 0.2, size = 1, color = "steelblue") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red", alpha = 0.3) +
+  labs(
+    title = "Sensitivity Analysis 4: Machine Learner Choice",
+    subtitle = "Robustness across Random Forest vs. XGBoost",
+    y = "Average Treatment Effect (ATE)",
+    x = "Machine Learning Algorithm"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 11),
+    axis.title = element_text(size = 11),
+    panel.grid.major.y = element_line(color = "gray90")
+  )
+
+print(ml_comp_plot)
+
+# Step 5: Master sensitivity table
+
+cat("\n" %+% "=" %>% strrep(70), "\n")
+cat("SENSITIVITY ANALYSIS SUMMARY TABLE\n")
+cat("=" %>% strrep(70), "\n\n")
+
+sensitivity_summary <- tibble(
+  Analysis = c(
+    "Main Binary Analysis",
+    "Ordinal Outcome",
+    "Expanded Covariates",
+    "Common Support Trimmed",
+    "XGBoost Learners"
+  ),
+  Estimate = c(
+    dml_irm_bin$coef[1],
+    dml_plr_ord$coef[1],
+    dml_irm_sens$coef[1],
+    dml_irm_trim$coef[1],
+    dml_irm_xgb$coef[1]
+  ),
+  SE = c(
+    dml_irm_bin$se[1],
+    dml_plr_ord$se[1],
+    dml_irm_sens$se[1],
+    dml_irm_trim$se[1],
+    dml_irm_xgb$se[1]
+  ),
+  P_Value = c(
+    pval_bin_main,
+    pval_ord_main,
+    pval_sens,
+    pval_trim,
+    pval_xgb
+  ),
+  Significant = c(
+    ifelse(pval_bin_main < 0.05, "Yes", "No"),
+    ifelse(pval_ord_main < 0.05, "Yes", "No"),
+    ifelse(pval_sens < 0.05, "Yes", "No"),
+    ifelse(pval_trim < 0.05, "Yes", "No"),
+    ifelse(pval_xgb < 0.05, "Yes", "No")
+  )
+) %>%
+  mutate(
+    across(c(Estimate, SE, P_Value), ~round(., 6))
+  )
+
+print(sensitivity_summary)
+
+# Step 6: Create comprehensive sensitivity plot
+
+cat("\n\nCOMPREHENSIVE SENSITIVITY FOREST PLOT\n")
+cat("=" %>% strrep(70), "\n\n")
+
+sensitivity_plot <- sensitivity_summary %>%
+  mutate(
+    Analysis = factor(Analysis, levels = rev(Analysis)),
+    Color = ifelse(Significant == "Yes", "Significant", "Not Significant")
+  ) %>%
+  ggplot(aes(x = Analysis, y = Estimate, color = Color)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = Estimate - 1.96*SE, ymax = Estimate + 1.96*SE),
+                width = 0.15, size = 0.8) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black", alpha = 0.3) +
+  scale_color_manual(values = c("Significant" = "darkgreen", "Not Significant" = "gray50")) +
+  labs(
+    title = "Comprehensive Sensitivity Analysis",
+    subtitle = "Robustness of main treatment effect across alternative specifications",
+    y = "Average Treatment Effect (ATE)",
+    x = "Analysis Specification",
+    color = "Significance\n(α = 0.05)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 13, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 11),
+    panel.grid.major.x = element_line(color = "gray90")
+  ) +
+  coord_flip()
+
+print(sensitivity_plot)
+
+# Step 7: Overall robustness assessment
+
+cat("\n\nOVERALL ROBUSTNESS ASSESSMENT\n")
+cat("=" %>% strrep(70), "\n\n")
+
+n_specs <- nrow(sensitivity_summary)
+n_sig <- sum(sensitivity_summary$Significant == "Yes")
+
+cat("Summary of sensitivity analyses:\n")
+cat("  Total alternative specifications tested: ", n_specs, "\n", sep = "")
+cat("  Specifications showing significant effects: ", n_sig, "\n", sep = "")
+cat("  Percentage consistent with main finding: ", round(100 * n_sig / n_specs, 1), "%\n\n", sep = "")
+
+if (n_sig == n_specs) {
+  cat("ROBUSTNESS VERDICT: ✓✓✓ HIGHLY ROBUST\n")
+  cat("All alternative specifications support the main finding.\n")
+} else if (n_sig >= n_specs * 0.75) {
+  cat("ROBUSTNESS VERDICT: ✓✓ MODERATELY ROBUST\n")
+  cat("Most alternative specifications support the main finding.\n")
+} else if (n_sig >= n_specs * 0.50) {
+  cat("ROBUSTNESS VERDICT: ✓ PARTIALLY ROBUST\n")
+  cat("About half of alternative specifications support the main finding.\n")
+} else {
+  cat("ROBUSTNESS VERDICT: ✗ NOT ROBUST\n")
+  cat("Few alternative specifications support the main finding.\n")
+}
+
+cat("\nKey sensitivity analyses conducted:\n")
+cat("  1. Outcome specification (binary vs. ordinal)\n")
+cat("  2. Covariate adjustment set (main vs. expanded)\n")
+cat("  3. Sample restrictions (full vs. common support region)\n")
+cat("  4. Machine learning algorithm (Random Forest vs. XGBoost)\n\n")
+
+cat("========== END OF SENSITIVITY ANALYSIS SECTION ==========\n\n")
+
+```
+
+## Limitations
+
+The findings of this analysis should be interpreted within the context of several limitations, particularly regarding the assumptions required for causal inference.
+
+First, the use of cross-sectional observational data limits the ability to establish temporal ordering between maternal MH and pediatric ED utilization. Although this study conceptualizes maternal MH as the exposure, it is possible that increased child healthcare needs on frequent ED visits may contribute to deteriorated maternal MH, introducing possible reverse causality.
+
+Next, the identification strategy relies on the assumption of no unmeasured confounding. While this study adjusts for a robust set of covariates, unobserved (i.e., uncollected) variables, such as maternal history of trauma, family social support, or neighborhood-level characteristics, may influence both maternal MH and pediatric ED utilization. This could lead to estimated effects that remain biased.
+
+Third, measurement error is a minor, but not insurmountable concern, as all variables in the NSCH are based on caregiver self-report. Maternal MH and child utilization may be subject to recall bias or social desirability bias, which could affect the accuracy of exposure or outcome measurement. Furthermore, child ED utilization is that of a randomly selected child in the household, rather than all children. Therefore, these measures may not fully capture family-level patterns of healthcare use, which could lead to misclassification or attenuation of estimated effects.
+
+Fourth, the relatively small proportion of mothers reporting Fair/Poor MH in the sample may limit statistical power and reduce overlap between treatment groups. This could potentially affect the precision and stability of estimated treatment effects, specifically in the subgroup analyses. A related, but distinct limitation is that the analytic sample is restricted to complete cases, which may introduce selection bias if missingness is systematically related to either maternal MH or child healthcare utilization. This could result in limitations to the generalizability of findings.
+
+Finally, while DML provides a flexible and robust approach to adjusting for observed confounding, its ability to support causal interpretations is conditional on the aforementioned assumptions—all of which have threats.
+
+## Tables
+
+***Table 1.** Sample characteristics of **unweighted sample** stratified by maternal mental health status NSCH 2022–2023 (n = 78,380).* 
+
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+|                                                 | **Excellent/Very Good/Good Maternal MH (n, %)** | **Fair/Poor**  \       | **p-value**   |          |
+|                                                 |                                                 | **Maternal MH (n, %)** |               |          |
+|                                                 | **(n = 73,307, 93.53%)**                        |                        |               |          |
+|                                                 |                                                 | **(n = 5,073, 6.47%)** |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **\# of hospital ED visits (past 12 months)**   |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| None                                            | 62,014 (94.1%)                                  | 3,912 (5.9%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 1 time                                          | 9,053 (91.7%)                                   | 824 (8.3%)             |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 2-3 times                                       | 2,053 (87.0%)                                   | 306 (13.0%)   \|   \|  |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 4+ times                                        | 187 (85.8%)                                     | 31 (14.2%)             |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Mother’s PH**                                 |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Excellent/Very Good/Good                        | 71,452 (95.3%)                                  | 3,526 (4.7%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Fair/Poor                                       | 1,855 (54.5%)                                   | 1,547 (45.5%)          |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Father’s MH**                                 |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Excellent/Very Good/Good                        | 70,847 (95.1%)                                  | 3,629 (4.9%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Fair/Poor                                       | 2,460 (63.0%)                                   | 1,444 (37.0%)          |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Father’s PH**                                 |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Excellent/Very Good/Good                        | 70,736 (94.5%)                                  | 4,114 (5.5%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Fair/Poor                                       | 2,571 (72.8%)                                   | 959 (27.2%)            |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Insurance gap in past 12 months**             |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Yes                                             | 2,949 (91.4%)                                   | 278 (8.6%)             |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| No                                              | 70,358 (93.6%)                                  | 4,795 (6.4%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Forgone needed health care (past 12 months)** |                                                 |                        | 0.054         |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Yes                                             | 1,843 (79.9%)                                   | 464 (20.1%)            |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| No                                              | 71,464 (93.9%)                                  | 4,609 (6.1%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Preventive medical visit in past year**       |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Yes                                             | 62,598 (93.5%)                                  | 4,382 (6.5%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| No                                              | 10,709 (93.9%)                                  | 691 (6.1%)   \|        |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Child’s overall health status**               |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Excellent or very good                          | 68,834 (94.3%)                                  | 4,185 (5.7%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Good                                            | 3,922 (84.5%)                                   | 721 (15.5%)            |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| Fair or Poor                                    | 551 (76.7%)                                     | 167 (23.3%)            |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| **Federal Poverty Level (% of FPL)**            |                                                 |                        | **\<0.001\*** |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 0-99%                                           | 5,420 (90.2%)                                   | 588 (9.8%)             |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 100-199%                                        | 9,060 (90.3%)                                   | 975 (9.7%)             |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 200-399%                                        | 21,629 (92.4%)                                  | 1,780 (7.6%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+| 400%+                                           | 37,198 (95.6%)                                  | 1,730 (4.4%)           |               |          |
++-------------------------------------------------+-------------------------------------------------+------------------------+---------------+----------+
+
+\* Statistically significant at the 5% level 
+
+***Table 2.** Sample characteristics of **weighted %** by maternal mental health status NSCH 2022–2023.* 
+
++-------------------------------------------------+------------------------------+----------------------------------------+
+|                                                 | **Excellent/Very Good/Good** | **Fair/Poor Maternal MH (weighted %)** |
+|                                                 |                              |                                        |
+|                                                 | **Maternal MH (weighted %)** | **(6.58%)**                            |
+|                                                 |                              |                                        |
+|                                                 | **(93.42%)**                 |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **\# of hospital ED visits (past 12 months)**   |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| None                                            | 93.98%                       | 6.02%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 1 time                                          | 91.61%                       | 8.39%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 2-3 times                                       | 85.58%                       | 14.42%                                 |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 4+ times                                        | 87.27%                       | 12.73%                                 |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Mother’s PH**                                 |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Excellent/Very Good                             | 56%                          | 44%                                    |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Fair/Good/Poor                                  | 95.45%                       | 4.55%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Father’s MH**                                 |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Excellent/Very Good                             | 60.27%                       | 39.73%                                 |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Fair/Good/Poor                                  | 95.09%                       | 4.91%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Father’s PH**                                 |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Excellent/Very Good                             | 73.6%                        | 26.4%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Fair/Good/Poor                                  | 94.49%                       | 5.51%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Insurance gap in past 12 months**             |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Yes                                             | 91.8%                        | 8.2%                                   |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| No                                              | 93.53%                       | 6.47%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Forgone needed health care (past 12 months)** |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Yes                                             | 78.32%                       | 21.68%                                 |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| No                                              | 93.42%                       | 6.11%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Preventive medical visit in past year**       |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Yes                                             | 93.34%                       | 6.66%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| No                                              | 93.75%                       | 6.25%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Child’s overall health status**               |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Excellent or very good                          | 94.19%                       | 5.81%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Good                                            | 85.4%                        | 14.6%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| Fair or Poor                                    | 76.91%                       | 23.09%                                 |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| **Federal Poverty Level (% of FPL)**            |                              |                                        |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 0-99%                                           | 90.62%                       | 9.38%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 100-199%                                        | 90.88%                       | 9.12%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 200-399%                                        | 92.34%                       | 7.66%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+| 400%+                                           | 95.94%                       | 4.06%                                  |
++-------------------------------------------------+------------------------------+----------------------------------------+
+
+## References
+
+Brooks, J. L., Beil, H., & Beeber, L. S. (2015). Maternal Depressive Symptoms and Healthcare Expenditures for Publicly Insured Children with Chronic Health Conditions. *Maternal and Child Health Journal*, *19*(4), 790–797. https://doi.org/10.1007/s10995-014-1570-4
+
+Chang, L., Stewart, A. M., Monuteaux, M. C., & Fleegler, E. W. (2021). Neighborhood Conditions and Recurrent Emergency Department Utilization by Children in the United States. *The Journal of Pediatrics*, *234*, 115-122.e1. https://doi.org/10.1016/j.jpeds.2020.12.071
+
+Giusto, J., Anton, M., Gaiazov, S., Huddleston, K., Levy, S., Fuller, A., Hourigan, S., Niederhuber, J., & Hwang, V. (2021). Maternal Confidence and Emergency Department Utilization Among Infants. *Pediatric Emergency Care*, *37*(5), 260–264. https://doi.org/10.1097/PEC.0000000000002419
+
+Guyon-Harris, K. L., Bogen, D. L., & Huth-Bocks, A. C. (2021). Maternal Psychological Well-Being and Infant Emergency Department Utilization. *Academic Pediatrics*, *21*(5), 885–891. https://doi.org/10.1016/j.acap.2021.01.021
+
+Hammond, Robert, Cheney, Paul, & Pearsey, Raewyn. (2015). *Sociology of the Family*. Rocky Ridge Press. https://asccc-oeri.org/wp-content/uploads/2021/03/sociology-of-the-family-HAMMOND-2010.pdf
+
+Jaeger, M. W., Ambadwar, P. B., King, A. J., Onukwube, J. I., & Robbins, J. M. (2015). Emergency Care of Children with Ambulatory Care Sensitive Conditions in the United States. *The Journal of Emergency Medicine*, *49*(5), 729–739. https://doi.org/10.1016/j.jemermed.2015.03.001
+
+Lang, D. (2022). Family Systems Theory. In *Individual and Family Development, Health, and Well-being*. Iowa State University Digital Press. https://doi.org/10.31274/isudp
+
+Levesque, J.-F., Harris, M. F., & Russell, G. (2013). Patient-centred access to health care: Conceptualising access at the interface of health systems and populations. *International Journal for Equity in Health*, *12*, 18. https://doi.org/10.1186/1475-9276-12-18
+
+Neuman, M. I., Alpern, E. R., Hall, M., Kharbanda, A. B., Shah, S. S., Freedman, S. B., Aronson, P. L., Florin, T. A., Mistry, R. D., & Berry, J. G. (2014). Characteristics of Recurrent Utilization in Pediatric Emergency Departments. *Pediatrics*, *134*(4), e1025–e1031. https://doi.org/10.1542/peds.2014-1362
+
+Rokicki, S. (2024). Perinatal Depression Associated With Increased Pediatric Emergency Department Use And Charges In The First Year Of Life. *Health Affairs (Project Hope)*, *43*(4), 477–485. https://doi.org/10.1377/hlthaff.2023.01443
+
+U.S. Census Bureau. (2023). *2022 National Survey of Children’s Health: Methodology Report*. U.S. Department of Commerce, U.S. Census Bureau. https://www2.census.gov/programs-surveys/nsch/technical-documentation/methodology/2022-NSCH-Methodology-Report.pdf
