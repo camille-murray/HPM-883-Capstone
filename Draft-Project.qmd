@@ -374,39 +374,13 @@ prop.table(table(analysis_df$fpl_cat))
 
 ```{r, eval=TRUE}
 # ============================================================================
-# FIGURE 4: POWER AND MDE ANALYSIS WITH SYNTHETIC NSCH DATA
+# FIGURE 4: FASTER POWER ANALYSIS - For Testing/Exploration
 # ============================================================================
 
-# First, prepare a version of analysis_df with numeric covariates for DML
-# This converts factors to numeric while preserving information
-
-prepare_dml_data <- function(data) {
-  data %>%
-    mutate(
-      # Convert factors to numeric (creates ordinal codes)
-      fpl_cat = as.numeric(fpl_cat),                           # 1-4
-      family_structure = as.numeric(family_structure),         # 1-3
-      insurance_instability = as.numeric(insurance_instability), # 0-1
-      maternal_physical_health = as.numeric(maternal_physical_health),  # 1-5
-      paternal_mental_health = as.numeric(paternal_mental_health),      # 1-5
-      paternal_physical_health = as.numeric(paternal_physical_health),  # 1-5
-      child_health_status = as.numeric(child_health_status),           # 1-5
-      # Ensure treatment and outcome are numeric
-      maternal_mh_fp = as.numeric(maternal_mh_fp),
-      any_ed_visit = as.numeric(any_ed_visit)
-    )
-}
-
-# Prepare analysis data with numeric covariates
-analysis_df_numeric <- prepare_dml_data(analysis_df)
-
-# ============================================================================
-# POWER ANALYSIS FUNCTION
-# ============================================================================
-
-simulate_power_once <- function(data,
-                                true_ate = 0.10,
-                                alpha = 0.05) {
+# Use FEWER and SIMPLER models for quick iteration
+simulate_power_once_fast <- function(data,
+                                     true_ate = 0.10,
+                                     alpha = 0.05) {
   
   # Get sample size from data
   n <- nrow(data)
@@ -422,22 +396,15 @@ simulate_power_once <- function(data,
               "maternal_physical_health", "paternal_mental_health", 
               "paternal_physical_health")
   
-  # Extract and scale covariates
+  # Extract covariates
   X <- data_df[, x_vars, drop = FALSE]
-  X_scaled <- scale(X)
   
-  # Standardize covariates for interpretability
-  # Base outcome probability
-  base_prob <- mean(y_orig)
-  
-  # Generate treatment effect: those with Fair/Poor MH have higher ED visit risk
+  # Generate treatment effect
   y_sim <- y_orig
-  
-  # For treated individuals, increase probability of ED visit by true_ate
   treated_indices <- which(d_orig == 1)
   if (length(treated_indices) > 0) {
     for (i in treated_indices) {
-      new_prob <- min(y_orig[i] + true_ate, 1)  # Cap at 1
+      new_prob <- min(y_orig[i] + true_ate, 1)
       y_sim[i] <- rbinom(1, 1, new_prob)
     }
   }
@@ -457,16 +424,16 @@ simulate_power_once <- function(data,
     x_cols = x_vars
   )
   
-  # Specify ML learners
-  ml_g <- lrn("regr.ranger", num.trees = 200, min.node.size = 10)
-  ml_m <- lrn("classif.ranger", num.trees = 200, min.node.size = 10, predict_type = "prob")
+  # FASTER LEARNERS: Fewer trees, bigger min node size, fewer folds
+  ml_g <- lrn("regr.ranger", num.trees = 100, min.node.size = 20)
+  ml_m <- lrn("classif.ranger", num.trees = 100, min.node.size = 20, predict_type = "prob")
   
-  # Fit IRM for binary treatment
+  # Fit IRM with fewer folds
   dml_irm <- DoubleMLIRM$new(
     data = dml_data,
     ml_g = ml_g,
     ml_m = ml_m,
-    n_folds = 5,
+    n_folds = 3,  # Reduced from 5 to 3
     n_rep = 1,
     score = "ATE"
   )
@@ -475,25 +442,22 @@ simulate_power_once <- function(data,
   dml_irm$fit()
   pval <- dml_irm$summary()$pval[1]
   
-  # Return 1 if null rejected (power), 0 otherwise
+  # Return 1 if null rejected, 0 otherwise
   return(as.numeric(pval < alpha))
 }
 
 # ============================================================================
-# RUN POWER ANALYSIS ACROSS EFFECT SIZES
+# RUN FAST POWER ANALYSIS
 # ============================================================================
 
-# Define candidate effect sizes (on probability scale for binary outcome)
-# These represent the increase in probability of ED visit due to poor maternal MH
 effect_grid <- seq(0.02, 0.15, by = 0.02)
+n_sims <- 3  # Reduced from 5
 
-# Number of simulations per effect size
-# Start with 5 for testing, bump to 200 for final analysis
-n_sims <- 5
+cat("Starting FAST power analysis with", length(effect_grid), "effect sizes and", 
+    n_sims, "simulations per effect size...\n")
+cat("Expected runtime: ~5-10 minutes\n\n")
 
-# Run power analysis
-cat("Starting power analysis with", length(effect_grid), "effect sizes and", 
-    n_sims, "simulations per effect size...\n\n")
+start_time <- Sys.time()
 
 power_results <- map_dfr(effect_grid, function(eff) {
   cat("Testing effect size =", eff, "...")
@@ -501,18 +465,17 @@ power_results <- map_dfr(effect_grid, function(eff) {
   rejects <- replicate(
     n_sims,
     tryCatch(
-      simulate_power_once(
+      simulate_power_once_fast(
         data = analysis_df_numeric,
         true_ate = eff
       ),
       error = function(e) {
-        cat("\n  Error in simulation:", conditionMessage(e), "\n")
+        cat("\n  Error:", conditionMessage(e), "\n")
         NA
       }
     )
   )
   
-  # Calculate power (proportion of rejections)
   power <- mean(rejects, na.rm = TRUE)
   n_successful <- sum(!is.na(rejects))
   
@@ -526,15 +489,17 @@ power_results <- map_dfr(effect_grid, function(eff) {
   )
 })
 
-# Display results
-cat("\n=== POWER ANALYSIS RESULTS ===\n\n")
+end_time <- Sys.time()
+runtime <- difftime(end_time, start_time, units = "mins")
+
+cat("\n=== POWER ANALYSIS RESULTS ===\n")
+cat("Total runtime:", round(as.numeric(runtime), 1), "minutes\n\n")
 print(power_results)
 
 # ============================================================================
-# DETERMINE MINIMUM DETECTABLE EFFECT (MDE)
+# MDE AND VISUALIZATION (same as before)
 # ============================================================================
 
-# MDE = smallest effect size with power >= 0.80
 mde_result <- power_results %>%
   filter(power >= 0.80) %>%
   slice(1)
@@ -542,72 +507,28 @@ mde_result <- power_results %>%
 cat("\n=== MINIMUM DETECTABLE EFFECT (MDE) ===\n\n")
 if (nrow(mde_result) > 0) {
   cat("MDE:", round(mde_result$effect_size, 3), "\n")
-  cat("Power at MDE:", round(mde_result$power, 3), "\n\n")
-  cat("Interpretation: With n =", nrow(analysis_df), 
-      "and", n_sims, "simulations per effect size,\n")
-  cat("the study has approximately", round(mde_result$power * 100), 
-      "% power to detect an effect\n")
-  cat("of", round(mde_result$effect_size, 3), 
-      "or larger on the probability scale.\n")
-  cat("(This represents a", round(mde_result$effect_size * 100, 1), 
-      "percentage point increase in ED visit probability.)\n")
+  cat("Power at MDE:", round(mde_result$power, 3), "\n")
 } else {
-  cat("No effect size achieved 80% power with the current sample size.\n\n")
-  cat("Minimum power observed:", round(max(power_results$power), 3), 
-      "at effect size", max(power_results$effect_size[power_results$power == max(power_results$power)]), "\n\n")
-  cat("Recommendation: Consider increasing sample size or effect size grid.\n")
+  cat("No effect size achieved 80% power.\n")
+  cat("Max power observed:", round(max(power_results$power), 3), "\n")
 }
 
-# ============================================================================
-# VISUALIZE POWER CURVE
-# ============================================================================
-
+# Visualization
 power_plot <- power_results %>%
   ggplot(aes(x = effect_size, y = power)) +
   geom_point(size = 3, color = "steelblue") +
   geom_line(color = "steelblue", alpha = 0.6, linewidth = 0.8) +
-  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red", 
-             size = 0.8, alpha = 0.7) +
-  annotate("text", x = max(effect_grid) * 0.5, y = 0.82, 
-           label = "80% Power", color = "red", size = 4) +
+  geom_hline(yintercept = 0.80, linetype = "dashed", color = "red", size = 0.8) +
   labs(
     title = "Power Curve: Effect Size vs Statistical Power",
-    subtitle = paste("Based on", nrow(analysis_df), "observations and", n_sims, "simulations per effect size"),
-    x = "Effect Size (Probability Increase in ED Visit)",
+    subtitle = paste("n =", nrow(analysis_df), ", simulations =", n_sims),
+    x = "Effect Size",
     y = "Statistical Power"
   ) +
   theme_minimal() +
-  theme(
-    plot.title = element_text(size = 14, face = "bold"),
-    plot.subtitle = element_text(size = 11, color = "gray40"),
-    axis.text = element_text(size = 10),
-    axis.title = element_text(size = 11)
-  ) +
   ylim(0, 1)
 
 print(power_plot)
-
-# ============================================================================
-# SUMMARY TABLE
-# ============================================================================
-
-summary_table <- tibble(
-  `Parameter` = c("Sample Size", "Treatment Prevalence", "Control Prevalence", 
-                   "Min Effect Size Tested", "Max Effect Size Tested", 
-                   "Simulations per Effect", "Minimum Detectable Effect"),
-  `Value` = c(
-    format(nrow(analysis_df), big.mark = ","),
-    paste0(round(100 * mean(analysis_df_numeric$maternal_mh_fp), 1), "%"),
-    paste0(round(100 * (1 - mean(analysis_df_numeric$maternal_mh_fp)), 1), "%"),
-    round(min(effect_grid), 3),
-    round(max(effect_grid), 3),
-    n_sims,
-    if(nrow(mde_result) > 0) round(mde_result$effect_size, 3) else "Power < 0.80 at all tested sizes"
-  )
-)
-
-cat("\n=== POWER ANALYSIS SUMMARY ===\n\n")
-print(summary_table)
 ```
 
 ## Estimation Strategy
